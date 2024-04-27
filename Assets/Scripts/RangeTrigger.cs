@@ -34,6 +34,7 @@ public class RangeTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
+            Debug.Log("Enemy detected");
             Shoot(collision);
         }
     }

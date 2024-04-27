@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -27,6 +28,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject batPrefab;
     private TrailRenderer trail;
     private bool isDashing = false;
+
+
     public void DisablePunch()
     {
         punchEnabled = false;
