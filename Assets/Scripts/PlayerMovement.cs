@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Rendering;
+using static UnityEngine.ParticleSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -28,8 +29,8 @@ public class PlayerMovement : MonoBehaviour
     public GameObject batPrefab;
     private TrailRenderer trail;
     private bool isDashing = false;
-
-
+    public GameManager gameManager;
+    private ParticleSystem particles;
     public void DisablePunch()
     {
         punchEnabled = false;
@@ -60,6 +61,8 @@ public class PlayerMovement : MonoBehaviour
         {
             trail.enabled = false;
         }
+        gameManager = GameManager.Instance;
+        particles = GetComponentInChildren<ParticleSystem>();
     }
 
     void Update()
@@ -131,6 +134,18 @@ public class PlayerMovement : MonoBehaviour
         {
             BatAttack();
         }
+
+        if (!gameManager.isPlayerInLight)
+        {
+            particles.Clear();
+            particles.Pause();
+
+        }
+        else
+        {
+            particles.Play();
+        }
+
     }
     void BatAttack()
     {

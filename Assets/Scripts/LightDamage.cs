@@ -2,16 +2,22 @@ using UnityEngine;
 
 public class LightDamage : MonoBehaviour
 {
-    public GameManager gameManager; // Référence à votre GameManager
+    public GameManager gameManager;
 
-    void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerStay2D(Collider2D collision)
     {
         // Vérifiez si l'objet qui est entré dans le trigger est le joueur
+        if (collision.gameObject.CompareTag("Player"))
+        {
+            gameManager.isPlayerInLight = true;
+            gameManager.AddBlood(-50);
+        }
+    }
+    void OnTriggerExit2D(Collider2D other)
+    {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Player touched the light");
-            // Réduisez la valeur de blood dans votre GameManager
-            gameManager.AddBlood(-5);
+            gameManager.isPlayerInLight = false;
         }
     }
 }

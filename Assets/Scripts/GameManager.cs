@@ -4,9 +4,10 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    private int blood = 6000;
+    private float blood = 6000;
     public float radiusTowerOne = 2;
     public static GameManager Instance { get; private set; }
+    public bool isPlayerInLight = false;
 
     private List<Tower> towers = new List<Tower>();
     [System.Serializable]
@@ -30,9 +31,10 @@ public class GameManager : MonoBehaviour
     }
 public void AddBlood(int amount)
     {
-        blood += amount;
+        float deltaTime = Time.deltaTime;
+        blood += amount*deltaTime;
     }
-    public int GetBlood()
+    public float GetBlood()
     {
         return blood;
     }
