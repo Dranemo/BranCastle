@@ -40,14 +40,8 @@ public class PlayerMovement : MonoBehaviour
     {
         punchEnabled = true;
     }
-    
-    void Start()
+    void Awake()
     {
-        rectangle = transform.Find("BatArea").gameObject;
-        rectangle.SetActive(false);
-        rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-
         angleSpriteMap = new (float[], Sprite)[]
         {
         (new float[] {-45f, 45f}, rightSprite),
@@ -56,6 +50,14 @@ public class PlayerMovement : MonoBehaviour
         (new float[] {-180f, -135f}, leftSprite),
         (new float[] {-135f, -45f}, downSprite)
         };
+        // Rest of your Awake code...
+    }
+    void Start()
+    {
+        rectangle = transform.Find("BatArea").gameObject;
+        rectangle.SetActive(false);
+        rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
         trail = this.gameObject.GetComponentInChildren<TrailRenderer>();
         if (trail != null)
         {
@@ -89,7 +91,7 @@ public class PlayerMovement : MonoBehaviour
             Vector3 coupPosition = transform.position + new Vector3(direction.x, direction.y, 0) * coupDistance;
 
 
-            currentCoup = Instantiate(coupPrefab, coupPosition, Quaternion.Euler(0, 0, angle));
+            currentCoup = Instantiate(coupPrefab, coupPosition, Quaternion.Euler(0, 0, angle+90));
             StartCoroutine(DestroyAfterSeconds(currentCoup, 0.2f));
         }
         // Movement
@@ -137,6 +139,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (!gameManager.isPlayerInLight)
         {
+            //particles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
             particles.Clear();
             particles.Pause();
 

@@ -17,9 +17,10 @@ public class Punch : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Enemy"))
+        if (collision.CompareTag("Enemy"))
         {
-            collision.gameObject.GetComponent<Enemy>().TakeDamage(10);
+            Enemy enemy = collision.GetComponent<Enemy>();
+            enemy.TakeDamage(10);
         }
     }
-}
+}   

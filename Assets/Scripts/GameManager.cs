@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    private float blood = 6000;
+    private float blood = 100;
     public float radiusTowerOne = 2;
     public static GameManager Instance { get; private set; }
     public bool isPlayerInLight = false;
@@ -33,10 +33,10 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if (blood <= 0)
+        /*if (blood <= 0)
         {
             SceneManager.LoadScene("GameOver"); 
-        }
+        }*/
         
     }
     public void AddBlood(int amount)
