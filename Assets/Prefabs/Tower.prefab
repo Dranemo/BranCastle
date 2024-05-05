@@ -146,7 +146,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2392417067601396339}
   - component: {fileID: 218740510453344467}
-  - component: {fileID: -855048436764677007}
+  - component: {fileID: 2135384756905338304}
   m_Layer: 0
   m_Name: Tower
   m_TagString: Untagged
@@ -222,7 +222,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &-855048436764677007
+--- !u!114 &2135384756905338304
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -231,9 +231,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2707607247323559298}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: abba1d08b0a4f81449f9ad4aec348f09, type: 3}
+  m_Script: {fileID: 11500000, guid: 1848d50eac6d90f4582831d8ba56547b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  towerPrefab: {fileID: 0}
-  player: {fileID: 0}
-  towerCost: 2000

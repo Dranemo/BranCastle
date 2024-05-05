@@ -14,7 +14,7 @@ public class Enemy: MonoBehaviour
     private int currentWaypointIndex = 0;
     private float detectionRadius = 5f;
     protected float speed = 1;
-    protected float health;
+    protected float health=50;
     protected float damage;
     protected GameObject player;
     [SerializeField]

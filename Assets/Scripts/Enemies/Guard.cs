@@ -5,13 +5,18 @@ using UnityEngine;
 public class Guard : Enemy
 {
     // Start is called before the first frame update
-    void Start()
+    private void Awake()
     {
-        base.Start();
-        speed = 5f;
+        base.Awake();
+
+        speed = 1.5f;
         health = 100f;
         damage = 100f;
         bloodCount = 75;
+    }
+    void Start()
+    {
+        base.Start();
 
     }
 
