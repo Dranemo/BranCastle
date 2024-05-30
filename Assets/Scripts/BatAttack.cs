@@ -39,16 +39,33 @@ public class BatAttack : MonoBehaviour
 
 
 
-private void OnTriggerEnter2D(Collider2D other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag("Enemy"))
         {
             Enemy enemy = other.GetComponent<Enemy>();
             if (enemy != null)
             {
+                // Apply damage to the enemy
                 enemy.TakeDamage(1);
+
+                // Get the direction from the bat to the enemy
+                Vector2 knockbackDirection = enemy.transform.position - transform.position;
+
+                // Normalize the direction to get a unit vector
+                knockbackDirection = knockbackDirection.normalized;
+
+                // Apply a force to the enemy's Rigidbody2D in the opposite direction
+                Rigidbody2D enemyRb = enemy.GetComponent<Rigidbody2D>();
+                if (enemyRb != null)
+                {
+                    float knockbackForce = 5f; // Adjust this value to change the knockback distance
+                    enemyRb.AddForce(-knockbackDirection * knockbackForce, ForceMode2D.Impulse);
+                }
             }
+
+            // Destroy the bat
             Destroy(gameObject);
         }
     }
-}    
+}   
