@@ -50,7 +50,6 @@ public class PlayerMovement : MonoBehaviour
         (new float[] {-180f, -135f}, leftSprite),
         (new float[] {-135f, -45f}, downSprite)
         };
-        // Rest of your Awake code...
     }
     void Start()
     {
