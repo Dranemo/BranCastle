@@ -1,40 +1,51 @@
-using System.Collections;
-using System.Collections.Generic;
+using UnityEngine.UI;
 using UnityEngine;
 
 public class UnitSpawn : MonoBehaviour
 {
-    public GameObject dogPrefab;
-    public int dogCost = 10;
+    public GameObject[] unitPrefabs;
+    public int[] unitCosts;
     public float spawnDistance = 1f;
+    public GameObject[] squares;
 
     private GameManager gameManager;
-    private Unit dogUnit;
+    private int selectedIndex = 0;
+
     private void Start()
     {
         gameManager = FindObjectOfType<GameManager>();
-
-        // Instanciez un dog temporaire pour obtenir une référence à son script Unit
-        GameObject tempDog = Instantiate(dogPrefab, Vector3.zero, Quaternion.identity);
-        dogUnit = dogPrefab.GetComponent<Unit>();
-
-        // Détruisez le dog temporaire
-        Destroy(tempDog);
     }
 
     void Update()
     {
+        float scroll = Input.GetAxis("Mouse ScrollWheel");
+        if (scroll != 0)
+        {
+            if (scroll > 0) selectedIndex--;
+            else selectedIndex++;
+
+            if (selectedIndex < 0) selectedIndex = unitPrefabs.Length - 1;
+            if (selectedIndex >= unitPrefabs.Length) selectedIndex = 0;
+        }
+
+        // Mettez toutes les bordures en noir
+        foreach (GameObject square in squares)
+        {
+            square.GetComponent<Outline>().effectColor = Color.black;
+        }
+
+        // Mettez la bordure de l'unité sélectionnée en blanc
+        squares[selectedIndex].GetComponent<Outline>().effectColor = Color.white;
+
         if (Input.GetButtonDown("UnitSpawn"))
         {
-            Debug.Log("Spawn dog");
-            if (gameManager.blood >= dogCost)
+            if (gameManager.blood >= unitCosts[selectedIndex])
             {
                 Vector3 spawnPosition = transform.position + transform.forward * spawnDistance;
-                GameObject dog = Instantiate(dogPrefab, spawnPosition, Quaternion.identity);
-                gameManager.blood -= dogCost;
+                GameObject unit = Instantiate(unitPrefabs[selectedIndex], spawnPosition, Quaternion.identity);
+
+                gameManager.blood -= unitCosts[selectedIndex];
             }
         }
     }
 }
-
-

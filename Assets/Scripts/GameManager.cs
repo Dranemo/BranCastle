@@ -5,7 +5,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public float blood = 100;
+    public float blood = 10000;
     public float radiusTowerOne = 2;
     public static GameManager Instance { get; private set; }
     public bool isPlayerInLight = false;
