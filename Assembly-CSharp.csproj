@@ -73,6 +73,7 @@
     <Compile Include="Assets\Scripts\ItemSelector.cs" />
     <Compile Include="Assets\Scripts\BatAttack.cs" />
     <Compile Include="Assets\Scripts\TowerSpot.cs" />
+    <Compile Include="Assets\Scripts\MapOverview.cs" />
     <Compile Include="Assets\Scripts\RangeTrigger.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_DigitValidator.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_FrameRateCounter.cs" />
@@ -88,6 +89,7 @@
     <Compile Include="Assets\Scripts\Enemies\Guard.cs" />
     <Compile Include="Assets\Scripts\Units\Dog.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
+    <Compile Include="Assets\Scripts\Coffin.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
     <Compile Include="Assets\Scripts\Tower.cs" />

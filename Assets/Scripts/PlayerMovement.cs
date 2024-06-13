@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isDashing = false;
     public GameManager gameManager;
     private ParticleSystem particles;
+    private Coffin nearestCoffin = null;
     public void DisablePunch()
     {
         punchEnabled = false;
@@ -147,7 +148,26 @@ public class PlayerMovement : MonoBehaviour
         {
             particles.Play();
         }
+        if (Input.GetButtonDown("Coffin") && nearestCoffin != null && nearestCoffin.CanInteract())
+        {
+            FindObjectOfType<MapOverview>().ActivateOverview(nearestCoffin.transform.position);
+            GetComponent<SpriteRenderer>().enabled = false; // Désactive le SpriteRenderer du cercueil
+        }
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.GetComponent<Coffin>() != null)
+        {
+            nearestCoffin = other.GetComponent<Coffin>();
+        }
+    }
 
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.GetComponent<Coffin>() != null && nearestCoffin == other.GetComponent<Coffin>())
+        {
+            nearestCoffin = null;
+        }
     }
     void BatAttack()
     {
@@ -177,14 +197,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-
-
-
-
-
-
-
-
 
 
     IEnumerator DestroyAfterSeconds(GameObject gameObject, float seconds)
