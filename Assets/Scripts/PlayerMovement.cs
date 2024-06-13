@@ -150,8 +150,8 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetButtonDown("Coffin") && nearestCoffin != null && nearestCoffin.CanInteract())
         {
-            FindObjectOfType<MapOverview>().ActivateOverview(nearestCoffin.transform.position);
-            GetComponent<SpriteRenderer>().enabled = false; // Désactive le SpriteRenderer du cercueil
+            FindObjectOfType<MapOverview>().ActivateOverview();
+            GetComponent<SpriteRenderer>().enabled = false;
         }
     }
     private void OnTriggerEnter2D(Collider2D other)

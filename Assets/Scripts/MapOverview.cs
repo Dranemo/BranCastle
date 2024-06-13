@@ -26,12 +26,15 @@ public class MapOverview : MonoBehaviour
         }
     }
 
-    public void ActivateOverview(Vector3 coffinPosition)
+    public void ActivateOverview()
     {
         originalCameraPosition = mainCamera.transform.position;
         originalCameraRotation = mainCamera.transform.rotation;
-
-        mainCamera.orthographicSize = 60; 
+        for (int i=0; i < 30; i++)
+        {
+            mainCamera.orthographicSize += 2;
+        }
+        
 
         isOverviewActive = true;
     }
