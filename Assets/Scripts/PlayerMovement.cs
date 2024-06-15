@@ -32,6 +32,8 @@ public class PlayerMovement : MonoBehaviour
     public GameManager gameManager;
     private ParticleSystem particles;
     private Coffin nearestCoffin = null;
+    private bool canMove = true;
+    private bool isOverviewActivated = false;
     public void DisablePunch()
     {
         punchEnabled = false;
@@ -69,8 +71,11 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        movement.x = Input.GetAxis("Horizontal");
-        movement.y = Input.GetAxis("Vertical");
+        if (canMove)
+        {
+            movement.x = Input.GetAxis("Horizontal");
+            movement.y = Input.GetAxis("Vertical");
+        }
 
         Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
@@ -85,8 +90,6 @@ public class PlayerMovement : MonoBehaviour
         }
         if (punchEnabled && Input.GetMouseButtonDown(0) && currentCoup == null && !isDrawingRectangle)
         {
-            direction = direction.normalized;
-            rb.AddForce(direction * punchForce, ForceMode2D.Impulse);
             StartCoroutine(ResetVelocityAfterDash());
             Vector3 coupPosition = transform.position + new Vector3(direction.x, direction.y, 0) * coupDistance;
 
@@ -148,11 +151,25 @@ public class PlayerMovement : MonoBehaviour
         {
             particles.Play();
         }
-        if (Input.GetButtonDown("Coffin") && nearestCoffin != null && nearestCoffin.CanInteract())
+        if (Input.GetButtonDown("Coffin") && nearestCoffin != null && nearestCoffin.CanInteract() && !isOverviewActivated)
         {
             FindObjectOfType<MapOverview>().ActivateOverview();
             GetComponent<SpriteRenderer>().enabled = false;
+            canMove = false;
+            isOverviewActivated = true;
         }
+        // Désactivation de la vue d'ensemble
+        else if (Input.GetButtonDown("Coffin") && isOverviewActivated)
+        {
+            FindObjectOfType<MapOverview>().DeactivateOverview(transform.position);
+            GetComponent<SpriteRenderer>().enabled = true;
+            canMove = true;
+            isOverviewActivated = false;
+        }
+    }
+    public void EnableMovement()
+    {
+        canMove = true;
     }
     private void OnTriggerEnter2D(Collider2D other)
     {

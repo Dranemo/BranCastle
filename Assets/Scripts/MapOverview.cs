@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class MapOverview : MonoBehaviour
 {
@@ -6,7 +7,9 @@ public class MapOverview : MonoBehaviour
     private Vector3 originalCameraPosition;
     private Quaternion originalCameraRotation;
     private bool isOverviewActive = false;
+    public AnimationCurve zoomCurve;
 
+    private float initialOrthographicSize;
     void Update()
     {
         if (isOverviewActive)
@@ -30,14 +33,64 @@ public class MapOverview : MonoBehaviour
     {
         originalCameraPosition = mainCamera.transform.position;
         originalCameraRotation = mainCamera.transform.rotation;
-        for (int i=0; i < 30; i++)
-        {
-            mainCamera.orthographicSize += 2;
-        }
-        
-
-        isOverviewActive = true;
+        initialOrthographicSize = mainCamera.orthographicSize;
+        // Démarrez la coroutine pour ajuster progressivement le zooms
+        StartCoroutine(AdjustZoom());
     }
+    public void DeactivateOverview(Vector3 coffinPosition)
+    {
+        mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, coffinPosition, 0.5f); 
+        mainCamera.transform.rotation = originalCameraRotation;
+        StartCoroutine(ResetZoom());
+    }
+    IEnumerator AdjustZoom()
+    {
+        float targetOrthographicSize = mainCamera.orthographicSize + 60; // Ajustez selon le zoom désiré
+        float duration = 0.5f; // Durée sur laquelle le zoom se produit
+        float elapsed = 0.0f;
+
+        zoomCurve.preWrapMode = WrapMode.ClampForever;
+        zoomCurve.postWrapMode = WrapMode.ClampForever;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            // Utilisez la courbe d'animation pour ajuster le facteur d'interpolation
+            float curveT = zoomCurve.Evaluate(t);
+            mainCamera.orthographicSize = Mathf.LerpUnclamped(initialOrthographicSize, targetOrthographicSize, curveT);
+
+            yield return null;
+        }
+
+        // Assurez-vous que la taille orthographique est bien celle ciblée à la fin
+        mainCamera.orthographicSize = targetOrthographicSize;
+    }
+
+    IEnumerator ResetZoom()
+    {
+        float currentOrthographicSize = mainCamera.orthographicSize; // La taille actuelle au début de la coroutine
+        float duration = 0.5f; // Durée sur laquelle le zoom inverse se produit
+        float elapsed = 0.0f;
+
+        zoomCurve.preWrapMode = WrapMode.ClampForever;
+        zoomCurve.postWrapMode = WrapMode.ClampForever;
+
+        while (elapsed < duration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / duration;
+            // Utilisez la courbe d'animation pour ajuster le facteur d'interpolation
+            float curveT = zoomCurve.Evaluate(t);
+            mainCamera.orthographicSize = Mathf.LerpUnclamped(currentOrthographicSize, initialOrthographicSize, curveT);
+
+            yield return null;
+        }
+
+        // Assurez-vous que la taille orthographique est bien celle initiale à la fin
+        mainCamera.orthographicSize = initialOrthographicSize;
+    }
+
 
     void TeleportPlayer(Vector3 coffinPosition)
     {
@@ -48,8 +101,7 @@ public class MapOverview : MonoBehaviour
         // Restaure la position et rotation originale de la caméra
         mainCamera.transform.position = originalCameraPosition;
         mainCamera.transform.rotation = originalCameraRotation;
-
-        isOverviewActive = false;
+        FindObjectOfType<PlayerMovement>().EnableMovement();
     }
 }
 
