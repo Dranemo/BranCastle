@@ -356,8 +356,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.00045001507, y: 0.006399989, z: 0}
-    m_Extent: {x: 1.49835, y: 1.5034, z: 0}
+    m_Center: {x: -0.0033999681, y: 0.00075000525, z: 0}
+    m_Extent: {x: 1.4984, y: 1.4992499, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -1126,7 +1126,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 259043256156633340, guid: 6f4f937ecabab9240bb77d5fcf73b0a1, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 26.087708
+      value: 27.0463
       objectReference: {fileID: 0}
     - target: {fileID: 259043256156633340, guid: 6f4f937ecabab9240bb77d5fcf73b0a1, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1138,7 +1138,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 259043256156633340, guid: 6f4f937ecabab9240bb77d5fcf73b0a1, type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0.7071068
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 259043256156633340, guid: 6f4f937ecabab9240bb77d5fcf73b0a1, type: 3}
       propertyPath: m_LocalRotation.x
@@ -1150,7 +1150,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 259043256156633340, guid: 6f4f937ecabab9240bb77d5fcf73b0a1, type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 259043256156633340, guid: 6f4f937ecabab9240bb77d5fcf73b0a1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -1162,7 +1162,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 259043256156633340, guid: 6f4f937ecabab9240bb77d5fcf73b0a1, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 90
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2797432112674120668, guid: 6f4f937ecabab9240bb77d5fcf73b0a1, type: 3}
+      propertyPath: m_Constraints
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 2903697257882806275, guid: 6f4f937ecabab9240bb77d5fcf73b0a1, type: 3}
       propertyPath: m_Name
