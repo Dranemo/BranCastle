@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+//détecte si le joueur se trouve à proximité du cercueil
 public class Coffin : MonoBehaviour
 {
     private bool playerIsNear = false;

@@ -4,34 +4,36 @@ using UnityEngine;
 
 public class UnitCircle : MonoBehaviour
 {
-    private Unit parentUnitCombat;
-
+    private Unit unitScript;
+    private bool continueAttack;
     private void Awake()
     {
-        parentUnitCombat = GetComponentInParent<Unit>();
+        unitScript = GetComponentInParent<Unit>();
     }
 
-    private void OnTriggerEnter2D(Collider2D collision)
+    void Start()
     {
-        if (collision.CompareTag("Enemy"))
+        if (unitScript == null)
         {
-            parentUnitCombat.StartAttack(collision.gameObject);
+            Debug.LogError("Script Unit non trouvé sur le parent!");
         }
     }
 
-    private void OnTriggerStay2D(Collider2D collision)
+    void OnTriggerEnter2D(Collider2D other)
     {
-        if (collision.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Enemy") && unitScript != null)
         {
-            parentUnitCombat.StartAttack(collision.gameObject);
+            unitScript.enemiesInRange.Add(other.gameObject);
+            unitScript.StartAttack(other.gameObject); // Utilisez directement other.gameObject
         }
     }
 
-    private void OnTriggerExit2D(Collider2D collision)
+
+    void OnTriggerExit2D(Collider2D other)
     {
-        if (collision.CompareTag("Enemy"))
+        if (other.gameObject.CompareTag("Enemy") && unitScript != null)
         {
-            parentUnitCombat.StopAttack();
+            unitScript.enemiesInRange.Remove(other.gameObject);
         }
     }
 }

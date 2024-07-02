@@ -1,107 +1,87 @@
 using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class MapOverview : MonoBehaviour
 {
-    public Camera mainCamera;
-    private Vector3 originalCameraPosition;
-    private Quaternion originalCameraRotation;
-    private bool isOverviewActive = false;
-    public AnimationCurve zoomCurve;
+    private CanvasGroup canvasGroup;
+    public Transform coffinsParent;
+    private List<GameObject> coffinIcons = new List<GameObject>();
+    public GameObject coffinIconPrefab;
+    float sceneWidth = 60 - (-33); // 93
+    float sceneHeight = 60 - (-8); // 68
+    void Awake()
+    {
+        // Récupère le composant CanvasGroup attaché au GameObject
+        canvasGroup = GetComponent<CanvasGroup>();
+        if (canvasGroup == null)
+        {
+            Debug.LogError("CanvasGroup manquant sur l'objet.");
+        }
+    }
+    void Start()
+    {
+        CreateCoffinIcons();
+    }
 
-    private float initialOrthographicSize;
+    void CreateCoffinIcons()
+    {
+        Vector2 sceneBottomLeft = new Vector2(-10, -10);
+        Vector2 sceneTopRight = new Vector2(10, 10);
+
+        foreach (Transform coffin in coffinsParent)
+        {
+            GameObject icon = Instantiate(coffinIconPrefab, transform);
+            coffinIcons.Add(icon);
+
+            // Convertir la position du monde en position relative à la scène
+            float relativeX = (coffin.position.x - sceneBottomLeft.x) / (sceneTopRight.x - sceneBottomLeft.x);
+            float relativeY = (coffin.position.y - sceneBottomLeft.y) / (sceneTopRight.y - sceneBottomLeft.y);
+
+            // Convertir la position relative en position sur le canvas
+            // Supposons que le canvas est configuré pour correspondre à la taille de la scène
+            RectTransform canvasRect = GetComponent<RectTransform>();
+            float canvasX = relativeX * canvasRect.sizeDelta.x;
+            float canvasY = relativeY * canvasRect.sizeDelta.y;
+
+            // Positionner l'icône
+            RectTransform iconRect = icon.GetComponent<RectTransform>();
+            iconRect.anchoredPosition = new Vector2(canvasX, canvasY);
+        }
+    }
+
+
     void Update()
     {
-        if (isOverviewActive)
-        {
-            if (Input.GetMouseButtonDown(0)) // Clic gauche pour choisir un cercueil
-            {
-                Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
-                RaycastHit hit;
-                if (Physics.Raycast(ray, out hit))
-                {
-                    if (hit.collider.GetComponent<Coffin>() != null)
-                    {
-                        TeleportPlayer(hit.collider.transform.position);
-                    }
-                }
-            }
-        }
     }
-
+    // Fonction pour activer l'overlay
     public void ActivateOverview()
     {
-        originalCameraPosition = mainCamera.transform.position;
-        originalCameraRotation = mainCamera.transform.rotation;
-        initialOrthographicSize = mainCamera.orthographicSize;
-        // Démarrez la coroutine pour ajuster progressivement le zooms
-        StartCoroutine(AdjustZoom());
-    }
-    public void DeactivateOverview(Vector3 coffinPosition)
-    {
-        mainCamera.transform.position = Vector3.Lerp(mainCamera.transform.position, coffinPosition, 0.5f); 
-        mainCamera.transform.rotation = originalCameraRotation;
-        StartCoroutine(ResetZoom());
-    }
-    IEnumerator AdjustZoom()
-    {
-        float targetOrthographicSize = mainCamera.orthographicSize + 60; // Ajustez selon le zoom désiré
-        float duration = 0.5f; // Durée sur laquelle le zoom se produit
-        float elapsed = 0.0f;
-
-        zoomCurve.preWrapMode = WrapMode.ClampForever;
-        zoomCurve.postWrapMode = WrapMode.ClampForever;
-
-        while (elapsed < duration)
+        if (canvasGroup != null)
         {
-            elapsed += Time.deltaTime;
-            float t = elapsed / duration;
-            // Utilisez la courbe d'animation pour ajuster le facteur d'interpolation
-            float curveT = zoomCurve.Evaluate(t);
-            mainCamera.orthographicSize = Mathf.LerpUnclamped(initialOrthographicSize, targetOrthographicSize, curveT);
-
-            yield return null;
+            canvasGroup.alpha = 1f; 
+            canvasGroup.blocksRaycasts = true;
+            canvasGroup.interactable = true; 
         }
-
-        // Assurez-vous que la taille orthographique est bien celle ciblée à la fin
-        mainCamera.orthographicSize = targetOrthographicSize;
     }
 
-    IEnumerator ResetZoom()
+    // Fonction pour désactiver l'overlay (optionnelle)
+    public void DeactivateOverview()
     {
-        float currentOrthographicSize = mainCamera.orthographicSize; // La taille actuelle au début de la coroutine
-        float duration = 0.5f; // Durée sur laquelle le zoom inverse se produit
-        float elapsed = 0.0f;
-
-        zoomCurve.preWrapMode = WrapMode.ClampForever;
-        zoomCurve.postWrapMode = WrapMode.ClampForever;
-
-        while (elapsed < duration)
+        if (canvasGroup != null)
         {
-            elapsed += Time.deltaTime;
-            float t = elapsed / duration;
-            // Utilisez la courbe d'animation pour ajuster le facteur d'interpolation
-            float curveT = zoomCurve.Evaluate(t);
-            mainCamera.orthographicSize = Mathf.LerpUnclamped(currentOrthographicSize, initialOrthographicSize, curveT);
-
-            yield return null;
+            canvasGroup.alpha = 0f; 
+            canvasGroup.blocksRaycasts = false;
+            canvasGroup.interactable = false;
         }
-
-        // Assurez-vous que la taille orthographique est bien celle initiale à la fin
-        mainCamera.orthographicSize = initialOrthographicSize;
     }
-
-
-    void TeleportPlayer(Vector3 coffinPosition)
+void TeleportPlayer(Vector3 coffinPosition)
     {
         // Ajustez selon la position où vous voulez que le joueur réapparaisse
         Vector3 playerPosition = coffinPosition + Vector3.forward * 2; // Exemple de position devant le cercueil
         FindObjectOfType<PlayerMovement>().transform.position = playerPosition;
-
-        // Restaure la position et rotation originale de la caméra
-        mainCamera.transform.position = originalCameraPosition;
-        mainCamera.transform.rotation = originalCameraRotation;
         FindObjectOfType<PlayerMovement>().EnableMovement();
     }
 }
+
 

@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using System.Linq;
 
 public class Unit : MonoBehaviour
 {
@@ -9,6 +10,8 @@ public class Unit : MonoBehaviour
     public float attackSpeed;
     public float bloodCost;
     private Coroutine attackCoroutine;
+    public List<GameObject> enemiesInRange = new List<GameObject>();
+
     protected void TakeDamage(float damage)
     {
         health -= damage;
@@ -26,7 +29,7 @@ public class Unit : MonoBehaviour
     {
         if (attackCoroutine == null)
         {
-            attackCoroutine = StartCoroutine(AttackEnemy(enemy));
+            attackCoroutine = StartCoroutine(AttackEnemy());
         }
     }
 
@@ -38,17 +41,32 @@ public class Unit : MonoBehaviour
             attackCoroutine = null;
         }
     }
-    private IEnumerator AttackEnemy(GameObject enemy)
+    private IEnumerator AttackEnemy()
     {
-        while (enemy != null && enemy.activeInHierarchy) // Continuez d'attaquer tant que l'ennemi est présent
+        while (enemiesInRange.Count > 0)
         {
-            // Ici, vous pouvez ajouter la logique pour infliger des dégâts à l'ennemi
-            Debug.Log($"Attaque l'ennemi pour {damage} dégâts.");
-
-            yield return new WaitForSeconds(1f / attackSpeed); // Attendre la prochaine attaque basée sur la vitesse d'attaque
+            GameObject closestEnemy = GetClosestEnemy();
+            if (closestEnemy != null)
+            {
+                Enemy enemy = closestEnemy.GetComponent<Enemy>();
+                enemy.TakeDamage(damage);
+                yield return new WaitForSeconds(1f / attackSpeed);
+            }
+            else
+            {
+                yield break; // Sortir de la coroutine si aucun ennemi n'est trouvé
+            }
         }
 
-        attackCoroutine = null; // Assurez-vous de réinitialiser la coroutine si l'ennemi est détruit
+        attackCoroutine = null;
+    }
+
+    private GameObject GetClosestEnemy()
+    {
+        enemiesInRange.RemoveAll(item => item == null); // Nettoyer la liste des ennemis nuls
+        if (enemiesInRange.Count == 0) return null;
+        Debug.Log(enemiesInRange.OrderBy(e => (e.transform.position - transform.position).sqrMagnitude).FirstOrDefault());
+        return enemiesInRange.OrderBy(e => (e.transform.position - transform.position).sqrMagnitude).FirstOrDefault();
     }
     void Start()
     {

@@ -9,7 +9,7 @@ public class Dog : Unit
     {
         health= 100;
         damage= 10;
-        attackSpeed= 1;
+        attackSpeed= 0.1f;
         bloodCost= 10;
     }
 

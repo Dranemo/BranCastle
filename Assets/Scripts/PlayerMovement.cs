@@ -34,6 +34,7 @@ public class PlayerMovement : MonoBehaviour
     private Coffin nearestCoffin = null;
     private bool canMove = true;
     private bool isOverviewActivated = false;
+    private MapOverview mapOverview;
     public void DisablePunch()
     {
         punchEnabled = false;
@@ -45,6 +46,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Awake()
     {
+        mapOverview = FindObjectOfType<MapOverview>();
         angleSpriteMap = new (float[], Sprite)[]
         {
         (new float[] {-45f, 45f}, rightSprite),
@@ -71,12 +73,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        if (canMove)
-        {
-            movement.x = Input.GetAxis("Horizontal");
-            movement.y = Input.GetAxis("Vertical");
-        }
-
         Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
@@ -153,18 +149,21 @@ public class PlayerMovement : MonoBehaviour
         }
         if (Input.GetButtonDown("Coffin") && nearestCoffin != null && nearestCoffin.CanInteract() && !isOverviewActivated)
         {
-            FindObjectOfType<MapOverview>().ActivateOverview();
+            rb.isKinematic = true;
+            rb.velocity = Vector2.zero;
             GetComponent<SpriteRenderer>().enabled = false;
             canMove = false;
             isOverviewActivated = true;
+            mapOverview.ActivateOverview();
         }
         // Désactivation de la vue d'ensemble
         else if (Input.GetButtonDown("Coffin") && isOverviewActivated)
         {
-            FindObjectOfType<MapOverview>().DeactivateOverview(transform.position);
             GetComponent<SpriteRenderer>().enabled = true;
+            rb.isKinematic = false;
             canMove = true;
             isOverviewActivated = false;
+            mapOverview.DeactivateOverview();
         }
     }
     public void EnableMovement()
@@ -215,6 +214,21 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        if (canMove)
+        {
+            // Lire les entrées de l'utilisateur
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            float moveVertical = Input.GetAxis("Vertical");
+
+            // Calculer le vecteur de mouvement
+            Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+
+            // Appliquer le mouvement via le Rigidbody
+            rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        }
+    }
 
     IEnumerator DestroyAfterSeconds(GameObject gameObject, float seconds)
     {
