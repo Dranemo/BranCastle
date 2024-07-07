@@ -26,4 +26,18 @@ public class Guard : Enemy
         base.Update();
         FollowPath();
     }
+    public class MinimapIcon : MonoBehaviour
+    {
+        public Transform guardTransform; // Référence au transform du garde
+        public Vector3 offset = new Vector3(0, 2, 0); // Décalage pour positionner l'icône au-dessus du garde
+
+        void LateUpdate()
+        {
+            if (guardTransform != null)
+            {
+                // Positionner l'icône au-dessus du garde avec un décalage
+                transform.position = guardTransform.position + offset;
+            }
+        }
+    }
 }   

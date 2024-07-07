@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     private bool canMove = true;
     private bool isOverviewActivated = false;
     private MapOverview mapOverview;
+    private CanvasFader canvasFader;
     public void DisablePunch()
     {
         punchEnabled = false;
@@ -47,6 +48,7 @@ public class PlayerMovement : MonoBehaviour
     void Awake()
     {
         mapOverview = FindObjectOfType<MapOverview>();
+        canvasFader = FindObjectOfType<CanvasFader>();
         angleSpriteMap = new (float[], Sprite)[]
         {
         (new float[] {-45f, 45f}, rightSprite),
@@ -154,6 +156,8 @@ public class PlayerMovement : MonoBehaviour
             GetComponent<SpriteRenderer>().enabled = false;
             canMove = false;
             isOverviewActivated = true;
+            canvasFader.StartFadeIn();
+
             mapOverview.ActivateOverview();
         }
         // Désactivation de la vue d'ensemble
