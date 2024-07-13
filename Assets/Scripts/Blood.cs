@@ -4,15 +4,21 @@ using UnityEngine;
 
 public class Blood : MonoBehaviour
 {
-    public float attractionDistance = 5f;
-    public float speed = 2f;
-    private GameObject player;
+    [SerializeField] float attractionDistance = 0f;
+    [SerializeField] float speed = 2f;
+    [SerializeField] GameObject player;
+    [SerializeField] float pickupRange = 0.5f;
     GameManager manager;
+
+
+    public float bloodAmount = 1;
 
     void Start()
     {
         manager = GameManager.Instance;
         player = GameObject.FindGameObjectWithTag("Player");
+
+        Debug.Log(bloodAmount);
     }
 
     void Update()
@@ -25,11 +31,15 @@ public class Blood : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
+        if (other.gameObject == player)
         {
             // Add the blood to the player
-            manager.AddBlood(1);
+            Debug.Log("Blood collected");
+
+            manager.AddBlood(bloodAmount);
             Destroy(gameObject);
         }
     }
+
+
 }
