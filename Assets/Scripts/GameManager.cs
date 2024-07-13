@@ -95,6 +95,7 @@ public class GameManager : MonoBehaviour
     {
         if (blood <= 0)
         {
+            AddBlood(10000);
             SceneManager.LoadScene("GameOver");
         }
     }

@@ -21,7 +21,6 @@ public class CanvaGameOver : MonoBehaviour
 
     void TaskOnClick()
     {
-        GameManager.Instance.AddBlood(10000);
         SceneManager.LoadScene("Level-1");
     }
 }
