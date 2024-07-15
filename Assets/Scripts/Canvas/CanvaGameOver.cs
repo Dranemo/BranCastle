@@ -16,7 +16,21 @@ public class CanvaGameOver : MonoBehaviour
         Button btn = buttonLevelOne.GetComponent<Button>();
         btn.onClick.AddListener(TaskOnClick);
 
-        scoreText.GetComponent<TextMeshProUGUI>().text = "NULLLL BOUUUHHH";
+
+        GameManager gameManager = GameManager.Instance;
+
+
+        string text = "Vous avez survécu jusqu'à ";
+        if(gameManager.time > 1439)
+        {
+            text += "minuit !";
+        }
+        else
+        {
+            text += "la " + gameManager.wave + "ème vague !";
+        }
+
+        scoreText.GetComponent<TextMeshProUGUI>().text = text;
     }
 
     void TaskOnClick()

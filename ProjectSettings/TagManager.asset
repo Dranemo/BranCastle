@@ -10,6 +10,7 @@ TagManager:
   - Coffin
   - Ritual
   - Unit
+  - MinimapCamera
   layers:
   - Default
   - TransparentFX

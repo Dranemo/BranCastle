@@ -92,6 +92,7 @@
     <Compile Include="Assets\Scripts\Units\Dog.cs" />
     <Compile Include="Assets\Scripts\PlayerMovement.cs" />
     <Compile Include="Assets\Scripts\Coffin.cs" />
+    <Compile Include="Assets\Scripts\Canvas\CanvaInGame.cs" />
     <Compile Include="Assets\Scripts\Canvas\CanvaGameOver.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />

@@ -21,8 +21,10 @@ public class GameManager : MonoBehaviour
     [SerializeField] float enemyCooldownLeft = 0;
     [SerializeField] float enemyWaveCooldown = 30;
     [SerializeField] float enemyWaveCooldownLeft = 30;
-    [SerializeField] float wave = 0;
-    int wavePathIndex = 0;
+    public float wave { get; private set; }  = 1;
+    int wavePathIndex  = 0;
+
+    [SerializeField] public float time /*{ get; private set; }*/ = 690; // 11h30
 
     public bool isGameOver = false;
 
@@ -49,6 +51,9 @@ public class GameManager : MonoBehaviour
         GameObject player = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
 
         wavePathIndex = Random.Range(0, paths.Length);
+
+        enemyCooldownLeft += 30;
+        enemyWaveCooldownLeft += 30;
     }
 
     private void Update()
@@ -72,6 +77,8 @@ public class GameManager : MonoBehaviour
                 wavePathIndex = Random.Range(0, paths.Length);
             }
             enemyWaveCooldownLeft -= Time.deltaTime;
+
+            time += Time.deltaTime;
         }
         
     }
@@ -108,7 +115,7 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
-        if (blood <= 0)
+        if (blood <= 0 || time > 1439)
         {
             isGameOver = true;
             SceneManager.LoadScene("GameOver");
