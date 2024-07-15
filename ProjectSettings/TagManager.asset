@@ -7,17 +7,19 @@ TagManager:
   - Enemy
   - Damage
   - Light
+  - Coffin
+  - Ritual
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Player
   - Water
   - UI
-  - 
-  - 
-  - 
-  - 
+  - Enemy
+  - Unit
+  - MapCoffin
+  - Ritual
   - 
   - 
   - 
@@ -43,4 +45,10 @@ TagManager:
   m_SortingLayers:
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Player
+    uniqueID: 1587257703
+    locked: 0
+  - name: Unit
+    uniqueID: 2104973979
     locked: 0

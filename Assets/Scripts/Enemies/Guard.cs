@@ -5,14 +5,13 @@ using UnityEngine;
 public class Guard : Enemy
 {
     // Start is called before the first frame update
+    [SerializeField] GameObject projectilePrefab;
+
+
+
     private void Awake()
     {
         base.Awake();
-
-        speed = 1.5f;
-        health = 100f;
-        damage = 100f;
-        bloodCount = 75;
     }
     void Start()
     {
@@ -24,6 +23,26 @@ public class Guard : Enemy
     void Update()
     {
         base.Update();
-        FollowPath();
+        //FollowPath();
+    }
+
+
+    protected override void Attack()
+    {
+        //GameManager.Instance.TakeDamage(damage);
+        GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+
+
+
+        if(state == State.AttackingPlayer)
+        {
+            projectile.GetComponent<ProjectileEnemy>().target = player;
+        }
+        else if(state == State.AttackingRitual)
+        {
+            projectile.GetComponent<ProjectileEnemy>().target = ritual;
+        }
+
+        projectile.GetComponent<ProjectileEnemy>().damage = damage;
     }
 }   

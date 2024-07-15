@@ -31,6 +31,11 @@ public class PlayerMovement : MonoBehaviour
     private bool isDashing = false;
     public GameManager gameManager;
     private ParticleSystem particles;
+    private Coffin nearestCoffin = null;
+    private bool canMove = true;
+    private bool isOverviewActivated = false;
+    private MapOverview mapOverview;
+    private CanvasFader canvasFader;
     public void DisablePunch()
     {
         punchEnabled = false;
@@ -42,6 +47,8 @@ public class PlayerMovement : MonoBehaviour
     }
     void Awake()
     {
+        mapOverview = FindObjectOfType<MapOverview>();
+        canvasFader = FindObjectOfType<CanvasFader>();
         angleSpriteMap = new (float[], Sprite)[]
         {
         (new float[] {-45f, 45f}, rightSprite),
@@ -50,7 +57,6 @@ public class PlayerMovement : MonoBehaviour
         (new float[] {-180f, -135f}, leftSprite),
         (new float[] {-135f, -45f}, downSprite)
         };
-        // Rest of your Awake code...
     }
     void Start()
     {
@@ -69,9 +75,6 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-        movement.x = Input.GetAxis("Horizontal");
-        movement.y = Input.GetAxis("Vertical");
-
         Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
 
@@ -85,8 +88,6 @@ public class PlayerMovement : MonoBehaviour
         }
         if (punchEnabled && Input.GetMouseButtonDown(0) && currentCoup == null && !isDrawingRectangle)
         {
-            direction = direction.normalized;
-            rb.AddForce(direction * punchForce, ForceMode2D.Impulse);
             StartCoroutine(ResetVelocityAfterDash());
             Vector3 coupPosition = transform.position + new Vector3(direction.x, direction.y, 0) * coupDistance;
 
@@ -148,7 +149,45 @@ public class PlayerMovement : MonoBehaviour
         {
             particles.Play();
         }
+        if (Input.GetButtonDown("Coffin") && nearestCoffin != null && nearestCoffin.CanInteract() && !isOverviewActivated)
+        {
+            rb.isKinematic = true;
+            rb.velocity = Vector2.zero;
+            GetComponent<SpriteRenderer>().enabled = false;
+            canMove = false;
+            isOverviewActivated = true;
+            canvasFader.StartFadeIn();
 
+            mapOverview.ActivateOverview();
+        }
+        // Désactivation de la vue d'ensemble
+        else if (Input.GetButtonDown("Coffin") && isOverviewActivated)
+        {
+            GetComponent<SpriteRenderer>().enabled = true;
+            rb.isKinematic = false;
+            canMove = true;
+            isOverviewActivated = false;
+            mapOverview.DeactivateOverview();
+        }
+    }
+    public void EnableMovement()
+    {
+        canMove = true;
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.GetComponent<Coffin>() != null)
+        {
+            nearestCoffin = other.GetComponent<Coffin>();
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.GetComponent<Coffin>() != null && nearestCoffin == other.GetComponent<Coffin>())
+        {
+            nearestCoffin = null;
+        }
     }
     void BatAttack()
     {
@@ -179,14 +218,21 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    void FixedUpdate()
+    {
+        if (canMove)
+        {
+            // Lire les entrées de l'utilisateur
+            float moveHorizontal = Input.GetAxis("Horizontal");
+            float moveVertical = Input.GetAxis("Vertical");
 
+            // Calculer le vecteur de mouvement
+            Vector2 movement = new Vector2(moveHorizontal, moveVertical);
 
-
-
-
-
-
-
+            // Appliquer le mouvement via le Rigidbody
+            rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+        }
+    }
 
     IEnumerator DestroyAfterSeconds(GameObject gameObject, float seconds)
     {

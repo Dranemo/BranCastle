@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 
@@ -12,14 +13,51 @@ public class Enemy: MonoBehaviour
     private int currentPathIndex = 0;
     public Transform spawn;
     private int currentWaypointIndex = 0;
-    private float detectionRadius = 5f;
-    protected float speed = 1;
     protected float health=50;
-    protected float damage;
+
     protected GameObject player;
-    [SerializeField]
-    public static GameObject bloodPrefab;
-    public int bloodCount;
+    protected GameObject ritual;
+
+    float attackCooldown = 1;
+    protected State state;
+
+
+    protected enum State
+    {
+        Moving,
+        AttackingPlayer,
+        AttackingRitual
+    }
+    private enum Direction
+    {
+        Up,
+        Down,
+        Left,
+        Right
+    }
+
+
+
+    [SerializeField] protected GameObject bloodPrefab;
+
+
+    [SerializeField] protected float bloodCount = 10;
+    [SerializeField] protected float detectionRadius = 5f; 
+    [SerializeField] protected float attackRadius = 1.5f;
+    [SerializeField] protected float damage = 0;
+    [SerializeField] protected float speed = 2;
+    [SerializeField] protected float attackSpeed = 1;
+
+
+    [SerializeField] Sprite upSprite;
+    [SerializeField] Sprite downSprite;
+    [SerializeField] Sprite leftSprite;
+    [SerializeField] Sprite rightSprite;
+
+
+    private bool onPath = true;
+
+
     Vector3 CalculateCatmullRomPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
     {
         float t2 = t * t;
@@ -34,40 +72,202 @@ public class Enemy: MonoBehaviour
     }
     protected void Awake()
     {
-        bloodPrefab = Resources.Load<GameObject>("Blood");
-        Debug.Log(bloodPrefab);
     }
 
     protected void Start()
     {
-        //utez vos waypoints à la liste ici, ou initialisez-les dans l'inspecteur Unity
+        //utez vos waypoints ï¿½ la liste ici, ou initialisez-les dans l'inspecteur Unity
         player = GameObject.FindGameObjectWithTag("Player");
-        if (paths != null && paths.Any() && paths[0].waypoints.Count > 0)
-        {
-            StartCoroutine(FollowPath());
-        }
+        ritual = GameObject.FindGameObjectWithTag("Ritual");
         OnDrawGizmos();
     }
+    
+    
     protected void Update()
     {
+        //Debug.Log(currentWaypointIndex);
+
+
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         if (distanceToPlayer < detectionRadius)
         {
-            Vector3 directionToPlayer = player.transform.position - transform.position;
-            float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
-            transform.rotation = Quaternion.Euler(0, 0, angle);
+            DetectPlayer();
+            //Debug.Log("Player Detected");
+            
         }
+        else
+        {
+            //Debug.Log("Player Not Detected");
+            MovingToTheNextCheckpoint();
+            
+        }
+
+
+        attackCooldown -= Time.deltaTime;
+    }
+
+
+    void MovingToTheNextCheckpoint()
+    {
+        state = State.Moving;
+
+
         if (paths == null || !paths.Any() || paths[0].waypoints.Count == 0)
             return;
 
+
+
+
+        if (!onPath)
+        {
+            float leastDistance = 0;
+
+            for(int i = 0; i < paths[0].waypoints.Count; i++)
+            {
+                if(leastDistance == 0 || Vector3.Distance(transform.position, paths[0].waypoints[i].position) < leastDistance)
+                {
+                    leastDistance = Vector3.Distance(transform.position, paths[0].waypoints[i].position);
+                    currentWaypointIndex = i;
+                }
+
+                                
+            }
+        }
+
+
+
         Transform currentWaypoint = paths[0].waypoints[currentWaypointIndex];
-        transform.position = Vector3.MoveTowards(transform.position, currentWaypoint.position, Time.deltaTime);
+        TurningSprite(currentWaypoint.position);
+
+
+        if(currentWaypointIndex == paths[0].waypoints.Count - 1)
+        {
+            DetectRitual();
+        }
+        else
+        {
+            // Aller vers le waypoint
+            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint.position, speed * Time.deltaTime);
+
+        }
+
+
+
 
         if (transform.position == currentWaypoint.position)
         {
-            currentWaypointIndex = (currentWaypointIndex + 1) % paths[0].waypoints.Count;
+            if(currentWaypointIndex != paths[0].waypoints.Count - 1)
+            {
+                currentWaypointIndex++;
+            }
+
+            onPath = true;
         }
     }
+
+
+
+    protected void DetectPlayer()
+    {
+        onPath = false;
+
+
+
+        /*Vector3 directionToPlayer = player.transform.position - transform.position;
+        float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);*/
+        TurningSprite(player.transform.position);
+
+
+        if (Vector3.Distance(transform.position, player.transform.position) < attackRadius)
+        {
+            state = State.AttackingPlayer;
+
+            if (attackCooldown <= 0)
+            {
+                Attack();
+                attackCooldown = attackSpeed;
+            }
+        }
+        else
+        {
+            state = State.Moving;
+            transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
+        }
+    }
+
+    protected void DetectRitual()
+    {
+        if(Vector3.Distance(transform.position, paths[0].waypoints[currentWaypointIndex].position) < attackRadius)
+        {
+            state = State.AttackingRitual;
+
+            attackCooldown -= Time.deltaTime;
+            if (attackCooldown <= 0)
+            {
+                Attack();
+                attackCooldown = attackSpeed;
+            }
+        }
+        else
+        {
+            state = State.Moving;
+            transform.position = Vector3.MoveTowards(transform.position, paths[0].waypoints[currentWaypointIndex].position, speed * Time.deltaTime);
+        }
+    }
+
+    protected virtual void Attack()
+    {
+        Debug.Log("Attack");
+    }
+
+
+
+
+
+    void TurningSprite(Direction dir)
+    {
+        switch(dir)
+        {
+            case Direction.Up:
+                GetComponent<SpriteRenderer>().sprite = upSprite;
+                break;
+            case Direction.Down:
+                GetComponent<SpriteRenderer>().sprite = downSprite;
+                break;
+            case Direction.Left:
+                GetComponent<SpriteRenderer>().sprite = leftSprite;
+                break;
+            case Direction.Right:
+                GetComponent<SpriteRenderer>().sprite = rightSprite;
+                break;
+        }
+    }
+
+    void TurningSprite(Vector3 pos)
+    {
+        Vector3 direction = pos - transform.position;
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        if (angle > -45 && angle <= 45)
+        {
+            GetComponent<SpriteRenderer>().sprite = rightSprite;
+        }
+        else if (angle > 45 && angle <= 135)
+        {
+            GetComponent<SpriteRenderer>().sprite = upSprite;
+        }
+        else if (angle > 135 || angle <= -135)
+        {
+            GetComponent<SpriteRenderer>().sprite = leftSprite;
+        }
+        else if (angle > -135 && angle <= -45)
+        {
+            GetComponent<SpriteRenderer>().sprite = downSprite;
+        }
+    }
+
+
 
     void OnDrawGizmos()
     {
@@ -117,55 +317,34 @@ public class Enemy: MonoBehaviour
     }
 
 
+
+    bool spawnBlood = false;
     protected void Die()
     {
-        for (int i = 0; i < bloodCount; i++)
-        {
-            Instantiate(bloodPrefab, transform.position, Quaternion.identity);
-        }
+        spawnBlood = true;
+
+        GameObject blood = Instantiate(bloodPrefab, transform.position, Quaternion.identity);
+        blood.GetComponent<Blood>().bloodAmount = bloodCount;
+
+
+        Debug.Log(bloodCount + " // " + blood.GetComponent<Blood>().bloodAmount);
+
+
         Destroy(gameObject);
     }
+
     public void TakeDamage(float damage)
     {
         health -= damage;
-        Debug.Log(health);
-        if (health <= 0)
+        if (health <= 0 && !spawnBlood)
         {
+            Debug.Log("Die");
             Die();
         }
     }
-    protected IEnumerator FollowPath()
+
+    public void SetPath(Path path)
     {
-        if (paths == null || !paths.Any())
-        {
-            yield break;
-        }
-
-        while (true)
-        {
-            Path currentPath = paths[currentPathIndex];
-            if (currentPath.waypoints.Count == 0)
-            {
-                yield break;
-            }
-
-            Transform currentWaypoint = currentPath.waypoints[currentWaypointIndex];
-            while (Vector3.Distance(transform.position, currentWaypoint.position) > 0.1f)
-            {
-                transform.position = Vector3.MoveTowards(transform.position, currentWaypoint.position, speed * Time.deltaTime);
-                yield return null;
-            }
-
-            currentWaypointIndex = (currentWaypointIndex + 1) % currentPath.waypoints.Count;
-            if (currentWaypointIndex == 0) // If we've looped back to the start, move to the next path
-            {
-                currentPathIndex = (currentPathIndex + 1) % paths.Count;
-            }
-        }
+        paths = new List<Path> { path };
     }
-
-
-
-
-
 }
