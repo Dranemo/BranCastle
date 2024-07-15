@@ -21,6 +21,6 @@ public class CanvaGameOver : MonoBehaviour
 
     void TaskOnClick()
     {
-        SceneManager.LoadScene("Level-1");
+        GameManager.Instance.RestartGame();
     }
 }

@@ -14,7 +14,7 @@ public class TowerSpot : MonoBehaviour
 
     void OnMouseDown()
     {
-        if (manager.GetBlood() >= towerCost)
+        if (manager.blood >= towerCost)
         {
             manager.AddBlood(-towerCost);
             Instantiate(towerPrefab, transform.position, Quaternion.identity);

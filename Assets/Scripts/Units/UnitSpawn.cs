@@ -3,17 +3,27 @@ using UnityEngine;
 
 public class UnitSpawn : MonoBehaviour
 {
+    [SerializeField] GameObject CanvaPrefab;
     public GameObject[] unitPrefabs;
     public int[] unitCosts;
+    GameObject[] panels;
     public float spawnDistance = 1f;
-    public GameObject[] panels; 
+
 
     private GameManager gameManager;
     private int selectedIndex = 0;
 
     private void Start()
     {
-        gameManager = FindObjectOfType<GameManager>();
+        gameManager = GameManager.Instance;
+
+        Transform panelsTransform = CanvaPrefab.transform.Find("Panels");
+        int childCount = panelsTransform.childCount;
+        panels = new GameObject[childCount];
+        for (int i = 0; i < childCount; i++)
+        {
+            panels[i] = panelsTransform.GetChild(i).gameObject;
+        }
     }
 
     void Update()
