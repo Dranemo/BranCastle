@@ -4,15 +4,15 @@ using UnityEngine;
 
 public class Farmer : Enemy
 {
+
+    
+
+
+
     // Start is called before the first frame updatee
     private void Awake()
     {
         base.Awake();
-
-        speed = 1f;
-        health = 30f;
-        damage = 150f;
-        bloodCount = 10;
     }
     void Start()
     {
@@ -23,6 +23,23 @@ public class Farmer : Enemy
     void Update()
     {
         base.Update();
-        FollowPath();
     }
+
+
+    protected override void Attack()
+    {
+        if (state == State.AttackingPlayer)
+        {
+            GameManager.Instance.TakeDamage(damage);
+        }
+        else if (state == State.AttackingRitual)
+        {
+            GameManager.Instance.TakeDamage(damage);
+        }
+        else if (state == State.AttackingUnit)
+        {
+            closestUnit.GetComponent<Unit>().TakeDamage(damage);
+        }
+    }
+
 }

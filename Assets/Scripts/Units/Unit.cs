@@ -12,7 +12,7 @@ public class Unit : MonoBehaviour
     private Coroutine attackCoroutine;
     public List<GameObject> enemiesInRange = new List<GameObject>();
 
-    protected void TakeDamage(float damage)
+    public void TakeDamage(float damage)
     {
         health -= damage;
         if (health <= 0)

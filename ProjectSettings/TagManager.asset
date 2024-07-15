@@ -8,6 +8,8 @@ TagManager:
   - Damage
   - Light
   - Coffin
+  - Ritual
+  - Unit
   layers:
   - Default
   - TransparentFX
@@ -18,7 +20,7 @@ TagManager:
   - Enemy
   - Unit
   - MapCoffin
-  - 
+  - Ritual
   - 
   - 
   - 
