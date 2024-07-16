@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
@@ -26,7 +27,8 @@ public class Enemy : MonoBehaviour
     {
         Moving,
         AttackingPlayer,
-        AttackingRitual
+        AttackingRitual,
+        AttackingUnit
     }
     private enum Direction
     {
@@ -47,6 +49,8 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected float damage = 0;
     [SerializeField] protected float speed = 2;
     [SerializeField] protected float attackSpeed = 1;
+    [SerializeField] protected List<GameObject> units;
+    [SerializeField] protected GameObject closestUnit;
 
 
     [SerializeField] Sprite upSprite;
@@ -65,51 +69,6 @@ public class Enemy : MonoBehaviour
     private bool onPath = true;
 
 
-    Vector3 CalculateCatmullRomPoint(float t, Vector3 p0, Vector3 p1, Vector3 p2, Vector3 p3)
-    {
-        float t2 = t * t;
-        float t3 = t2 * t;
-
-    float attackCooldown = 1;
-    protected State state;
-
-
-    protected enum State
-    {
-        Moving,
-        AttackingPlayer,
-        AttackingRitual,
-        AttackingUnit
-    }
-    private enum Direction
-    {
-        Up,
-        Down,
-        Left,
-        Right
-    }
-
-
-
-    [SerializeField] protected List<GameObject> units;
-    [SerializeField] protected GameObject bloodPrefab;
-
-
-    [SerializeField] protected float bloodCount = 10;
-    [SerializeField] protected float detectionRadius = 5f; 
-    [SerializeField] protected float attackRadius = 1.5f;
-    [SerializeField] protected float damage = 0;
-    [SerializeField] protected float speed = 2;
-    [SerializeField] protected float attackSpeed = 1;
-
-
-    [SerializeField] Sprite upSprite;
-    [SerializeField] Sprite downSprite;
-    [SerializeField] Sprite leftSprite;
-    [SerializeField] Sprite rightSprite;
-
-
-    private bool onPath = true;
 
     protected void Awake()
     {
@@ -117,38 +76,46 @@ public class Enemy : MonoBehaviour
 
     protected void Start()
     {
+        units = new List<GameObject>();
+
         //utez vos waypoints � la liste ici, ou initialisez-les dans l'inspecteur Unity
         player = GameObject.FindGameObjectWithTag("Player");
         capeKnockback = player.GetComponent<PlayerMovement>().capePushForce;
         ritual = GameObject.FindGameObjectWithTag("Ritual");
-        OnDrawGizmos();
     }
     
     
+
+
     protected void Update()
     {
         //Debug.Log(currentWaypointIndex);
 
-
+        UpdateUnitList();
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-
+        bool isUnitClose = IsUnitClose();
 
         if (isStunned)
         {
             StartCoroutine(Stunned());
         }
-        else if (distanceToPlayer < detectionRadius && !isStunned)
+        else if (isUnitClose || distanceToPlayer < detectionRadius)
         {
-            DetectPlayer();
-            //Debug.Log("Player Detected");
-            
+            if (isUnitClose)
+            {
+                DetectUnit();
+            }
+            if (distanceToPlayer < detectionRadius)
+            {
+                DetectPlayer();
+                //Debug.Log("Player Detected");
+
+            }
         }
         else
         {
             //Debug.Log("Player Not Detected");
-            
-                MovingToTheNextCheckpoint();
-
+            MovingToTheNextCheckpoint();
 
         }
 
@@ -172,15 +139,15 @@ public class Enemy : MonoBehaviour
         {
             float leastDistance = 0;
 
-            for(int i = 0; i < paths[0].waypoints.Count; i++)
+            for (int i = 0; i < paths[0].waypoints.Count; i++)
             {
-                if(leastDistance == 0 || Vector3.Distance(transform.position, paths[0].waypoints[i].position) < leastDistance)
+                if (leastDistance == 0 || Vector3.Distance(transform.position, paths[0].waypoints[i].position) < leastDistance)
                 {
                     leastDistance = Vector3.Distance(transform.position, paths[0].waypoints[i].position);
                     currentWaypointIndex = i;
                 }
 
-                                
+
             }
         }
 
@@ -190,7 +157,7 @@ public class Enemy : MonoBehaviour
         TurningSprite(currentWaypoint.position);
 
 
-        if(currentWaypointIndex == paths[0].waypoints.Count - 1)
+        if (currentWaypointIndex == paths[0].waypoints.Count - 1)
         {
             DetectRitual();
         }
@@ -204,10 +171,9 @@ public class Enemy : MonoBehaviour
 
 
 
-
-        if(currentWaypointIndex == paths[0].waypoints.Count - 1)
+        if (transform.position == currentWaypoint.position)
         {
-            if(currentWaypointIndex != paths[0].waypoints.Count - 1)
+            if (currentWaypointIndex != paths[0].waypoints.Count - 1)
             {
                 currentWaypointIndex++;
             }
@@ -215,6 +181,9 @@ public class Enemy : MonoBehaviour
             onPath = true;
         }
     }
+
+
+
 
 
 
@@ -294,7 +263,6 @@ public class Enemy : MonoBehaviour
                 break;
         }
     }
-
     void TurningSprite(Vector3 pos)
     {
         Vector3 direction = pos - transform.position;
@@ -316,23 +284,9 @@ public class Enemy : MonoBehaviour
         {
             GetComponent<SpriteRenderer>().sprite = downSprite;
         }
-        else
-        {
-            // Aller vers le waypoint
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint.position, speed * Time.deltaTime);
-
-        }
-
-
-
-    void OnDrawGizmos()
-    {
-        if (paths == null || !paths.Any())
-            return;
-
-            onPath = true;
-        }
     }
+
+
     protected void UpdateUnitList()
     {
         // Réinitialiser la liste des unités
@@ -393,22 +347,7 @@ public class Enemy : MonoBehaviour
 
 
 
-    protected void DetectPlayer()
-    {
-        onPath = false;
-
-
-
-        /*Vector3 directionToPlayer = player.transform.position - transform.position;
-        float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);*/
-        TurningSprite(player.transform.position);
-
-
-        if (Vector3.Distance(transform.position, player.transform.position) < attackRadius)
-        {
-            state = State.AttackingPlayer;
-
+   
 
     bool spawnBlood = false;
     protected void Die()
@@ -435,10 +374,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    public void SetPath(Path path)
-    {
-        paths = new List<Path> { path };
-    }
+    
 
     IEnumerator Stunned()
     {
@@ -453,6 +389,12 @@ public class Enemy : MonoBehaviour
         kbRb.velocity = Vector2.zero;
         yield return new WaitForSeconds(stunDuration - pushDuration);
         isStunned = false;
+    }
+
+
+    public void SetPath(Path path)
+    {
+        paths = new List<Path> { path };
     }
 
 }

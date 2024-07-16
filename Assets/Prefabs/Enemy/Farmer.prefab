@@ -62,7 +62,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8659765878594685275, guid: d3b07df38aeada9478b699d0698f7a83, type: 3}
       propertyPath: m_Layer
-      value: 3
+      value: 6
       objectReference: {fileID: 0}
     m_RemovedComponents:
     - {fileID: 0}
@@ -98,7 +98,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 83007c437821aa8419d74e300537025c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  paths: []
+  path: {fileID: 0}
   spawn: {fileID: 0}
   bloodPrefab: {fileID: 3594142108930714808, guid: 898715a92e4fe754d87e9b89c09018d7, type: 3}
   bloodCount: 150
@@ -107,6 +107,8 @@ MonoBehaviour:
   damage: 150
   speed: 2
   attackSpeed: 1
+  units: []
+  closestUnit: {fileID: 0}
   upSprite: {fileID: 21300000, guid: d12f032ddf9a8a7439ad70787b9b8580, type: 3}
   downSprite: {fileID: 21300000, guid: f12fa7de7e56b534eb182da6a7230bca, type: 3}
   leftSprite: {fileID: 21300000, guid: 9dcc051323b24544eb3a764d3f637a54, type: 3}

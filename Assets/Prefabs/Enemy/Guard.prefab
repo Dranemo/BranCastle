@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 725624693742619463}
   - component: {fileID: 6121019210393027185}
   - component: {fileID: -2043990845270363811}
-  m_Layer: 3
+  m_Layer: 6
   m_Name: Guard
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -99,9 +99,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8579ebac39350544ea215c24bbdb8086, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  paths: []
+  path: {fileID: 0}
   spawn: {fileID: 0}
-  units: []
   bloodPrefab: {fileID: 3594142108930714808, guid: 898715a92e4fe754d87e9b89c09018d7, type: 3}
   bloodCount: 200
   detectionRadius: 5
@@ -109,6 +108,8 @@ MonoBehaviour:
   damage: 200
   speed: 1
   attackSpeed: 2
+  units: []
+  closestUnit: {fileID: 0}
   upSprite: {fileID: 21300000, guid: d12f032ddf9a8a7439ad70787b9b8580, type: 3}
   downSprite: {fileID: 21300000, guid: f12fa7de7e56b534eb182da6a7230bca, type: 3}
   leftSprite: {fileID: 21300000, guid: 9dcc051323b24544eb3a764d3f637a54, type: 3}
