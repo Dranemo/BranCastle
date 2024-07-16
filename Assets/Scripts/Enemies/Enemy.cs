@@ -54,6 +54,13 @@ public class Enemy: MonoBehaviour
     [SerializeField] Sprite leftSprite;
     [SerializeField] Sprite rightSprite;
 
+    [Header("Status")]
+    [SerializeField] public bool isStunned;
+    [SerializeField] public float stunDuration;
+    [SerializeField] public float capeKnockback;
+    [SerializeField] public bool isHypnotized;
+
+
 
     private bool onPath = true;
 
@@ -78,6 +85,7 @@ public class Enemy: MonoBehaviour
     {
         //utez vos waypoints � la liste ici, ou initialisez-les dans l'inspecteur Unity
         player = GameObject.FindGameObjectWithTag("Player");
+        capeKnockback = player.GetComponent<PlayerMovement>().capePushForce;
         ritual = GameObject.FindGameObjectWithTag("Ritual");
         OnDrawGizmos();
     }
@@ -89,7 +97,13 @@ public class Enemy: MonoBehaviour
 
 
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-        if (distanceToPlayer < detectionRadius)
+
+
+        if (isStunned)
+        {
+            StartCoroutine(Stunned());
+        }
+        else if (distanceToPlayer < detectionRadius && !isStunned)
         {
             DetectPlayer();
             //Debug.Log("Player Detected");
@@ -98,8 +112,10 @@ public class Enemy: MonoBehaviour
         else
         {
             //Debug.Log("Player Not Detected");
-            MovingToTheNextCheckpoint();
             
+                MovingToTheNextCheckpoint();
+
+
         }
 
 
@@ -347,4 +363,20 @@ public class Enemy: MonoBehaviour
     {
         paths = new List<Path> { path };
     }
+
+    IEnumerator Stunned()
+    {
+        float pushDuration = player.GetComponent<PlayerMovement>().capePushDuration;
+        // Calculate direction from enemy to player
+        Vector2 knockbackDirection = (player.transform.position - transform.position).normalized;
+
+        // Apply knockback force
+        Rigidbody2D kbRb = GetComponent<Rigidbody2D>();
+        kbRb.velocity = new Vector2((-knockbackDirection.x * capeKnockback - Time.deltaTime)*Time.deltaTime, (-knockbackDirection.y * capeKnockback - Time.deltaTime) * Time.deltaTime);
+        yield return new WaitForSeconds(pushDuration);
+        kbRb.velocity = Vector2.zero;
+        yield return new WaitForSeconds(stunDuration - pushDuration);
+        isStunned = false;
+    }
+
 }

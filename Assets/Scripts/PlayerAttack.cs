@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -7,6 +8,8 @@ public class PlayerAttack : MonoBehaviour
     public float attackDuration = 0.2f;
     private EdgeCollider2D attackCollider;
     private Vector2[] colliderPoints;
+
+
 
     void Start()
     {
@@ -31,6 +34,8 @@ public class PlayerAttack : MonoBehaviour
             StartCoroutine(Attack());
         }
     }
+
+   
 
     IEnumerator Attack()
     {

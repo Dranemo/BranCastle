@@ -6,14 +6,16 @@ using static UnityEngine.ParticleSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
+
+
     public float moveSpeed = 5f;
-    public float dashForce = 10f;
-    public float dashDuration = 3f;
+
     public float coupDistance = 2f;
     public float batDistance = 2.5f;
     public GameObject coupPrefab;
     public float punchForce = 0.1f;
     private GameObject currentCoup;
+    private GameObject currentCape;
     public Sprite upSprite;
     public Sprite downSprite;
     public Sprite leftSprite;
@@ -28,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isDrawingRectangle = false;
     public GameObject batPrefab;
     private TrailRenderer trail;
-    private bool isDashing = false;
+
     public GameManager gameManager;
     private ParticleSystem particles;
     private Coffin nearestCoffin = null;
@@ -36,6 +38,26 @@ public class PlayerMovement : MonoBehaviour
     private bool isOverviewActivated = false;
     private MapOverview mapOverview;
     private CanvasFader canvasFader;
+
+    [Header("DashSettings")]
+    public KeyCode dashKey;
+    public float dashCooldown;
+    public float dashDuration = 3f;
+    public float dashForce = 10f;
+    public bool canDash = true;
+    public bool isDashing = false;
+
+    [Header("CapeHit")]
+    public float capeDMG;
+    public float capeCooldown;
+    public float capeDuration;
+    public float capeRange;
+    public float capePushForce;
+    public float capePushDuration;
+    public GameObject capePrefab;
+    public bool canCape = true;
+
+
     public void DisablePunch()
     {
         punchEnabled = false;
@@ -60,6 +82,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Start()
     {
+        canDash = true;
         rectangle = transform.Find("BatArea").gameObject;
         rectangle.SetActive(false);
         rb = GetComponent<Rigidbody2D>();
@@ -77,6 +100,7 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        
 
         foreach (var (angleRange, sprite) in angleSpriteMap)
         {
@@ -88,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
         }
         if (punchEnabled && Input.GetMouseButtonDown(0) && currentCoup == null && !isDrawingRectangle)
         {
-            StartCoroutine(ResetVelocityAfterDash());
+
             Vector3 coupPosition = transform.position + new Vector3(direction.x, direction.y, 0) * coupDistance;
 
 
@@ -99,22 +123,18 @@ public class PlayerMovement : MonoBehaviour
         transform.position += (Vector3)movement * moveSpeed * Time.deltaTime;
 
         // Dash
-        if (Input.GetButtonDown("Jump") && movement != Vector2.zero)
+        if (Input.GetKeyDown(dashKey) && canDash)
+            StartCoroutine(Dash());
+
+        //Cape Attack
+        if (punchEnabled && Input.GetMouseButtonDown(1) && currentCape == null && !isDrawingRectangle && canCape)
         {
-            rb.velocity = movement.normalized * dashForce;
-            StartCoroutine(ResetVelocityAfterDash());
-            isDashing = true;
+            canCape = false;
+            StartCoroutine(CapeAttack());
         }
-        if (isDashing)
-        {             
-            trail.enabled = true;
-        }
-        else
-        {
-            trail.enabled = false;
-        }
+
+
         // Bat attack
-        
         if (Input.GetMouseButtonDown(2))
         {
             isDrawingRectangle = true;
@@ -170,6 +190,8 @@ public class PlayerMovement : MonoBehaviour
             mapOverview.DeactivateOverview();
         }
     }
+
+
     public void EnableMovement()
     {
         canMove = true;
@@ -218,6 +240,17 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
+    IEnumerator CapeAttack()
+    {
+        Vector2 coupCapePosotion = rb.position;
+        currentCape = Instantiate(capePrefab, coupCapePosotion, Quaternion.Euler(0, 0, 0));
+        yield return new WaitForSeconds(capeDuration); 
+        Destroy(currentCape);
+        yield return new WaitForSeconds(capeCooldown);
+        currentCape = null;
+        canCape = true;
+    }
+
     void FixedUpdate()
     {
         if (canMove)
@@ -227,8 +260,10 @@ public class PlayerMovement : MonoBehaviour
             float moveVertical = Input.GetAxis("Vertical");
 
             // Calculer le vecteur de mouvement
-            Vector2 movement = new Vector2(moveHorizontal, moveVertical);
+            Vector2 movement = new Vector2(moveHorizontal, moveVertical).normalized;
 
+            if (isDashing)
+                return;
             // Appliquer le mouvement via le Rigidbody
             rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
         }
@@ -243,10 +278,26 @@ public class PlayerMovement : MonoBehaviour
             currentCoup = null;
         }
     }
-    IEnumerator ResetVelocityAfterDash()
+
+    private IEnumerator Dash()
     {
+        // Lire les entrées de l'utilisateur
+        float moveHorizontal = Input.GetAxis("Horizontal");
+        float moveVertical = Input.GetAxis("Vertical");
+
+        // Calculer le vecteur de mouvement
+        Vector2 movement = new Vector2(moveHorizontal, moveVertical).normalized;
+        canDash = false;
+        isDashing = true;
+        rb.velocity = new Vector2(movement.x * dashForce, movement.y * dashForce);
         yield return new WaitForSeconds(dashDuration);
-        rb.velocity = Vector2.zero;
-        isDashing=false;
+        isDashing = false;
+        Invoke(nameof(ResetDash), dashCooldown);
+
+    }
+
+    void ResetDash()
+    {
+        canDash = true;
     }
 }

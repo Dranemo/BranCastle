@@ -44,5 +44,6 @@ public class Guard : Enemy
         }
 
         projectile.GetComponent<ProjectileEnemy>().damage = damage;
+       
     }
 }   
