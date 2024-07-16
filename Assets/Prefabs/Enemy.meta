@@ -1,6 +1,10 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/Enemy.meta
 guid: fd5d0d42963f54f43a147d8aa1372063
 folderAsset: yes
+========
+guid: 14a6ac69ae57fb04584b7b2fbeb1e81d
+>>>>>>>> conditionVictoire:Assets/Scenes/GameOver.unity.meta
 DefaultImporter:
   externalObjects: {}
   userData: 

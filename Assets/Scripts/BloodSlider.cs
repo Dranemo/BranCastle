@@ -16,6 +16,6 @@ public class BloodSlider : MonoBehaviour
 
     void Update()
     {
-        slider.value = manager.GetBlood();
+        slider.value = manager.blood;
     }
 }

@@ -42,6 +42,10 @@ public class Guard : Enemy
         {
             projectile.GetComponent<ProjectileEnemy>().target = ritual;
         }
+        else if(state == State.AttackingUnit)
+        {
+            projectile.GetComponent<ProjectileEnemy>().target = closestUnit;
+        }
 
         projectile.GetComponent<ProjectileEnemy>().damage = damage;
     }

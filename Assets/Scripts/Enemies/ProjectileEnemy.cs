@@ -46,10 +46,20 @@ public class ProjectileEnemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject == target)
+        if (collision.gameObject == target && (target.tag == "Player" || target.tag == "Ritual"))
         {
             GameManager.Instance.TakeDamage(damage);
             Debug.Log("Player hit by projectile");
+            Destroy(gameObject);
+        }
+        else if (collision.gameObject == target && target.tag == "Unit")
+        {
+            collision.gameObject.GetComponent<Unit>().TakeDamage(damage);
+            Debug.Log("Unit hit by projectile");
+            Destroy(gameObject);
+        }
+        else if (collision.gameObject.tag == "Wall")
+        {
             Destroy(gameObject);
         }
     }

@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 238044443886061479}
   m_Layer: 7
   m_Name: Dog
-  m_TagString: Untagged
+  m_TagString: Unit
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -173,9 +173,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e6412fe416a74af448e983e451c734bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 20
+  health: 1000
   damage: 10
-  attackSpeed: 10
+  attackSpeed: 5
   bloodCost: 50
   enemiesInRange: []
 --- !u!1 &6159856385741437675

@@ -15,6 +15,6 @@ public class BloodCounter : MonoBehaviour
 
     void Update()
     {
-        text.text = "Blood: " + manager.GetBlood();
+        text.text = "Blood: " + manager.blood;
     }
 }
