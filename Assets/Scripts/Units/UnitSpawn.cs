@@ -54,7 +54,7 @@ public class UnitSpawn : MonoBehaviour
                 Vector3 spawnPosition = transform.position + transform.forward * spawnDistance;
                 GameObject unit = Instantiate(unitPrefabs[selectedIndex], spawnPosition, Quaternion.identity);
 
-                gameManager.blood -= unitCosts[selectedIndex];
+                gameManager.TakeDamage(unitCosts[selectedIndex]);
             }
         }
     }

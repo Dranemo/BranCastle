@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
-    public float blood = 10000;
+    public float blood /*{ get; private set; }*/ = 10000;
     public static GameManager Instance { get; private set; }
     public bool isPlayerInLight = false;
 
@@ -51,9 +51,6 @@ public class GameManager : MonoBehaviour
         GameObject player = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
 
         wavePathIndex = Random.Range(0, paths.Length);
-
-        enemyCooldownLeft += 30;
-        enemyWaveCooldownLeft += 30;
     }
 
     private void Update()
@@ -61,22 +58,26 @@ public class GameManager : MonoBehaviour
         if (!isGameOver)
         {
             GameOver();
-            if(enemyCooldownLeft <= 0)
-            {
-                enemyCooldownLeft = enemyCooldown;
-                SpawnEnemy();
-            }
-            enemyCooldownLeft -= Time.deltaTime;
 
-            if (enemyWaveCooldownLeft <= 0)
+            if(time >= 720) // 12h
             {
-                enemyWaveCooldownLeft = enemyWaveCooldown;
-                enemyCooldownLeft = 0;
-                wave++;
-                enemyCooldown -= 0.5f;
-                wavePathIndex = Random.Range(0, paths.Length);
+                if(enemyCooldownLeft <= 0)
+                {
+                    enemyCooldownLeft = enemyCooldown;
+                    SpawnEnemy();
+                }
+                enemyCooldownLeft -= Time.deltaTime;
+
+                if (enemyWaveCooldownLeft <= 0)
+                {
+                    enemyWaveCooldownLeft = enemyWaveCooldown;
+                    enemyCooldownLeft = 0;
+                    wave++;
+                    enemyCooldown -= 0.5f;
+                    wavePathIndex = Random.Range(0, paths.Length);
+                }
+                enemyWaveCooldownLeft -= Time.deltaTime;
             }
-            enemyWaveCooldownLeft -= Time.deltaTime;
 
             time += Time.deltaTime;
         }
@@ -115,7 +116,7 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
-        if (blood <= 0 || time > 1439)
+        if (blood <= 0 || time > 1439) // 23h59
         {
             isGameOver = true;
             SceneManager.LoadScene("GameOver");
