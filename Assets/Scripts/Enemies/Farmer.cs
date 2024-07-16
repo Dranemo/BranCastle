@@ -28,8 +28,18 @@ public class Farmer : Enemy
 
     protected override void Attack()
     {
-        Debug.Log(damage);
-        GameManager.Instance.TakeDamage(damage);
+        if (state == State.AttackingPlayer)
+        {
+            GameManager.Instance.TakeDamage(damage);
+        }
+        else if (state == State.AttackingRitual)
+        {
+            GameManager.Instance.TakeDamage(damage);
+        }
+        else if (state == State.AttackingUnit)
+        {
+            closestUnit.GetComponent<Unit>().TakeDamage(damage);
+        }
     }
 
 }

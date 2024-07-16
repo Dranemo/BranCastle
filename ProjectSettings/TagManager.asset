@@ -9,6 +9,8 @@ TagManager:
   - Light
   - Coffin
   - Ritual
+  - Unit
+  - MinimapCamera
   layers:
   - Default
   - TransparentFX
@@ -20,7 +22,7 @@ TagManager:
   - Unit
   - MapCoffin
   - Ritual
-  - 
+  - EnemyProjectile
   - 
   - 
   - 

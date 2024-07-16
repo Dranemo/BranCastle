@@ -1,31 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
     public float blood = 10000;
-    public float radiusTowerOne = 2;
     public static GameManager Instance { get; private set; }
     public bool isPlayerInLight = false;
 
-
-    [SerializeField] private Transform spawnpoint;
+    [SerializeField] private GameObject MapPrefab;
+    private Path[] paths;
+    [SerializeField] private GameObject playerPrefab;
     [SerializeField] private Enemy[] enemies;
-    [SerializeField] private Path[] paths;
+
     GameObject enemyFolder;
 
     [SerializeField] float enemyCooldown = 10;
     [SerializeField] float enemyCooldownLeft = 0;
+    [SerializeField] float enemyWaveCooldown = 30;
+    [SerializeField] float enemyWaveCooldownLeft = 30;
+    public float wave { get; private set; }  = 1;
+    int wavePathIndex  = 0;
 
-    private List<Tower> towers = new List<Tower>();
-    [System.Serializable]
-    public class Wave
-    {
-        public GameObject enemyPrefab;
-        public int count;
-    }
+    [SerializeField] public float time /*{ get; private set; }*/ = 690; // 11h30
+
+    public bool isGameOver = false;
+
+
 
     private void Awake()
     {
@@ -40,29 +43,49 @@ public class GameManager : MonoBehaviour
         }
 
         enemyFolder = new GameObject("EnemyFolder");
+
+        GameObject pathsGO = MapPrefab.transform.Find("Paths").gameObject;
+        paths = pathsGO.GetComponentsInChildren<Path>();
+
+        Transform playerSpawnPoint = MapPrefab.transform.Find("PlayerSpawnPoint");
+        GameObject player = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
+
+        wavePathIndex = Random.Range(0, paths.Length);
+
+        enemyCooldownLeft += 30;
+        enemyWaveCooldownLeft += 30;
     }
 
     private void Update()
     {
-        GameOver();
-        if(enemyCooldownLeft <= 0)
+        if (!isGameOver)
         {
-            enemyCooldownLeft = enemyCooldown;
-            SpawnEnemy();
+            GameOver();
+            if(enemyCooldownLeft <= 0)
+            {
+                enemyCooldownLeft = enemyCooldown;
+                SpawnEnemy();
+            }
+            enemyCooldownLeft -= Time.deltaTime;
+
+            if (enemyWaveCooldownLeft <= 0)
+            {
+                enemyWaveCooldownLeft = enemyWaveCooldown;
+                enemyCooldownLeft = 0;
+                wave++;
+                enemyCooldown -= 0.5f;
+                wavePathIndex = Random.Range(0, paths.Length);
+            }
+            enemyWaveCooldownLeft -= Time.deltaTime;
+
+            time += Time.deltaTime;
         }
-        enemyCooldownLeft -= Time.deltaTime;
         
     }
     public void AddBlood(float amount)
     {
         blood += amount;
     }
-    public float GetBlood()
-    {
-        return blood;
-    }
-
-
     public void TakeDamage(float damage)
     {
         blood -= damage;
@@ -73,10 +96,9 @@ public class GameManager : MonoBehaviour
 
     private void SpawnEnemy()
     {
-        int pathIndex = Random.Range(0, paths.Length);
-        Path path = paths[pathIndex];
+        Path path = paths[wavePathIndex];
+        Vector3 spawnPosition = path.waypoints[0].position;
 
-        Vector3 spawnPosition = spawnpoint.position;
 
         int enemyIndex = Random.Range(0, enemies.Length);
 
@@ -93,32 +115,18 @@ public class GameManager : MonoBehaviour
 
     private void GameOver()
     {
-        if (blood <= 0)
+        if (blood <= 0 || time > 1439)
         {
-            AddBlood(10000);
+            isGameOver = true;
             SceneManager.LoadScene("GameOver");
         }
     }
 
-    public void AddTower(Tower tower)
-    {
-        towers.Add(tower);
-    }
 
-    public void RemoveTower(Tower tower)
+    public void RestartGame()
     {
-        towers.Remove(tower);
-    }
-
-    public Tower GetTower(int index)
-    {
-        if (index >= 0 && index < towers.Count)
-        {
-            return towers[index];
-        }
-        else
-        {
-            return null;
-        }
+        SceneManager.LoadScene("Level-1"); 
+        Destroy(gameObject);
+        Instance = null;
     }
 }

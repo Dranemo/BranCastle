@@ -4,7 +4,7 @@ public class Projectile : MonoBehaviour
 {
     public string enemyTag = "Enemy";
     public Transform towerTransform; // The transform of the tower that shot this projectile
-    float range;
+    [SerializeField] float range = 2;
     GameManager gameManager;
     private void OnCollisionEnter2D(Collision2D collision)
     {
@@ -19,11 +19,6 @@ public class Projectile : MonoBehaviour
         }
     }
 
-    private void Start()
-    {
-        gameManager = GameManager.Instance;
-        range = gameManager.radiusTowerOne;
-    }
 
     private void Update()
     {

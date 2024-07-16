@@ -8,6 +8,8 @@ public class RangeTrigger : MonoBehaviour
     public float shootSpeed = 2f;
     public GameObject projectilePrefab;
     private GameObject targetEnemy;
+    [SerializeField] private float range = 2;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -18,7 +20,7 @@ public class RangeTrigger : MonoBehaviour
             return;
         }
         CircleCollider2D collider = this.GetComponent<CircleCollider2D>();
-        collider.radius = gameManager.radiusTowerOne;
+        collider.radius = range;
     }
 
     // Update is called once per frame

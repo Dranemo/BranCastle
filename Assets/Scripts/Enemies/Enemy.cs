@@ -7,7 +7,7 @@ using UnityEngine;
 
 
 
-public class Enemy: MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     public List<Path> paths;
     private int currentPathIndex = 0;
@@ -70,13 +70,47 @@ public class Enemy: MonoBehaviour
         float t2 = t * t;
         float t3 = t2 * t;
 
-        Vector3 a = -0.5f * p0 + 1.5f * p1 - 1.5f * p2 + 0.5f * p3;
-        Vector3 b = p0 - 2.5f * p1 + 2f * p2 - 0.5f * p3;
-        Vector3 c = -0.5f * p0 + 0.5f * p2;
-        Vector3 d = p1;
+    float attackCooldown = 1;
+    protected State state;
 
-        return a * t3 + b * t2 + c * t + d;
+
+    protected enum State
+    {
+        Moving,
+        AttackingPlayer,
+        AttackingRitual,
+        AttackingUnit
     }
+    private enum Direction
+    {
+        Up,
+        Down,
+        Left,
+        Right
+    }
+
+
+
+    [SerializeField] protected List<GameObject> units;
+    [SerializeField] protected GameObject bloodPrefab;
+
+
+    [SerializeField] protected float bloodCount = 10;
+    [SerializeField] protected float detectionRadius = 5f; 
+    [SerializeField] protected float attackRadius = 1.5f;
+    [SerializeField] protected float damage = 0;
+    [SerializeField] protected float speed = 2;
+    [SerializeField] protected float attackSpeed = 1;
+
+
+    [SerializeField] Sprite upSprite;
+    [SerializeField] Sprite downSprite;
+    [SerializeField] Sprite leftSprite;
+    [SerializeField] Sprite rightSprite;
+
+
+    private bool onPath = true;
+
     protected void Awake()
     {
     }
@@ -170,7 +204,8 @@ public class Enemy: MonoBehaviour
 
 
 
-        if (transform.position == currentWaypoint.position)
+
+        if(currentWaypointIndex == paths[0].waypoints.Count - 1)
         {
             if(currentWaypointIndex != paths[0].waypoints.Count - 1)
             {
@@ -281,7 +316,12 @@ public class Enemy: MonoBehaviour
         {
             GetComponent<SpriteRenderer>().sprite = downSprite;
         }
-    }
+        else
+        {
+            // Aller vers le waypoint
+            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint.position, speed * Time.deltaTime);
+
+        }
 
 
 
@@ -290,48 +330,84 @@ public class Enemy: MonoBehaviour
         if (paths == null || !paths.Any())
             return;
 
-        foreach (Path path in paths)
+            onPath = true;
+        }
+    }
+    protected void UpdateUnitList()
+    {
+        // Réinitialiser la liste des unités
+        units.Clear();
+
+        // Trouver tous les GameObjects avec le tag "Unit" et les ajouter à la liste
+        units.AddRange(GameObject.FindGameObjectsWithTag("Unit"));
+    }
+    protected bool IsUnitClose()
+    {
+        foreach (GameObject unit in units)
         {
-            if (path == null || path.waypoints == null || path.waypoints.Count < 4)
-                continue;
-
-            Vector3[] points = path.waypoints.Select(w => w.position).ToArray();
-
-            // Draw the control point
-            Gizmos.color = Color.red;
-            foreach (Vector3 point in points)
+            float distance = Vector3.Distance(transform.position, unit.transform.position);
+            if (distance < detectionRadius)
             {
-                Gizmos.DrawSphere(point, 0.1f);
+                return true;
             }
-
-            // Draw the Catmull-Rom spline
-            Gizmos.color = Color.white;
-            for (int i = 0; i < points.Length; i++)
+        }
+        return false;
+    }
+    protected void DetectUnit()
+    {
+        onPath = false;
+        float closestDistance = Mathf.Infinity;
+        foreach (GameObject unit in units)
+        {
+            float distance = Vector3.Distance(transform.position, unit.transform.position);
+            if (distance < closestDistance)
             {
-                Vector3 p0 = points[CircularIndex(i - 1, points.Length)];
-                Vector3 p1 = points[CircularIndex(i, points.Length)];
-                Vector3 p2 = points[CircularIndex(i + 1, points.Length)];
-                Vector3 p3 = points[CircularIndex(i + 2, points.Length)];
+                closestDistance = distance;
+                closestUnit = unit;
+            }
+        }
 
-                Vector3 previousPosition = p1;
-                for (float t = 0; t <= 1; t += 0.01f)
+        if (closestUnit != null)
+        {
+            Vector3 invertedDirection = transform.position - closestUnit.transform.position;
+            Vector3 targetPosition = transform.position + invertedDirection;
+            TurningSprite(targetPosition);
+
+            if (closestDistance < attackRadius)
+            {
+                state = State.AttackingUnit;
+
+                if (attackCooldown <= 0)
                 {
-                    Vector3 position = CalculateCatmullRomPoint(t, p0, p1, p2, p3);
-                    Gizmos.DrawLine(previousPosition, position);
-                    previousPosition = position;
+                    Attack();
+                    attackCooldown = attackSpeed;
                 }
+            }
+            else
+            {
+                state = State.Moving;
+                transform.position = Vector3.MoveTowards(transform.position, closestUnit.transform.position, speed * Time.deltaTime);
             }
         }
     }
 
 
 
-
-    int CircularIndex(int i, int len)
+    protected void DetectPlayer()
     {
-        return (i + len) % len;
-    }
+        onPath = false;
 
+
+
+        /*Vector3 directionToPlayer = player.transform.position - transform.position;
+        float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.Euler(0, 0, angle);*/
+        TurningSprite(player.transform.position);
+
+
+        if (Vector3.Distance(transform.position, player.transform.position) < attackRadius)
+        {
+            state = State.AttackingPlayer;
 
 
     bool spawnBlood = false;

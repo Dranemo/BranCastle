@@ -2,22 +2,36 @@ using UnityEngine;
 
 public class TeleportationManager : MonoBehaviour
 {
-    public Camera minimapCamera; // La caméra qui projette la minimap
-    public Transform playerTransform; // Le transform du joueur
+    private Camera minimapCamera; // La caméra qui projette la minimap
+    private Transform playerTransform; // Le transform du joueur
+
+
+
+    void Awake()
+    {
+        playerTransform = GameObject.FindGameObjectWithTag("Player").transform;
+        minimapCamera = GameObject.FindGameObjectWithTag("MinimapCamera").GetComponent<Camera>();
+
+        Debug.Log(minimapCamera);
+    }
+
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if(!GameManager.Instance.isGameOver)
         {
-            Ray ray = minimapCamera.ScreenPointToRay(Input.mousePosition);
-            RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
-
-            if (hit.collider != null)
+            if (Input.GetMouseButtonDown(0))
             {
-                // Vérifiez si l'objet cliqué est un cercueil
-                if (hit.collider.CompareTag("Coffin"))
+                Ray ray = minimapCamera.ScreenPointToRay(Input.mousePosition);
+                RaycastHit2D hit = Physics2D.GetRayIntersection(ray);
+
+                if (hit.collider != null)
                 {
-                    TeleportToCoffin(hit.collider.transform);
+                    // Vérifiez si l'objet cliqué est un cercueil
+                    if (hit.collider.CompareTag("Coffin"))
+                    {
+                        TeleportToCoffin(hit.collider.transform);
+                    }
                 }
             }
         }
