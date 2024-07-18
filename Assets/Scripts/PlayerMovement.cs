@@ -43,7 +43,7 @@ public class PlayerMovement : MonoBehaviour
     public KeyCode dashKey;
     public float dashCooldown;
     public float dashDuration = 3f;
-    public float dashForce = 10f;
+    public float dashForce = 50f;
     public bool canDash = true;
     public bool isDashing = false;
 
@@ -110,14 +110,14 @@ public class PlayerMovement : MonoBehaviour
                 break;
             }
         }
-        if (punchEnabled && Input.GetMouseButtonDown(0) && currentCoup == null && !isDrawingRectangle)
+        if (punchEnabled && Input.GetMouseButtonDown(0) && currentCoup == null && !isDrawingRectangle && !isOverviewActivated)
         {
 
             Vector3 coupPosition = transform.position + new Vector3(direction.x, direction.y, 0) * coupDistance;
 
 
             currentCoup = Instantiate(coupPrefab, coupPosition, Quaternion.Euler(0, 0, angle+90));
-            StartCoroutine(DestroyAfterSeconds(currentCoup, 0.2f));
+            StartCoroutine(DestroyAfterSeconds(currentCoup, 0.1f));
         }
         // Movement
         transform.position += (Vector3)movement * moveSpeed * Time.deltaTime;
@@ -260,15 +260,35 @@ public class PlayerMovement : MonoBehaviour
             float moveVertical = Input.GetAxis("Vertical");
 
             // Calculer le vecteur de mouvement
-            Vector2 movement = new Vector2(moveHorizontal, moveVertical).normalized;
+            Vector2 movement = new Vector2(moveHorizontal, moveVertical);
 
-            if (isDashing)
-                return;
             // Appliquer le mouvement via le Rigidbody
             rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+
+            // Dash
+            if (Input.GetButtonDown("Jump") && movement != Vector2.zero)
+            {
+                rb.velocity = movement.normalized * dashForce;
+                StartCoroutine(ResetVelocityAfterDash());
+                isDashing = true;
+            }
+            if (isDashing)
+            {
+                trail.enabled = true;
+            }
+            else
+            {
+                trail.enabled = false;
+            }
         }
     }
 
+    IEnumerator ResetVelocityAfterDash()
+    {
+        yield return new WaitForSeconds(dashDuration);
+        rb.velocity = Vector2.zero;
+        isDashing = false;
+    }
     IEnumerator DestroyAfterSeconds(GameObject gameObject, float seconds)
     {
         yield return new WaitForSeconds(seconds);

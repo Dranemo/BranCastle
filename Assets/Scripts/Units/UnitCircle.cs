@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class UnitCircle : MonoBehaviour
 {
-    private Unit unitScript;
+    [SerializeField] private Unit unitScript;
     private bool continueAttack;
     private void Awake()
     {
@@ -21,7 +21,7 @@ public class UnitCircle : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Enemy") && unitScript != null)
+        if (other.gameObject.CompareTag("Enemy"))
         {
             unitScript.enemiesInRange.Add(other.gameObject);
             unitScript.StartAttack(other.gameObject); // Utilisez directement other.gameObject
@@ -31,7 +31,7 @@ public class UnitCircle : MonoBehaviour
 
     void OnTriggerExit2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Enemy") && unitScript != null)
+        if (other.gameObject.CompareTag("Enemy"))
         {
             unitScript.enemiesInRange.Remove(other.gameObject);
         }

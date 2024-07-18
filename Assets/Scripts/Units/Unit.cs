@@ -46,6 +46,7 @@ public class Unit : MonoBehaviour
         while (enemiesInRange.Count > 0)
         {
             GameObject closestEnemy = GetClosestEnemy();
+            Debug.Log(closestEnemy);
             if (closestEnemy != null)
             {
                 Enemy enemy = closestEnemy.GetComponent<Enemy>();
@@ -54,7 +55,7 @@ public class Unit : MonoBehaviour
             }
             else
             {
-                yield break; // Sortir de la coroutine si aucun ennemi n'est trouvé
+                yield break; 
             }
         }
 
