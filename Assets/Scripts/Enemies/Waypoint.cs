@@ -6,6 +6,7 @@ public class Waypoint : MonoBehaviour
 {
     public float distanceNextWaypoint;
     public float distanceRitual;
+    [SerializeField] Color colorLine;
 
     public Waypoint nextWaypoint;
 
@@ -16,6 +17,18 @@ public class Waypoint : MonoBehaviour
 
 
         distanceNextWaypoint = Vector2.Distance(transform.position, nextWaypoint.transform.position);
+
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = colorLine;
+
+        if(nextWaypoint != null)
+        {
+            Gizmos.DrawLine(transform.position, nextWaypoint.transform.position);
+        }
     }
 
 }

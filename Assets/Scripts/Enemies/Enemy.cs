@@ -79,6 +79,7 @@ public class Enemy : MonoBehaviour
     protected void Start()
     {
         units = new List<GameObject>();
+        //StartCoroutine(CheckWaypointCoroutine());
 
         //utez vos waypoints � la liste ici, ou initialisez-les dans l'inspecteur Unity
         player = GameObject.FindGameObjectWithTag("Player");
@@ -93,8 +94,10 @@ public class Enemy : MonoBehaviour
     protected void Update()
     {
         //Debug.Log(currentWaypointIndex);
-
+        CheckBetterWaypoint();
         UpdateUnitList();
+
+
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         bool isUnitClose = IsUnitClose();
 
@@ -340,12 +343,16 @@ public class Enemy : MonoBehaviour
         Vector3 pos = transform.position;
         Vector3 posNext = paths[path].waypoints[waypoint].transform.position;
 
+        Vector2 size = new Vector2(0.5f, Vector2.Distance(pos, posNext));
+        float angle = Mathf.Atan2(posNext.y - pos.y, posNext.x - pos.x) * Mathf.Rad2Deg;
+
 
         RaycastHit2D hit = Physics2D.Linecast(pos, posNext, layerMaskRaycast);
+        //RaycastHit2D hit = Physics2D.BoxCast(pos, size, angle, posNext);
 
         if (hit.collider != null && hit.collider.gameObject.GetComponent<Enemy>() == null)
         {
-            Debug.DrawLine(pos, posNext, Color.red);
+            //Debug.DrawLine(pos, posNext, Color.red);
             return false;
         }
         else
@@ -376,33 +383,23 @@ public class Enemy : MonoBehaviour
         if(waypointsPath.Count != 0)
         {
             // Prendre le premier élément de la liste
-            Transform bestWaypoint = paths[waypointsPath[0].Item1].waypoints[waypointsPath[0].Item2].transform;
+            Waypoint bestWaypoint = paths[waypointsPath[0].Item1].waypoints[waypointsPath[0].Item2];
+            int pathIndex = waypointsPath[0].Item1;
 
             // Parcourir la liste
             for (int i = 1; i < waypointsPath.Count; i++)
             {
-                Transform testWaypoint = paths[waypointsPath[i].Item1].waypoints[waypointsPath[i].Item2].transform;
+                Waypoint testWaypoint = paths[waypointsPath[i].Item1].waypoints[waypointsPath[i].Item2];
 
-                
+                if(testWaypoint.distanceRitual < bestWaypoint.distanceRitual)
+                {
+                    bestWaypoint = testWaypoint;
+                    pathIndex = waypointsPath[i].Item1;
+                }
             }
 
-
-
-
-
-
-            /*float distanceLeast = Vector2.Distance(transform.position, leastDistance.position);
-
-            // Parcourir la liste
-            for (int i = 1; i < waypointsPath.Count; i++)
-            {
-                Transform temp = paths[waypointsPath[i].Item1].waypoints[waypointsPath[i].Item2];
-
-                float tempDist = Vector2.Distance(transform.position, temp.position);
-
-                if (tempDist < distanceLeast)
-                    leastDistance = temp;
-            }*/
+            currentPathIndex = pathIndex;
+            currentWaypointIndex = paths[currentPathIndex].waypoints.IndexOf(bestWaypoint);
         }
     }
 
@@ -419,33 +416,8 @@ public class Enemy : MonoBehaviour
 
         if (!onPath)
         {
-
+            CheckBetterWaypoint();
         }
-
-
-
-
-
-
-
-
-        if (!onPath)
-        {
-            float leastDistance = 0;
-
-            for (int i = 0; i < paths[currentPathIndex].waypoints.Count; i++)
-            {
-                if (leastDistance == 0 || Vector3.Distance(transform.position, paths[currentPathIndex].waypoints[i].transform.position) < leastDistance)
-                {
-                    leastDistance = Vector3.Distance(transform.position, paths[currentPathIndex].waypoints[i].transform.position);
-                    currentWaypointIndex = i;
-                }
-
-
-            }
-        }
-
-
 
         Transform currentWaypoint = paths[currentPathIndex].waypoints[currentWaypointIndex].transform;
         TurningSprite(currentWaypoint.position);
@@ -453,7 +425,13 @@ public class Enemy : MonoBehaviour
 
         if (currentWaypointIndex == paths[currentPathIndex].waypoints.Count - 1)
         {
-            DetectRitual();
+            if (paths[currentWaypointIndex].nextPath != null)
+            {
+                currentPathIndex = paths.IndexOf(paths[currentPathIndex].nextPath);
+                currentWaypointIndex = 0;
+            }
+            else if (Vector3.Distance(transform.position, ritual.transform.position) < attackRadius)
+                DetectRitual();
         }
         else
         {
@@ -476,5 +454,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    IEnumerator CheckWaypointCoroutine()
+    {
 
+       while (true)
+        {
+            yield return new WaitForSeconds(0.2f);
+            CheckBetterWaypoint();
+        }
+    }
 }
