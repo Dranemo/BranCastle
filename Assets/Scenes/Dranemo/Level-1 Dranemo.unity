@@ -314,8 +314,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: 0.0011000037, y: -0.00424999, z: 0}
-    m_Extent: {x: 1.5041001, y: 1.4999499, z: 0}
+    m_Center: {x: 0.0033499599, y: -0.0010499954, z: 0}
+    m_Extent: {x: 1.49715, y: 1.49735, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -535,7 +535,7 @@ MonoBehaviour:
         m_MethodName: TeleportToCoffin
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 656320402}
+          m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -734,16 +734,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!4 &656320402 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2592123112411714192, guid: 5f4b33f352794074d8c3cba275082214, type: 3}
-  m_PrefabInstance: {fileID: 1336805155577145015}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1130041740 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 104027796087896067, guid: 5f4b33f352794074d8c3cba275082214, type: 3}
-  m_PrefabInstance: {fileID: 1336805155577145015}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1147324800
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,7 +821,7 @@ MonoBehaviour:
         m_MethodName: TeleportToCoffin
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 1284498113}
+          m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -876,11 +866,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1147324800}
   m_CullTransparentMesh: 1
---- !u!4 &1284498113 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 3156590574626803898, guid: 5f4b33f352794074d8c3cba275082214, type: 3}
-  m_PrefabInstance: {fileID: 1336805155577145015}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1323553353
 GameObject:
   m_ObjectHideFlags: 0
@@ -1076,6 +1061,7 @@ MonoBehaviour:
   enemyCooldownLeft: 0
   enemyWaveCooldown: 30
   enemyWaveCooldownLeft: 30
+  enemyCooldownDecrease: 0.2
   time: 690
   isGameOver: 0
 --- !u!4 &1540615496
@@ -1192,7 +1178,7 @@ MonoBehaviour:
         m_MethodName: TeleportToCoffin
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 1130041740}
+          m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -1324,7 +1310,7 @@ MonoBehaviour:
         m_MethodName: TeleportToCoffin
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 2101682291}
+          m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -1444,11 +1430,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2066082737}
   m_CullTransparentMesh: 1
---- !u!4 &2101682291 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 4688018440579438282, guid: 5f4b33f352794074d8c3cba275082214, type: 3}
-  m_PrefabInstance: {fileID: 1336805155577145015}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1336805155577145015
 PrefabInstance:
   m_ObjectHideFlags: 0

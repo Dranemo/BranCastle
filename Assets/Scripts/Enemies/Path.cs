@@ -4,16 +4,31 @@ using UnityEngine;
 
 public class Path : MonoBehaviour
 {
-    public List<Transform> waypoints;
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    public List<Waypoint> waypoints;
+    public Path nextPath;
+    public float distancePath = 0;
 
-    // Update is called once per frame
-    void Update()
+
+
+    public void SetDistancePath(bool isSpawn = true)
     {
-        
+        foreach (Waypoint waypoint in waypoints)
+        {
+            waypoint.SetDistanceBetweenWaypoints();
+        }
+
+
+        if (nextPath != null)
+        {
+            distancePath += nextPath.distancePath;
+        }
+
+
+        for (int i = waypoints.Count - 1; i >= 0; i--)
+        {
+            distancePath += waypoints[i].distanceNextWaypoint;
+
+            waypoints[i].distanceRitual = distancePath;
+        }
     }
 }

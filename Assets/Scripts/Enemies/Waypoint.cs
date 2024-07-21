@@ -4,12 +4,18 @@ using UnityEngine;
 
 public class Waypoint : MonoBehaviour
 {
-    public int distanceRitual;
+    public float distanceNextWaypoint;
+    public float distanceRitual;
 
-    [SerializeField] Waypoint nextWaypoint;
+    public Waypoint nextWaypoint;
 
-    private void Awake()
+    public void SetDistanceBetweenWaypoints()
     {
-        
+        distanceNextWaypoint = 0;
+        distanceRitual = 0;
+
+
+        distanceNextWaypoint = Vector2.Distance(transform.position, nextWaypoint.transform.position);
     }
+
 }

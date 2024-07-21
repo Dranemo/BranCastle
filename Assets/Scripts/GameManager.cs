@@ -12,9 +12,12 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject MapPrefab;
     private List<Path> paths;
+    private List<Path> spawningPaths;
     [SerializeField] private GameObject playerPrefab;
-    [SerializeField] private Enemy[] enemies;
 
+
+    [Header("Enemy & Wave")]
+    [SerializeField] private Enemy[] enemies;
     GameObject enemyFolder;
 
     [SerializeField] float enemyCooldown = 10;
@@ -30,37 +33,36 @@ public class GameManager : MonoBehaviour
     public bool isGameOver = false;
 
 
-
+    // -------------------------------------------------------------- Unity Func -------------------------------------------------------------- 
     private void Awake()
     {
-        paths = new List<Path>();
+        // Singleton
+        CreateSingleton();
 
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
+
+        paths = new List<Path>();
+        spawningPaths = new List<Path>();
 
         enemyFolder = new GameObject("EnemyFolder");
 
-        GameObject pathsGO = MapPrefab.transform.Find("Paths").gameObject;
-        foreach (Transform child in pathsGO.transform)
-        {
-            if(child.GetComponent<Path>() != null)
-            {
-                paths.Add(child.GetComponent<Path>());
-            }
-        }
 
+
+        // Paths
+        AddPaths();
+        SetDistancePaths();
+
+       
+
+
+        // Player
         Transform playerSpawnPoint = MapPrefab.transform.Find("PlayerSpawnPoint");
         GameObject player = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
 
         wavePathIndex = Random.Range(0, paths.Count);
     }
+
+
+
 
     private void Update()
     {
@@ -83,7 +85,7 @@ public class GameManager : MonoBehaviour
                     enemyCooldownLeft = 0;
                     wave++;
                     enemyCooldown -= enemyCooldownDecrease;
-                    wavePathIndex = Random.Range(0, paths.Count);
+                    wavePathIndex = Random.Range(0, spawningPaths.Count);
                 }
                 enemyWaveCooldownLeft -= Time.deltaTime;
             }
@@ -92,6 +94,8 @@ public class GameManager : MonoBehaviour
         }
         
     }
+
+    // -------------------------------------------------------------- Blood Func --------------------------------------------------------------
     public void AddBlood(float amount)
     {
         blood += amount;
@@ -103,11 +107,11 @@ public class GameManager : MonoBehaviour
     }
 
 
-
+    // -------------------------------------------------------------- Enemy Func --------------------------------------------------------------
     private void SpawnEnemy()
     {
-        Path path = paths[wavePathIndex];
-        Vector3 spawnPosition = path.waypoints[0].position;
+        Path path = spawningPaths[wavePathIndex];
+        Vector3 spawnPosition = path.waypoints[0].gameObject.transform.position;
 
 
         int enemyIndex = Random.Range(0, enemies.Length);
@@ -117,7 +121,11 @@ public class GameManager : MonoBehaviour
 
         enemyObj.transform.localScale = new Vector3(2f, 2f, 0f);
 
-        enemy.currentPathIndex = wavePathIndex;
+
+
+        Debug.Log("Spawn Enemy : " + enemy.name + " at " + path.name);
+        Debug.Log(paths.Count);
+        enemy.currentPathIndex = paths.IndexOf(path);
         enemy.paths = this.paths;
 
         enemy.transform.SetParent(enemyFolder.transform);
@@ -125,6 +133,58 @@ public class GameManager : MonoBehaviour
     }
 
 
+    // -------------------------------------------------------------- Path Func --------------------------------------------------------------
+    private void AddPaths()
+    {
+        GameObject pathsGO = MapPrefab.transform.Find("Paths").gameObject;
+        foreach (Transform child in pathsGO.transform)
+        {
+            if (child.GetComponent<Path>() != null)
+            {
+                paths.Add(child.GetComponent<Path>());
+                child.GetComponent<Path>().distancePath = 0;
+
+                if(child.CompareTag("SpawningPath"))
+                {
+                    spawningPaths.Add(child.GetComponent<Path>());
+                }
+            }
+        }
+    }
+
+    private void SetDistancePaths()
+    {
+        List<Path> pathsToLoad = new List<Path>();
+        List<Path> pathsLoaded = new List<Path>();
+
+
+        foreach (Path path in paths) 
+            pathsToLoad.Add(path);
+
+
+        while (pathsToLoad.Count > 0)
+        {
+            foreach (Path path in pathsToLoad)
+            {
+                if (path.nextPath == null || pathsLoaded.Contains(path.nextPath))
+                {
+                    paths[paths.IndexOf(path)].SetDistancePath();
+                    pathsLoaded.Add(path);
+                }
+            }
+
+            foreach (Path path in pathsLoaded)
+            {
+                if (pathsToLoad.Contains(path))
+                {
+                    pathsToLoad.Remove(path);
+                }
+            }
+        }
+    }
+
+
+    // -------------------------------------------------------------- Game Func --------------------------------------------------------------
     private void GameOver()
     {
         if (blood <= 0 || time > 1439) // 23h59
@@ -142,4 +202,20 @@ public class GameManager : MonoBehaviour
         Instance = null;
     }
 
+
+
+
+    // -------------------------------------------------------------- Getter Func --------------------------------------------------------------
+    void CreateSingleton()
+    {
+       if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
 }

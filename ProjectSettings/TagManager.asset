@@ -11,6 +11,7 @@ TagManager:
   - Ritual
   - Unit
   - MinimapCamera
+  - SpawningPath
   layers:
   - Default
   - TransparentFX

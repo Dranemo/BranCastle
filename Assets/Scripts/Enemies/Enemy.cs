@@ -159,7 +159,7 @@ public class Enemy : MonoBehaviour
 
     protected void DetectRitual()
     {
-        if(Vector3.Distance(transform.position, paths[currentPathIndex].waypoints[currentWaypointIndex].position) < attackRadius)
+        if(Vector3.Distance(transform.position, paths[currentPathIndex].waypoints[currentWaypointIndex].transform.position) < attackRadius)
         {
             state = State.AttackingRitual;
 
@@ -173,7 +173,7 @@ public class Enemy : MonoBehaviour
         else
         {
             state = State.Moving;
-            transform.position = Vector3.MoveTowards(transform.position, paths[currentPathIndex].waypoints[currentWaypointIndex].position, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, paths[currentPathIndex].waypoints[currentWaypointIndex].transform.position, speed * Time.deltaTime);
         }
     }
 
@@ -338,7 +338,7 @@ public class Enemy : MonoBehaviour
     bool CheckWaypoint(int path, int waypoint)
     {
         Vector3 pos = transform.position;
-        Vector3 posNext = paths[path].waypoints[waypoint].position;
+        Vector3 posNext = paths[path].waypoints[waypoint].transform.position;
 
 
         RaycastHit2D hit = Physics2D.Linecast(pos, posNext, layerMaskRaycast);
@@ -376,12 +376,12 @@ public class Enemy : MonoBehaviour
         if(waypointsPath.Count != 0)
         {
             // Prendre le premier élément de la liste
-            Transform bestWaypoint = paths[waypointsPath[0].Item1].waypoints[waypointsPath[0].Item2];
+            Transform bestWaypoint = paths[waypointsPath[0].Item1].waypoints[waypointsPath[0].Item2].transform;
 
             // Parcourir la liste
             for (int i = 1; i < waypointsPath.Count; i++)
             {
-                Transform testWaypoint = paths[waypointsPath[i].Item1].waypoints[waypointsPath[i].Item2];
+                Transform testWaypoint = paths[waypointsPath[i].Item1].waypoints[waypointsPath[i].Item2].transform;
 
                 
             }
@@ -435,9 +435,9 @@ public class Enemy : MonoBehaviour
 
             for (int i = 0; i < paths[currentPathIndex].waypoints.Count; i++)
             {
-                if (leastDistance == 0 || Vector3.Distance(transform.position, paths[currentPathIndex].waypoints[i].position) < leastDistance)
+                if (leastDistance == 0 || Vector3.Distance(transform.position, paths[currentPathIndex].waypoints[i].transform.position) < leastDistance)
                 {
-                    leastDistance = Vector3.Distance(transform.position, paths[currentPathIndex].waypoints[i].position);
+                    leastDistance = Vector3.Distance(transform.position, paths[currentPathIndex].waypoints[i].transform.position);
                     currentWaypointIndex = i;
                 }
 
@@ -447,7 +447,7 @@ public class Enemy : MonoBehaviour
 
 
 
-        Transform currentWaypoint = paths[currentPathIndex].waypoints[currentWaypointIndex];
+        Transform currentWaypoint = paths[currentPathIndex].waypoints[currentWaypointIndex].transform;
         TurningSprite(currentWaypoint.position);
 
 
