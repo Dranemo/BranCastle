@@ -11,7 +11,7 @@ public class GameManager : MonoBehaviour
     public bool isPlayerInLight = false;
 
     [SerializeField] private GameObject MapPrefab;
-    private Path[] paths;
+    private List<Path> paths;
     [SerializeField] private GameObject playerPrefab;
     [SerializeField] private Enemy[] enemies;
 
@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] float enemyCooldownLeft = 0;
     [SerializeField] float enemyWaveCooldown = 30;
     [SerializeField] float enemyWaveCooldownLeft = 30;
+    [SerializeField] float enemyCooldownDecrease = 0.2f;
     public float wave { get; private set; }  = 1;
     int wavePathIndex  = 0;
 
@@ -32,6 +33,8 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        paths = new List<Path>();
+
         if (Instance == null)
         {
             Instance = this;
@@ -45,12 +48,18 @@ public class GameManager : MonoBehaviour
         enemyFolder = new GameObject("EnemyFolder");
 
         GameObject pathsGO = MapPrefab.transform.Find("Paths").gameObject;
-        paths = pathsGO.GetComponentsInChildren<Path>();
+        foreach (Transform child in pathsGO.transform)
+        {
+            if(child.GetComponent<Path>() != null)
+            {
+                paths.Add(child.GetComponent<Path>());
+            }
+        }
 
         Transform playerSpawnPoint = MapPrefab.transform.Find("PlayerSpawnPoint");
         GameObject player = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
 
-        wavePathIndex = Random.Range(0, paths.Length);
+        wavePathIndex = Random.Range(0, paths.Count);
     }
 
     private void Update()
@@ -73,8 +82,8 @@ public class GameManager : MonoBehaviour
                     enemyWaveCooldownLeft = enemyWaveCooldown;
                     enemyCooldownLeft = 0;
                     wave++;
-                    enemyCooldown -= 0.5f;
-                    wavePathIndex = Random.Range(0, paths.Length);
+                    enemyCooldown -= enemyCooldownDecrease;
+                    wavePathIndex = Random.Range(0, paths.Count);
                 }
                 enemyWaveCooldownLeft -= Time.deltaTime;
             }
@@ -107,7 +116,9 @@ public class GameManager : MonoBehaviour
         Enemy enemy = enemyObj.GetComponent<Enemy>();
 
         enemyObj.transform.localScale = new Vector3(2f, 2f, 0f);
-        enemy.SetPath(path);
+
+        enemy.currentPathIndex = wavePathIndex;
+        enemy.paths = this.paths;
 
         enemy.transform.SetParent(enemyFolder.transform);
         

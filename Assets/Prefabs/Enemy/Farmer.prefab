@@ -284,7 +284,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   paths: []
-  spawn: {fileID: 0}
+  layerMaskRaycast:
+    serializedVersion: 2
+    m_Bits: 1
+  currentPathIndex: 0
   bloodPrefab: {fileID: 3594142108930714808, guid: 898715a92e4fe754d87e9b89c09018d7, type: 3}
   bloodCount: 150
   detectionRadius: 3

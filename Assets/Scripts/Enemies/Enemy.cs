@@ -11,8 +11,8 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     public List<Path> paths;
-    private int currentPathIndex = 0;
-    public Transform spawn;
+    [SerializeField] LayerMask layerMaskRaycast;
+    public int currentPathIndex = 0;
     private int currentWaypointIndex = 0;
     protected float health=50;
 
@@ -52,7 +52,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected List<GameObject> units;
     [SerializeField] protected GameObject closestUnit;
 
-
+    [Header("Sprite")]
     [SerializeField] Sprite upSprite;
     [SerializeField] Sprite downSprite;
     [SerializeField] Sprite leftSprite;
@@ -70,8 +70,10 @@ public class Enemy : MonoBehaviour
 
 
 
-    protected void Awake()
+    // ----------------------------------------- Func Unity -----------------------------------------
+    protected void Awake() 
     {
+        paths = new List<Path>();
     }
 
     protected void Start()
@@ -82,6 +84,7 @@ public class Enemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         capeKnockback = player.GetComponent<PlayerMovement>().capePushForce;
         ritual = GameObject.FindGameObjectWithTag("Ritual");
+        layerMaskRaycast = LayerMask.GetMask("Wall");
     }
     
     
@@ -124,78 +127,16 @@ public class Enemy : MonoBehaviour
     }
 
 
-    void MovingToTheNextCheckpoint()
-    {
-        state = State.Moving;
-
-
-        if (paths == null || !paths.Any() || paths[0].waypoints.Count == 0)
-            return;
+    
 
 
 
 
-        if (!onPath)
-        {
-            float leastDistance = 0;
-
-            for (int i = 0; i < paths[0].waypoints.Count; i++)
-            {
-                if (leastDistance == 0 || Vector3.Distance(transform.position, paths[0].waypoints[i].position) < leastDistance)
-                {
-                    leastDistance = Vector3.Distance(transform.position, paths[0].waypoints[i].position);
-                    currentWaypointIndex = i;
-                }
-
-
-            }
-        }
-
-
-
-        Transform currentWaypoint = paths[0].waypoints[currentWaypointIndex];
-        TurningSprite(currentWaypoint.position);
-
-
-        if (currentWaypointIndex == paths[0].waypoints.Count - 1)
-        {
-            DetectRitual();
-        }
-        else
-        {
-            // Aller vers le waypoint
-            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint.position, speed * Time.deltaTime);
-
-        }
-
-
-
-
-        if (transform.position == currentWaypoint.position)
-        {
-            if (currentWaypointIndex != paths[0].waypoints.Count - 1)
-            {
-                currentWaypointIndex++;
-            }
-
-            onPath = true;
-        }
-    }
-
-
-
-
-
-
+    // ----------------------------------------- Player & Ritual Related -----------------------------------------
     protected void DetectPlayer()
     {
         onPath = false;
 
-
-
-        /*Vector3 directionToPlayer = player.transform.position - transform.position;
-        float angle = Mathf.Atan2(directionToPlayer.y, directionToPlayer.x) * Mathf.Rad2Deg;
-        transform.rotation = Quaternion.Euler(0, 0, angle);*/
         TurningSprite(player.transform.position);
 
 
@@ -218,7 +159,7 @@ public class Enemy : MonoBehaviour
 
     protected void DetectRitual()
     {
-        if(Vector3.Distance(transform.position, paths[0].waypoints[currentWaypointIndex].position) < attackRadius)
+        if(Vector3.Distance(transform.position, paths[currentPathIndex].waypoints[currentWaypointIndex].position) < attackRadius)
         {
             state = State.AttackingRitual;
 
@@ -232,7 +173,7 @@ public class Enemy : MonoBehaviour
         else
         {
             state = State.Moving;
-            transform.position = Vector3.MoveTowards(transform.position, paths[0].waypoints[currentWaypointIndex].position, speed * Time.deltaTime);
+            transform.position = Vector3.MoveTowards(transform.position, paths[currentPathIndex].waypoints[currentWaypointIndex].position, speed * Time.deltaTime);
         }
     }
 
@@ -244,7 +185,7 @@ public class Enemy : MonoBehaviour
 
 
 
-
+    // ----------------------------------------- Sprite Related -----------------------------------------
     void TurningSprite(Direction dir)
     {
         switch(dir)
@@ -287,6 +228,7 @@ public class Enemy : MonoBehaviour
     }
 
 
+    // ----------------------------------------- Units Related -----------------------------------------
     protected void UpdateUnitList()
     {
         // Réinitialiser la liste des unités
@@ -347,8 +289,8 @@ public class Enemy : MonoBehaviour
 
 
 
-   
 
+    // ----------------------------------------- State & Life Related -----------------------------------------
     bool spawnBlood = false;
     protected void Die()
     {
@@ -374,8 +316,6 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    
-
     IEnumerator Stunned()
     {
         float pushDuration = player.GetComponent<PlayerMovement>().capePushDuration;
@@ -392,9 +332,149 @@ public class Enemy : MonoBehaviour
     }
 
 
-    public void SetPath(Path path)
+
+
+    // ----------------------------------------- Path Related -----------------------------------------
+    bool CheckWaypoint(int path, int waypoint)
     {
-        paths = new List<Path> { path };
+        Vector3 pos = transform.position;
+        Vector3 posNext = paths[path].waypoints[waypoint].position;
+
+
+        RaycastHit2D hit = Physics2D.Linecast(pos, posNext, layerMaskRaycast);
+
+        if (hit.collider != null && hit.collider.gameObject.GetComponent<Enemy>() == null)
+        {
+            Debug.DrawLine(pos, posNext, Color.red);
+            return false;
+        }
+        else
+        {
+            Debug.DrawLine(pos, posNext, Color.green);
+            return true;
+        }
     }
+
+
+    // Return la position du meilleur point possible
+    void CheckBetterWaypoint()
+    {
+        List<(int, int)> waypointsPath = new();
+
+
+        for(int j = 0; j < paths.Count; j++)
+        {
+            for (int i = 0; i < paths[j].waypoints.Count; i++)
+            {
+                if (CheckWaypoint(j, i))
+                {
+                    waypointsPath.Add((j, i));
+                }
+            }
+        }
+
+        if(waypointsPath.Count != 0)
+        {
+            // Prendre le premier élément de la liste
+            Transform bestWaypoint = paths[waypointsPath[0].Item1].waypoints[waypointsPath[0].Item2];
+
+            // Parcourir la liste
+            for (int i = 1; i < waypointsPath.Count; i++)
+            {
+                Transform testWaypoint = paths[waypointsPath[i].Item1].waypoints[waypointsPath[i].Item2];
+
+                
+            }
+
+
+
+
+
+
+            /*float distanceLeast = Vector2.Distance(transform.position, leastDistance.position);
+
+            // Parcourir la liste
+            for (int i = 1; i < waypointsPath.Count; i++)
+            {
+                Transform temp = paths[waypointsPath[i].Item1].waypoints[waypointsPath[i].Item2];
+
+                float tempDist = Vector2.Distance(transform.position, temp.position);
+
+                if (tempDist < distanceLeast)
+                    leastDistance = temp;
+            }*/
+        }
+    }
+
+
+    void MovingToTheNextCheckpoint()
+    {
+        state = State.Moving;
+
+        // Si le chemin est vide, ne rien faire
+        if (paths == null || !paths.Any() || paths[currentPathIndex].waypoints.Count == 0)
+            return;
+
+
+
+        if (!onPath)
+        {
+
+        }
+
+
+
+
+
+
+
+
+        if (!onPath)
+        {
+            float leastDistance = 0;
+
+            for (int i = 0; i < paths[currentPathIndex].waypoints.Count; i++)
+            {
+                if (leastDistance == 0 || Vector3.Distance(transform.position, paths[currentPathIndex].waypoints[i].position) < leastDistance)
+                {
+                    leastDistance = Vector3.Distance(transform.position, paths[currentPathIndex].waypoints[i].position);
+                    currentWaypointIndex = i;
+                }
+
+
+            }
+        }
+
+
+
+        Transform currentWaypoint = paths[currentPathIndex].waypoints[currentWaypointIndex];
+        TurningSprite(currentWaypoint.position);
+
+
+        if (currentWaypointIndex == paths[currentPathIndex].waypoints.Count - 1)
+        {
+            DetectRitual();
+        }
+        else
+        {
+            // Aller vers le waypoint
+            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint.position, speed * Time.deltaTime);
+
+        }
+
+
+
+
+        if (transform.position == currentWaypoint.position)
+        {
+            if (currentWaypointIndex != paths[currentPathIndex].waypoints.Count - 1)
+            {
+                currentWaypointIndex++;
+            }
+
+            onPath = true;
+        }
+    }
+
 
 }
