@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class ProjectileEnemy : MonoBehaviour
@@ -9,38 +10,72 @@ public class ProjectileEnemy : MonoBehaviour
     private Vector3 startPos;
     private Vector3 targetPos;
     Vector3 normalizedPos;
+    public bool searchingTarget = false;
 
     public float damage = 1;
+    public float timeUntilDestroy = 10;
+    private float timeElapsed = 0;
+
     [SerializeField] float speed = 1;
 
-    [SerializeField] float distanceDestroy = 10f;
 
-    // Start is called before the first frame update
-    private void Awake()
+
+    public void Activate()
     {
-
         startPos = transform.position;
-    }
-
-
-    void Start()
-    {
+        timeElapsed = 0;
 
         targetPos = target.transform.position;
-
         normalizedPos = (targetPos - startPos).normalized;
+
+        gameObject.layer = 10;
+
+        gameObject.SetActive(true);
     }
+
+
+    private void Deactivate()
+    {
+        gameObject.SetActive(false);
+
+        gameObject.layer = 12;
+    }
+
 
     // Update is called once per frame
     void Update()
     {
-        if(Vector3.Distance(startPos, transform.position) > distanceDestroy)
+        if (gameObject.activeSelf == true)
         {
-            Destroy(gameObject);
+            if(timeElapsed >= timeUntilDestroy)
+            {
+                Deactivate();
+            }
+
+                
+
+            
         }
-        else
+    }
+
+    private void FixedUpdate()
+    {
+        if (gameObject.activeSelf == true && timeElapsed <= timeUntilDestroy)
         {
+                    
+            if (searchingTarget)
+            {
+                if (target != null)
+                {
+                    targetPos = target.transform.position;
+
+                }
+                normalizedPos = (targetPos - transform.position).normalized;
+                Debug.Log(targetPos);
+            }
+
             transform.position += normalizedPos * speed * Time.deltaTime;
+            timeElapsed += Time.deltaTime;
         }
     }
 
@@ -50,17 +85,17 @@ public class ProjectileEnemy : MonoBehaviour
         {
             GameManager.Instance.TakeDamage(damage);
             Debug.Log("Player hit by projectile");
-            Destroy(gameObject);
+            Deactivate();
         }
         else if (collision.gameObject == target && target.tag == "Unit")
         {
             collision.gameObject.GetComponent<Unit>().TakeDamage(damage);
             Debug.Log("Unit hit by projectile");
-            Destroy(gameObject);
+            Deactivate();
         }
-        else if (collision.gameObject.tag == "Wall")
+        else if (collision.gameObject.layer == 11)
         {
-            Destroy(gameObject);
+            Deactivate();
         }
     }
 }

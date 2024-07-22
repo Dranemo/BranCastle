@@ -314,8 +314,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.00054997206, y: -0.002849996, z: 0}
-    m_Extent: {x: 1.4993501, y: 1.5067501, z: 0}
+    m_Center: {x: 0.005099952, y: 0.0064499974, z: 0}
+    m_Extent: {x: 1.4995999, y: 1.50215, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -1056,7 +1056,9 @@ MonoBehaviour:
   playerPrefab: {fileID: 6364868091912172025, guid: 19de3fa0c34643347a327facbbc216ab, type: 3}
   enemies:
   - {fileID: 6625454495336831251, guid: cf9532add9b7a9642a4591f471afb5ac, type: 3}
-  - {fileID: 725624693742619463, guid: 69decd831e1939242b9a7312bbeed0b6, type: 3}
+  - {fileID: 1404599894497797865, guid: c406a35946bd75643acd2b25fdf6c40c, type: 3}
+  - {fileID: 6625454495336831251, guid: 9b93e19e6342fa8499c91ef555675003, type: 3}
+  - {fileID: 6029289832275368, guid: 69decd831e1939242b9a7312bbeed0b6, type: 3}
   enemyCooldown: 5.8
   enemyCooldownLeft: 0
   enemyWaveCooldown: 30
