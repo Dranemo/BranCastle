@@ -15,8 +15,8 @@ public class Waypoint : MonoBehaviour
         distanceNextWaypoint = 0;
         distanceRitual = 0;
 
-
-        distanceNextWaypoint = Vector2.Distance(transform.position, nextWaypoint.transform.position);
+        if(nextWaypoint != null)
+            distanceNextWaypoint = Vector2.Distance(transform.position, nextWaypoint.transform.position);
 
     }
 

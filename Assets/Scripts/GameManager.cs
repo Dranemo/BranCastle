@@ -58,7 +58,7 @@ public class GameManager : MonoBehaviour
         Transform playerSpawnPoint = MapPrefab.transform.Find("PlayerSpawnPoint");
         GameObject player = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
 
-        wavePathIndex = Random.Range(0, paths.Count);
+        wavePathIndex = Random.Range(0, spawningPaths.Count);
     }
 
 
@@ -157,7 +157,7 @@ public class GameManager : MonoBehaviour
         List<Path> pathsToLoad = new List<Path>();
         List<Path> pathsLoaded = new List<Path>();
 
-
+        Debug.Log("Paths : " + paths.Count);
         foreach (Path path in paths) 
             pathsToLoad.Add(path);
 
@@ -170,6 +170,8 @@ public class GameManager : MonoBehaviour
                 {
                     paths[paths.IndexOf(path)].SetDistancePath();
                     pathsLoaded.Add(path);
+
+                    Debug.Log(path.name + " : " + path.distancePath + "m");
                 }
             }
 

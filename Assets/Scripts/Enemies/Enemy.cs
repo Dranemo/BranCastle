@@ -416,6 +416,7 @@ public class Enemy : MonoBehaviour
 
         if (!onPath)
         {
+            onPath = true;
             CheckBetterWaypoint();
         }
 
@@ -423,12 +424,13 @@ public class Enemy : MonoBehaviour
         TurningSprite(currentWaypoint.position);
 
 
-        if (currentWaypointIndex == paths[currentPathIndex].waypoints.Count - 1)
+        /*if (currentWaypointIndex == paths[currentPathIndex].waypoints.Count - 1)
         {
             if (paths[currentWaypointIndex].nextPath != null)
             {
-                currentPathIndex = paths.IndexOf(paths[currentPathIndex].nextPath);
-                currentWaypointIndex = 0;
+                *//*currentPathIndex = paths.IndexOf(paths[currentPathIndex].nextPath);
+                currentWaypointIndex = 0;*//*
+                transform.position = Vector3.MoveTowards(transform.position, currentWaypoint.position, speed * Time.deltaTime);
             }
             else if (Vector3.Distance(transform.position, ritual.transform.position) < attackRadius)
                 DetectRitual();
@@ -438,12 +440,30 @@ public class Enemy : MonoBehaviour
             // Aller vers le waypoint
             transform.position = Vector3.MoveTowards(transform.position, currentWaypoint.position, speed * Time.deltaTime);
 
+        }*/
+
+
+        if (currentWaypoint.GetComponent<Waypoint>().nextWaypoint == null)
+        {
+            if (Vector3.Distance(transform.position, currentWaypoint.position) < attackRadius)
+                DetectRitual();
+            else
+                transform.position = Vector3.MoveTowards(transform.position, currentWaypoint.position, speed * Time.deltaTime);
         }
+        else if (Vector3.Distance(transform.position, ritual.transform.position) < attackRadius)
+            DetectRitual();
+        else 
+            transform.position = Vector3.MoveTowards(transform.position, currentWaypoint.position, speed * Time.deltaTime);
 
 
 
 
-        if (transform.position == currentWaypoint.position)
+        //transform.position = Vector3.MoveTowards(transform.position, currentWaypoint.position, speed * Time.deltaTime);
+
+
+
+
+        /*if (transform.position == currentWaypoint.position)
         {
             if (currentWaypointIndex != paths[currentPathIndex].waypoints.Count - 1)
             {
@@ -451,7 +471,7 @@ public class Enemy : MonoBehaviour
             }
 
             onPath = true;
-        }
+        }*/
     }
 
     IEnumerator CheckWaypointCoroutine()

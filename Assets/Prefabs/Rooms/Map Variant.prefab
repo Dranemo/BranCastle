@@ -1,5 +1,53 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &895518069230825401
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5588379256881622574}
+  - component: {fileID: 4340743574344160465}
+  m_Layer: 0
+  m_Name: PathMid
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5588379256881622574
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 895518069230825401}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 5977159990046394316}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &4340743574344160465
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 895518069230825401}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 94ec8ac5f3cd81141b15b08e1caf7c9a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  waypoints:
+  - {fileID: 4937561275368970084}
+  nextPath: {fileID: 0}
+  distancePath: 0
 --- !u!1001 &1008128788119778275
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -8,6 +56,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 118669612494657750, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextPath
+      value: 
+      objectReference: {fileID: 4340743574344160465}
+    - target: {fileID: 118669612494657750, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distancePath
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 131736725499055772, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
       value: 0.07450981
@@ -19,6 +75,10 @@ PrefabInstance:
     - target: {fileID: 131736725499055772, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.r
       value: 0.7843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 131736725499055772, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 9.394147
       objectReference: {fileID: 0}
     - target: {fileID: 516846093398954102, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
@@ -32,6 +92,18 @@ PrefabInstance:
       propertyPath: colorLine.r
       value: 0.9450981
       objectReference: {fileID: 0}
+    - target: {fileID: 516846093398954102, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 516846093398954102, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 516846093398954102, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 836116249280358406, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
       value: 0.22352943
@@ -44,6 +116,18 @@ PrefabInstance:
       propertyPath: colorLine.r
       value: 0.9450981
       objectReference: {fileID: 0}
+    - target: {fileID: 836116249280358406, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 836116249280358406, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 836116249280358406, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 933281513825415051, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
       value: 0.07450981
@@ -55,6 +139,10 @@ PrefabInstance:
     - target: {fileID: 933281513825415051, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.r
       value: 0.7843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 933281513825415051, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 18.394146
       objectReference: {fileID: 0}
     - target: {fileID: 1266184482622537870, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: m_Name
@@ -72,6 +160,10 @@ PrefabInstance:
       propertyPath: colorLine.r
       value: 0.1254902
       objectReference: {fileID: 0}
+    - target: {fileID: 1655848683336928801, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 13
+      objectReference: {fileID: 0}
     - target: {fileID: 1686956531116425042, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
       value: 0.72156864
@@ -84,6 +176,10 @@ PrefabInstance:
       propertyPath: colorLine.r
       value: 0.27058825
       objectReference: {fileID: 0}
+    - target: {fileID: 1686956531116425042, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 16.977926
+      objectReference: {fileID: 0}
     - target: {fileID: 1965803377488681312, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
       value: 0.72156864
@@ -95,6 +191,10 @@ PrefabInstance:
     - target: {fileID: 1965803377488681312, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.r
       value: 0.27058825
+      objectReference: {fileID: 0}
+    - target: {fileID: 1965803377488681312, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 52.47793
       objectReference: {fileID: 0}
     - target: {fileID: 2769211973552344320, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
@@ -108,6 +208,14 @@ PrefabInstance:
       propertyPath: colorLine.r
       value: 0.6509804
       objectReference: {fileID: 0}
+    - target: {fileID: 2769211973552344320, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2769211973552344320, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2811520019594459246, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
       value: 0.13333334
@@ -120,6 +228,26 @@ PrefabInstance:
       propertyPath: colorLine.r
       value: 0.1254902
       objectReference: {fileID: 0}
+    - target: {fileID: 2811520019594459246, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 2811520019594459246, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2811520019594459246, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3393802265261591702, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distancePath
+      value: 18.394146
+      objectReference: {fileID: 0}
+    - target: {fileID: 3510927880607828515, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distancePath
+      value: 60.97793
+      objectReference: {fileID: 0}
     - target: {fileID: 4189317858269900167, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
       value: 0.13333334
@@ -131,6 +259,18 @@ PrefabInstance:
     - target: {fileID: 4189317858269900167, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.r
       value: 0.1254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189317858269900167, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 4189317858269900167, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189317858269900167, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4282450895261771455, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: m_LocalPosition.x
@@ -184,6 +324,18 @@ PrefabInstance:
       propertyPath: colorLine.r
       value: 0.7843138
       objectReference: {fileID: 0}
+    - target: {fileID: 4991475119067049561, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 4991475119067049561, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4991475119067049561, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5158373381073193107, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
       value: 0.19607845
@@ -195,6 +347,22 @@ PrefabInstance:
     - target: {fileID: 5158373381073193107, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.r
       value: 0.9294118
+      objectReference: {fileID: 0}
+    - target: {fileID: 5158373381073193107, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 5158373381073193107, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5158373381073193107, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5237321532136972237, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distancePath
+      value: 13
       objectReference: {fileID: 0}
     - target: {fileID: 5359663242426593199, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
@@ -208,6 +376,14 @@ PrefabInstance:
       propertyPath: colorLine.r
       value: 0.9450981
       objectReference: {fileID: 0}
+    - target: {fileID: 5359663242426593199, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5359663242426593199, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 5792172078636514102, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
       value: 0.13333334
@@ -219,6 +395,18 @@ PrefabInstance:
     - target: {fileID: 5792172078636514102, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.r
       value: 0.1254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 5792172078636514102, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 5792172078636514102, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5792172078636514102, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6034873161517008451, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
@@ -232,6 +420,18 @@ PrefabInstance:
       propertyPath: colorLine.r
       value: 0.7843138
       objectReference: {fileID: 0}
+    - target: {fileID: 6034873161517008451, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 6034873161517008451, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 9.394147
+      objectReference: {fileID: 0}
+    - target: {fileID: 6034873161517008451, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6043596356575625312, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
       value: 0.5882353
@@ -243,6 +443,18 @@ PrefabInstance:
     - target: {fileID: 6043596356575625312, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.r
       value: 0.6509804
+      objectReference: {fileID: 0}
+    - target: {fileID: 6043596356575625312, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 6043596356575625312, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6043596356575625312, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6406590944043936831, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
@@ -256,6 +468,18 @@ PrefabInstance:
       propertyPath: colorLine.r
       value: 0.1254902
       objectReference: {fileID: 0}
+    - target: {fileID: 6406590944043936831, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 6406590944043936831, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6406590944043936831, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6449346901566291772, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
       value: 0.19607845
@@ -267,6 +491,14 @@ PrefabInstance:
     - target: {fileID: 6449346901566291772, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.r
       value: 0.9294118
+      objectReference: {fileID: 0}
+    - target: {fileID: 6449346901566291772, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 8.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6770847443976401032, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distancePath
+      value: 8.5
       objectReference: {fileID: 0}
     - target: {fileID: 6817489746875853320, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
@@ -280,6 +512,18 @@ PrefabInstance:
       propertyPath: colorLine.r
       value: 0.6509804
       objectReference: {fileID: 0}
+    - target: {fileID: 6817489746875853320, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 6817489746875853320, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6817489746875853320, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6947393344054178191, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
       value: 0.07450981
@@ -292,6 +536,18 @@ PrefabInstance:
       propertyPath: colorLine.r
       value: 0.7843138
       objectReference: {fileID: 0}
+    - target: {fileID: 6947393344054178191, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 6947393344054178191, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6947393344054178191, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6962834928036040622, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
       value: 0.19607845
@@ -303,6 +559,18 @@ PrefabInstance:
     - target: {fileID: 6962834928036040622, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.r
       value: 0.9294118
+      objectReference: {fileID: 0}
+    - target: {fileID: 6962834928036040622, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 6962834928036040622, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6962834928036040622, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7115216924674597789, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
@@ -316,6 +584,18 @@ PrefabInstance:
       propertyPath: colorLine.r
       value: 0.9450981
       objectReference: {fileID: 0}
+    - target: {fileID: 7115216924674597789, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 7115216924674597789, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7115216924674597789, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7622211249139654238, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
       value: 0.72156864
@@ -327,6 +607,10 @@ PrefabInstance:
     - target: {fileID: 7622211249139654238, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.r
       value: 0.27058825
+      objectReference: {fileID: 0}
+    - target: {fileID: 7622211249139654238, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 44.47793
       objectReference: {fileID: 0}
     - target: {fileID: 7754509143475366917, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
@@ -340,6 +624,18 @@ PrefabInstance:
       propertyPath: colorLine.r
       value: 0.1254902
       objectReference: {fileID: 0}
+    - target: {fileID: 7754509143475366917, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 7754509143475366917, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7754509143475366917, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 7772102995928056531, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
       value: 0.19607845
@@ -351,6 +647,18 @@ PrefabInstance:
     - target: {fileID: 7772102995928056531, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.r
       value: 0.9294118
+      objectReference: {fileID: 0}
+    - target: {fileID: 7772102995928056531, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 7772102995928056531, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7772102995928056531, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7793512016565745113, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
@@ -364,6 +672,10 @@ PrefabInstance:
       propertyPath: colorLine.r
       value: 0.27058825
       objectReference: {fileID: 0}
+    - target: {fileID: 7793512016565745113, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 60.97793
+      objectReference: {fileID: 0}
     - target: {fileID: 8011963164872459005, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
       value: 0.19607845
@@ -375,6 +687,26 @@ PrefabInstance:
     - target: {fileID: 8011963164872459005, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.r
       value: 0.9294118
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011963164872459005, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 8011963164872459005, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8011963164872459005, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8251485600234954657, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextPath
+      value: 
+      objectReference: {fileID: 4340743574344160465}
+    - target: {fileID: 8251485600234954657, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distancePath
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8639226936665846166, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
@@ -399,6 +731,18 @@ PrefabInstance:
     - target: {fileID: 8674223493664932234, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.r
       value: 0.9294118
+      objectReference: {fileID: 0}
+    - target: {fileID: 8674223493664932234, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 8674223493664932234, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8674223493664932234, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9030038522303642887, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.b
@@ -411,9 +755,40 @@ PrefabInstance:
     - target: {fileID: 9030038522303642887, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: colorLine.r
       value: 0.6509804
+      objectReference: {fileID: 0}
+    - target: {fileID: 9030038522303642887, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: nextWaypoint
+      value: 
+      objectReference: {fileID: 4937561275368970084}
+    - target: {fileID: 9030038522303642887, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 9030038522303642887, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
-    m_AddedGameObjects: []
+    m_AddedGameObjects:
+    - targetCorrespondingSourceObject: {fileID: 6849610670415934511, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5588379256881622574}
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+--- !u!114 &4937561275368970084 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5294027658713031815, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+  m_PrefabInstance: {fileID: 1008128788119778275}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04818ade8cd4dd94fb85390b0f857577, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!4 &5977159990046394316 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6849610670415934511, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+  m_PrefabInstance: {fileID: 1008128788119778275}
+  m_PrefabAsset: {fileID: 0}
