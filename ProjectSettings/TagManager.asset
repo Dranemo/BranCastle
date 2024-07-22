@@ -11,6 +11,7 @@ TagManager:
   - Ritual
   - Unit
   - MinimapCamera
+  - SpawningPath
   layers:
   - Default
   - TransparentFX
@@ -23,7 +24,7 @@ TagManager:
   - MapCoffin
   - Ritual
   - EnemyProjectile
-  - 
+  - Wall
   - 
   - 
   - 
