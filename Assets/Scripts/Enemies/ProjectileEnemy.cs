@@ -71,7 +71,6 @@ public class ProjectileEnemy : MonoBehaviour
 
                 }
                 normalizedPos = (targetPos - transform.position).normalized;
-                Debug.Log(targetPos);
             }
 
             transform.position += normalizedPos * speed * Time.deltaTime;

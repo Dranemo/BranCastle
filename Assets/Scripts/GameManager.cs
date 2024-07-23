@@ -124,7 +124,6 @@ public class GameManager : MonoBehaviour
 
 
         Debug.Log("Spawn Enemy : " + enemy.name + " at " + path.name);
-        Debug.Log(paths.Count);
         enemy.currentPathIndex = paths.IndexOf(path);
         enemy.paths = this.paths;
 

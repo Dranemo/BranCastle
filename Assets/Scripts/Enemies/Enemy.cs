@@ -111,9 +111,19 @@ public class Enemy : MonoBehaviour
             }
             if (distanceToPlayer < detectionRadius)
             {
-                DetectPlayer();
-                //Debug.Log("Player Detected");
+                RaycastHit2D hit = Physics2D.Linecast(transform.position, player.transform.position, layerMaskRaycast);
 
+
+                if (hit.collider == null)
+                {
+                    DetectPlayer();
+                    Debug.DrawLine(transform.position, player.transform.position, Color.green);
+                }
+                else
+                {
+                    MovingToTheNextCheckpoint();
+                    Debug.DrawLine(transform.position, player.transform.position, Color.red);
+                }
             }
         }
         else
