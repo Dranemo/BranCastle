@@ -7,6 +7,8 @@ public class UnitCircle : MonoBehaviour
     private Unit unitScript;
     public bool isPlayerInside = false;
     public bool triggerActive = true;
+
+
     private void Awake()
     {
         unitScript = GetComponentInParent<Unit>();
@@ -22,8 +24,12 @@ public class UnitCircle : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
+        Debug.Log("triggerActive");
+
         if (other.gameObject.CompareTag("Enemy") && triggerActive)
         {
+            Debug.Log("enemy added normalement");
+
             unitScript.enemiesInRange.Add(other.gameObject);
             unitScript.StartAttack(other.gameObject);
         }

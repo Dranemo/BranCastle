@@ -52,7 +52,7 @@ public class Unit : MonoBehaviour
             {
                 Enemy enemy = closestEnemy.GetComponent<Enemy>();
                 enemy.TakeDamage(damage);
-                yield return new WaitForSeconds(1f / attackSpeed);
+                yield return new WaitForSeconds(attackSpeed);
             }
             else
             {
