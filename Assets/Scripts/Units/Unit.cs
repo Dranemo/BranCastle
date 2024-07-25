@@ -5,13 +5,15 @@ using System.Linq;
 
 public class Unit : MonoBehaviour
 {
-    public float health; 
-    public float damage; 
-    public float attackSpeed;
-    public float bloodCost;
+    [SerializeField] protected float health; 
+    [SerializeField] protected float damage; 
+    [SerializeField] protected float attackSpeed;
+    [SerializeField] protected float bloodCost;
     private Coroutine attackCoroutine;
     public List<GameObject> enemiesInRange = new List<GameObject>();
+    [SerializeField] private float delayBeforeAppearance = 2f; // Temps en secondes avant que l'unité apparaisse
 
+    private SpriteRenderer spriteRenderer;
     public void TakeDamage(float damage)
     {
         health -= damage;
@@ -46,12 +48,11 @@ public class Unit : MonoBehaviour
         while (enemiesInRange.Count > 0)
         {
             GameObject closestEnemy = GetClosestEnemy();
-            Debug.Log(closestEnemy);
             if (closestEnemy != null)
             {
                 Enemy enemy = closestEnemy.GetComponent<Enemy>();
                 enemy.TakeDamage(damage);
-                yield return new WaitForSeconds(1f / attackSpeed);
+                yield return new WaitForSeconds(attackSpeed);
             }
             else
             {
@@ -66,17 +67,16 @@ public class Unit : MonoBehaviour
     {
         enemiesInRange.RemoveAll(item => item == null); // Nettoyer la liste des ennemis nuls
         if (enemiesInRange.Count == 0) return null;
-        Debug.Log(enemiesInRange.OrderBy(e => (e.transform.position - transform.position).sqrMagnitude).FirstOrDefault());
         return enemiesInRange.OrderBy(e => (e.transform.position - transform.position).sqrMagnitude).FirstOrDefault();
     }
+
     void Start()
     {
-        
     }
 
     // Update is called once per frame
     void Update()
     {
-        
+        AttackEnemy();
     }
 }

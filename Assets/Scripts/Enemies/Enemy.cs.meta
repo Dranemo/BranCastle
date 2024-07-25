@@ -3,7 +3,13 @@ guid: d2028b8051df80a4c85d89a38f2499fe
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - bloodPrefab: {fileID: 3594142108930714808, guid: 898715a92e4fe754d87e9b89c09018d7, type: 3}
+  - closestUnit: {instanceID: 0}
+  - upSprite: {instanceID: 0}
+  - downSprite: {instanceID: 0}
+  - leftSprite: {instanceID: 0}
+  - rightSprite: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -218,7 +218,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 255
+    m_Bits: 3839
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -5426,6 +5426,7 @@ MonoBehaviour:
   - {fileID: 606369980038303244, guid: a8dbfe0da96d5a14cad91a7bc1972cd3, type: 3}
   unitCosts: 0a000000140000001e00000028000000
   spawnDistance: 1
+  panels: []
 --- !u!1 &6666350053944488157
 GameObject:
   m_ObjectHideFlags: 0

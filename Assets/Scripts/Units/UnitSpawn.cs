@@ -4,10 +4,10 @@ using UnityEngine;
 public class UnitSpawn : MonoBehaviour
 {
     [SerializeField] GameObject CanvaPrefab;
-    public GameObject[] unitPrefabs;
-    public int[] unitCosts;
-    GameObject[] panels;
-    public float spawnDistance = 1f;
+    [SerializeField] GameObject[] unitPrefabs;
+    [SerializeField] int[] unitCosts;
+    [SerializeField] float spawnDistance = 1f;
+    [SerializeField] GameObject[] panels;
 
 
     private GameManager gameManager;

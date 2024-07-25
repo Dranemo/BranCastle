@@ -22,7 +22,7 @@ public class ItemSelector : MonoBehaviour
         }
 
         // Utilisez une touche pour placer l'item sélectionné
-        if (Input.GetKeyDown(KeyCode.Space)) // Changez ceci pour la touche que vous voulez utiliser
+        if (Input.GetKeyDown(KeyCode.E)) 
         {
             Instantiate(items[selectedIndex], transform.position, Quaternion.identity);
         }

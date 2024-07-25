@@ -23,11 +23,9 @@ public class MapOverview : MonoBehaviour
 
     public void ActivateOverview()
     {
-        Debug.Log(canvasGroup);
         if (canvasGroup != null)
         {
             canvasGroup.alpha = 1f;
-            Debug.Log(canvasGroup.alpha);
             canvasGroup.blocksRaycasts = true;
             canvasGroup.interactable = true;
         }
@@ -39,7 +37,6 @@ public class MapOverview : MonoBehaviour
         if (canvasGroup != null)
         {
             canvasGroup.alpha = 0f;
-            Debug.Log(canvasGroup.alpha);
             canvasGroup.blocksRaycasts = false;
             canvasGroup.interactable = false;
         }
@@ -67,7 +64,6 @@ public class MapOverview : MonoBehaviour
         if (playerTransform != null && coffinTransform != null)
         {
             playerTransform.position = coffinTransform.position;
-            Debug.Log("Joueur téléporté au cercueil : " + coffinTransform.name);
         }
         else
         {
