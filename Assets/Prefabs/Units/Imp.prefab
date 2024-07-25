@@ -10,8 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 5243487514607517788}
   - component: {fileID: 6102927583087110327}
-  - component: {fileID: 4296278069485598571}
   - component: {fileID: 6932728423220109796}
+  - component: {fileID: 6284570336058599406}
   m_Layer: 5
   m_Name: Circle
   m_TagString: Untagged
@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 6, y: 6, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 484097502180651598}
@@ -86,18 +86,6 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!114 &4296278069485598571
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 372309381137255391}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 462413d20556f5b46a81ae8b5732ed75, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!58 &6932728423220109796
 CircleCollider2D:
   m_ObjectHideFlags: 0
@@ -133,6 +121,18 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
+--- !u!114 &6284570336058599406
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 372309381137255391}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 462413d20556f5b46a81ae8b5732ed75, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &606369980038303244
 GameObject:
   m_ObjectHideFlags: 0
@@ -143,12 +143,11 @@ GameObject:
   m_Component:
   - component: {fileID: 484097502180651598}
   - component: {fileID: 6630363806672337378}
+  - component: {fileID: 3086346630652085903}
   - component: {fileID: 8944362452835413066}
   - component: {fileID: 3863877034961141833}
-  - component: {fileID: 4564668825759936783}
-  - component: {fileID: 8483825429437078948}
   m_Layer: 7
-  m_Name: Ghoul
+  m_Name: Imp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -164,7 +163,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -1.8077068, y: 0.09871644, z: 0}
-  m_LocalScale: {x: 4, y: 4, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 2441812745219486459}
@@ -212,7 +211,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 783260315, guid: ed27e5a6f9272ad49be205cbd20c75e4, type: 3}
+  m_Sprite: {fileID: 21300000, guid: a56555830674de54ca244c7732a4cbeb, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -223,6 +222,19 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!114 &3086346630652085903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 606369980038303244}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f239d90019532d34ca13717b1329ede0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  projectilePrefab: {fileID: 6285388318475031793, guid: 4c7e5cb89ea28944f80a2d2034675885, type: 3}
 --- !u!70 &8944362452835413066
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -285,45 +297,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!95 &4564668825759936783
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 606369980038303244}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 7c5f6c37bcf266549a593c65c730ba69, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
---- !u!114 &8483825429437078948
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 606369980038303244}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36c7f005a319fed4bafa2effcc6652ff, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  health: 41.98
-  damage: 8.7
-  attackSpeed: 10.32
-  bloodCost: 8.01
-  enemiesInRange: []
-  delayBeforeAppearance: 2
 --- !u!1 &4608177312976071413
 GameObject:
   m_ObjectHideFlags: 0
@@ -361,7 +334,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 0.5, y: 0.5}
+  m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &415109313986573751
 Canvas:
@@ -461,8 +434,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0.016, y: -0.013}
-  m_SizeDelta: {x: 0.4924, y: 0.6717}
+  m_AnchoredPosition: {x: -0.311, y: -0.032}
+  m_SizeDelta: {x: 1, y: 1}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &4652392369685270652
 CanvasRenderer:

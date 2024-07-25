@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Ghoul : MonoBehaviour
+public class Ghoul : Unit
 {
     // Start is called before the first frame update
     void Start()

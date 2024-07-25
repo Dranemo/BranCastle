@@ -2,17 +2,21 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Imp : MonoBehaviour
+public class Imp : Unit
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] GameObject projectilePrefab;
+    private bool isAttacking = false;
+
+    private void Update()
     {
-        
+        if (isAttacking)
+        {
+            Attack();
+        }
     }
 
-    // Update is called once per frame
-    void Update()
+    void Attack()
     {
-        
+        GameObject projectile = Instantiate(projectilePrefab, transform.position, Quaternion.identity);
     }
 }
