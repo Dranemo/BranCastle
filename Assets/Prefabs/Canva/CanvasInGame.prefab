@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7149073639624468909}
   - component: {fileID: 5624587094823039200}
   - component: {fileID: 3433262257798324566}
+  - component: {fileID: 8764997825690103690}
   m_Layer: 5
   m_Name: CanvasInGame
   m_TagString: Untagged
@@ -125,6 +126,31 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeText: {fileID: 8522312032024787173}
   waveText: {fileID: 137588513955858720}
+--- !u!114 &8764997825690103690
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 37197035463253505}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5669dd104c4cd4a468493f2f1c992e7c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CanvaPrefab: {fileID: 37197035463253505}
+  unitPrefabs:
+  - {fileID: 2903697257882806275, guid: 6f4f937ecabab9240bb77d5fcf73b0a1, type: 3}
+  - {fileID: 606369980038303244, guid: a8dbfe0da96d5a14cad91a7bc1972cd3, type: 3}
+  - {fileID: 606369980038303244, guid: 07ee5d4f7560cf246bcb79b8747c41ce, type: 3}
+  - {fileID: 606369980038303244, guid: bd31a7626cddbf84c90e3096505a0b6f, type: 3}
+  unitCosts: 0a000000140000001400000032000000
+  spawnDistance: 1
+  panels:
+  - {fileID: 3439108228026374984}
+  - {fileID: 5603907067377976155}
+  - {fileID: 8736501821071854847}
+  - {fileID: 7008861097593390244}
 --- !u!1 &539113840926965574
 GameObject:
   m_ObjectHideFlags: 0
@@ -843,7 +869,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: Time Not Working
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1433,7 +1459,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: New Text
+  m_text: Waves Not Working
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
