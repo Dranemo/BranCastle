@@ -5426,6 +5426,7 @@ MonoBehaviour:
   - {fileID: 606369980038303244, guid: a8dbfe0da96d5a14cad91a7bc1972cd3, type: 3}
   unitCosts: 0a000000140000001e00000028000000
   spawnDistance: 1
+  panels: []
 --- !u!1 &6666350053944488157
 GameObject:
   m_ObjectHideFlags: 0
