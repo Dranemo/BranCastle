@@ -56,7 +56,7 @@ public class PlayerMovement : MonoBehaviour
     public float capePushDuration;
     public GameObject capePrefab;
     public bool canCape = true;
-
+    private AudioSource capeAudioSource;
 
     public void DisablePunch()
     {
@@ -69,6 +69,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Awake()
     {
+        capeAudioSource = GetComponent<AudioSource>();
         mapOverview = FindObjectOfType<MapOverview>();
         canvasFader = FindObjectOfType<CanvasFader>();
         angleSpriteMap = new (float[], Sprite)[]
@@ -242,6 +243,7 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator CapeAttack()
     {
+        //capeAudioSource.Play();
         Vector2 coupCapePosotion = rb.position;
         currentCape = Instantiate(capePrefab, coupCapePosotion, Quaternion.Euler(0, 0, 0));
         yield return new WaitForSeconds(capeDuration); 

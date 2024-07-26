@@ -4,13 +4,28 @@ using UnityEngine;
 
 public class Dog : Unit
 {
-    // Start is called before the first frame update
+    private AudioSource audioSource;
+
+    void Awake()
+    {
+        // Obtenez la référence à l'AudioSource
+        audioSource = GetComponent<AudioSource>();
+    }
     void Start()
     {
-        health= 100;
-        damage= 10;
-        attackSpeed= 0.1f;
-        bloodCost= 10;
+        health = 100;
+        damage = 10;
+        attackSpeed = 0.1f;
+        bloodCost = 10;
+
+        if (audioSource != null)
+        {
+            audioSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning("AudioSource n'est pas attaché au GameObject.");
+        }
     }
 
     // Update is called once per frame

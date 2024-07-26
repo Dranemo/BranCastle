@@ -31,13 +31,14 @@ public class GameManager : MonoBehaviour
     [SerializeField] public float time /*{ get; private set; }*/ = 690; // 11h30
 
     public bool isGameOver = false;
-
+    private AudioSource audioSource;
 
     // -------------------------------------------------------------- Unity Func -------------------------------------------------------------- 
     private void Awake()
     {
         // Singleton
         CreateSingleton();
+        audioSource = GetComponent<AudioSource>();
 
 
         paths = new List<Path>();
@@ -188,6 +189,10 @@ public class GameManager : MonoBehaviour
     // -------------------------------------------------------------- Game Func --------------------------------------------------------------
     private void GameOver()
     {
+        if (blood <= 0 && audioSource != null)
+        {
+            audioSource.Play();
+        }
         if (blood <= 0 || time > 1439) // 23h59
         {
             isGameOver = true;

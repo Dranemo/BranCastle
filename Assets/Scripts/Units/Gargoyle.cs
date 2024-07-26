@@ -13,10 +13,24 @@ public class Gargoyle : Unit
         Move
     }
     private GargoyleState state = GargoyleState.Idle;
+    private AudioSource audioSource;
 
+    void Awake()
+    {
+        // Obtenez la référence à l'AudioSource
+        audioSource = GetComponent<AudioSource>();
+    }
     private void Start()
     {
-        healthWall = health * 2;
+        if (audioSource != null)
+        {
+            audioSource.Play();
+        }
+        else
+        {
+            Debug.LogWarning("AudioSource n'est pas attaché au GameObject.");
+        }
+    healthWall = health * 2;
         Debug.Log("Gargoyle health is " + health); 
         Debug.Log("Gargoyle healthwall is " + healthWall);
         TakeDamage(100);
