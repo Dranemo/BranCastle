@@ -42,8 +42,8 @@ public class PlayerMovement : MonoBehaviour
     [Header("DashSettings")]
     public KeyCode dashKey;
     public float dashCooldown;
-    public float dashDuration = 3f;
-    public float dashForce = 50f;
+    public float dashDuration;
+    public float dashForce;
     public bool canDash = true;
     public bool isDashing = false;
 
@@ -262,23 +262,22 @@ public class PlayerMovement : MonoBehaviour
             // Calculer le vecteur de mouvement
             Vector2 movement = new Vector2(moveHorizontal, moveVertical);
 
-            // Appliquer le mouvement via le Rigidbody
-            rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+            
 
             // Dash
-            if (Input.GetButtonDown("Jump") && movement != Vector2.zero)
+            if (Input.GetKeyDown(dashKey) && movement != Vector2.zero && canDash)
             {
-                rb.velocity = movement.normalized * dashForce;
-                StartCoroutine(ResetVelocityAfterDash());
-                isDashing = true;
+                StartCoroutine(Dash());
             }
             if (isDashing)
             {
+                rb.MovePosition(rb.position + movement * dashForce * Time.fixedDeltaTime);
                 trail.enabled = true;
             }
             else
             {
                 trail.enabled = false;
+                rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
             }
         }
     }
@@ -301,19 +300,12 @@ public class PlayerMovement : MonoBehaviour
 
     private IEnumerator Dash()
     {
-        // Lire les entrées de l'utilisateur
-        float moveHorizontal = Input.GetAxis("Horizontal");
-        float moveVertical = Input.GetAxis("Vertical");
-
-        // Calculer le vecteur de mouvement
-        Vector2 movement = new Vector2(moveHorizontal, moveVertical).normalized;
         canDash = false;
         isDashing = true;
-        rb.velocity = new Vector2(movement.x * dashForce, movement.y * dashForce);
         yield return new WaitForSeconds(dashDuration);
         isDashing = false;
         Invoke(nameof(ResetDash), dashCooldown);
-
+        StartCoroutine(ResetVelocityAfterDash());
     }
 
     void ResetDash()

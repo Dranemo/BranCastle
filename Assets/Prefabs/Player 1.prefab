@@ -5357,18 +5357,18 @@ MonoBehaviour:
   rightSprite: {fileID: 21300000, guid: 79a50e0af827e6e4d86fd4981d3cafd7, type: 3}
   batPrefab: {fileID: 6930754229455431999, guid: 7af7c547d996c5f4c8fe168c2486ef30, type: 3}
   gameManager: {fileID: 0}
-  dashKey: 0
-  dashCooldown: 0
-  dashDuration: 0.2
-  dashForce: 10
+  dashKey: 304
+  dashCooldown: 1.5
+  dashDuration: 0.25
+  dashForce: 30
   canDash: 1
   isDashing: 0
-  capeDMG: 0
-  capeCooldown: 0
-  capeDuration: 0
+  capeDMG: 10
+  capeCooldown: 1.4
+  capeDuration: 0.7
   capeRange: 0
-  capePushForce: 0
-  capePushDuration: 0
+  capePushForce: 2
+  capePushDuration: 0.75
   capePrefab: {fileID: 6334495684338012574, guid: 47d5ce90fb41ecc4e925422adb5a9ea0, type: 3}
   canCape: 1
 --- !u!70 &8961384696548019481

@@ -182,8 +182,8 @@ MonoBehaviour:
   leftSprite: {fileID: 21300000, guid: 9dcc051323b24544eb3a764d3f637a54, type: 3}
   rightSprite: {fileID: 21300000, guid: 79a50e0af827e6e4d86fd4981d3cafd7, type: 3}
   isStunned: 0
-  stunDuration: 0
-  capeKnockback: 0
+  stunDuration: 2
+  capeKnockback: 1
   isHypnotized: 0
   searchingTarget: 0
   projectiles: []
