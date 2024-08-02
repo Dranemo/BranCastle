@@ -9,12 +9,21 @@ public class BloodCounter : MonoBehaviour
 
     void Start()
     {
-        manager = GameManager.Instance;
-        text = GetComponent<TextMeshProUGUI>();
+        manager = GameManager.Instance; 
+        GameObject textObject = GameObject.Find("BloodCounter");
+        if (textObject != null)
+        {
+            text = textObject.GetComponent<TextMeshProUGUI>();
+        }
+        else
+        {
+            Debug.LogError("GameObject 'BloodCounter' non trouvé");
+        }
     }
 
     void Update()
     {
-        text.text = "Blood: " + manager.blood;
+        text.text = manager.blood.ToString();
     }
+
 }

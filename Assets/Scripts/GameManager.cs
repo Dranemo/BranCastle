@@ -196,14 +196,22 @@ public class GameManager : MonoBehaviour
         if (blood <= 0 || time > 1439) // 23h59
         {
             isGameOver = true;
-            SceneManager.LoadScene("GameOver");
+            Debug.Log("Game Over: Loading GameOver Scene");
+            ScenesManager.Instance.LoadScene("GameOver");
+        }
+        else if (wave >= 10)
+        {
+            isGameOver = true;
+            Debug.Log("Victory: Loading Victory Scene");
+            ScenesManager.Instance.LoadScene("Victory");
         }
     }
 
 
+
     public void RestartGame()
     {
-        SceneManager.LoadScene("Level-1"); 
+        ScenesManager.Instance.LoadScene("Level-1"); 
         Destroy(gameObject);
         Instance = null;
     }
