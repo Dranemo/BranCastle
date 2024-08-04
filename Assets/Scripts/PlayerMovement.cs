@@ -16,15 +16,9 @@ public class PlayerMovement : MonoBehaviour
     public float punchForce = 0.1f;
     private GameObject currentCoup;
     private GameObject currentCape;
-    public Sprite upSprite;
-    public Sprite downSprite;
-    public Sprite leftSprite;
-    public Sprite rightSprite;
     private Rigidbody2D rb;
     private Vector2 movement;
     private SpriteRenderer spriteRenderer;
-    // Define the angle ranges and corresponding sprites
-    (float[], Sprite)[] angleSpriteMap;
     private bool punchEnabled = true;
     private GameObject rectangle;
     private bool isDrawingRectangle = false;
@@ -38,6 +32,9 @@ public class PlayerMovement : MonoBehaviour
     private bool isOverviewActivated = false;
     private MapOverview mapOverview;
     private CanvasFader canvasFader;
+    private Animator animator;
+    private float angle;
+    [SerializeField] Transform spriteTransform;
 
     [Header("DashSettings")]
     public KeyCode dashKey;
@@ -72,14 +69,7 @@ public class PlayerMovement : MonoBehaviour
         capeAudioSource = GetComponent<AudioSource>();
         mapOverview = FindObjectOfType<MapOverview>();
         canvasFader = FindObjectOfType<CanvasFader>();
-        angleSpriteMap = new (float[], Sprite)[]
-        {
-        (new float[] {-45f, 45f}, rightSprite),
-        (new float[] {45f, 135f}, upSprite),
-        (new float[] {135f, 180f}, leftSprite),
-        (new float[] {-180f, -135f}, leftSprite),
-        (new float[] {-135f, -45f}, downSprite)
-        };
+        animator = GetComponent<Animator>();
     }
     void Start()
     {
@@ -95,22 +85,14 @@ public class PlayerMovement : MonoBehaviour
         }
         gameManager = GameManager.Instance;
         particles = GetComponentInChildren<ParticleSystem>();
+
     }
 
     void Update()
     {
         Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
-        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        
-
-        foreach (var (angleRange, sprite) in angleSpriteMap)
-        {
-            if (angle > angleRange[0] && angle <= angleRange[1])
-            {
-                spriteRenderer.sprite = sprite;
-                break;
-            }
-        }
+        angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Debug.Log(angle);
         if (punchEnabled && Input.GetMouseButtonDown(0) && currentCoup == null && !isDrawingRectangle && !isOverviewActivated)
         {
 
@@ -190,6 +172,7 @@ public class PlayerMovement : MonoBehaviour
             isOverviewActivated = false;
             mapOverview.DeactivateOverview();
         }
+        FlipSpriteBasedOnCursor(angle);
     }
 
 
@@ -239,6 +222,39 @@ public class PlayerMovement : MonoBehaviour
                 batScript.SetDirection(direction);
             }
         }
+
+    }
+    private void FlipSpriteBasedOnCursor(float angle)
+    {
+        if ((angle <= -90 && angle >= -180) || (angle < 180 && angle > 90))
+        {
+            spriteTransform.localScale = new Vector3(-2, 2, 1);
+        }
+        else
+        {
+            spriteTransform.localScale = new Vector3(2, 2, 1); 
+        }
+    }
+
+
+    public IEnumerator WaitForDeathAnimation()
+    {
+        animator.SetBool("Dead", true);
+        Debug.Log("Player is dead");
+
+        // Attendre la fin de l'animation de mort
+        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("death") || animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        {
+            // Ajouter des logs pour vérifier les conditions
+            Debug.Log("Checking animation state...");
+            Debug.Log("Is 'death' animation playing: " + animator.GetCurrentAnimatorStateInfo(0).IsName("death"));
+            Debug.Log("Normalized time of 'death' animation: " + animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+
+            yield return null;
+        }
+
+        Debug.Log("Game Over");
+        ScenesManager.Instance.LoadScene("GameOver");
     }
 
     IEnumerator CapeAttack()
@@ -257,15 +273,19 @@ public class PlayerMovement : MonoBehaviour
     {
         if (canMove)
         {
-            // Lire les entrées de l'utilisateur
             float moveHorizontal = Input.GetAxis("Horizontal");
             float moveVertical = Input.GetAxis("Vertical");
 
-            // Calculer le vecteur de mouvement
             Vector2 movement = new Vector2(moveHorizontal, moveVertical);
 
-            // Appliquer le mouvement via le Rigidbody
             rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
+
+            // Calculer la vitesse en utilisant la magnitude du vecteur de mouvement
+            float speed = movement.magnitude * moveSpeed;
+            animator.SetFloat("speed", speed);
+
+            // Mettre à jour le paramètre booléen pour la condition <=
+            animator.SetBool("isSpeedLessOrEqual", speed <= 0);
 
             // Dash
             if (Input.GetButtonDown("Jump") && movement != Vector2.zero)
@@ -284,6 +304,9 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
+
+
+
 
     IEnumerator ResetVelocityAfterDash()
     {

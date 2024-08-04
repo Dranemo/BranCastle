@@ -26,20 +26,14 @@ public class TeleportationManager : MonoBehaviour
                 Debug.LogError("L'objet 'Main Camera' n'a pas de composant Camera.");
             }
         }
-        else
-        {
-            Debug.LogError("Aucun objet nommé 'Main Camera' trouvé.");
-        }
     }
 
     public void TeleportToCoffin(Transform coffinTransform)
     {
         if (playerTransform != null && coffinTransform != null)
         {
-            //StartCoroutine(MoveCameraToCoffin(coffinTransform.position));
-
             playerTransform.position = coffinTransform.position;
-        }
+            }
         else
         {
             Debug.LogError("Référence manquante pour le joueur ou le cercueil.");

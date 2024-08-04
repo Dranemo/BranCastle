@@ -5227,8 +5227,8 @@ GameObject:
   - component: {fileID: 7376588624759367515}
   - component: {fileID: 3241817483652316768}
   - component: {fileID: 8961384696548019481}
-  - component: {fileID: 1145733397258566874}
   - component: {fileID: -1031967321841958013}
+  - component: {fileID: 317424476917236801}
   m_Layer: 3
   m_Name: Player 1
   m_TagString: Player
@@ -5352,12 +5352,9 @@ MonoBehaviour:
   batDistance: 2.5
   coupPrefab: {fileID: 7379560963317096358, guid: 0df40ff72d36f9144a40654d7962bbd5, type: 3}
   punchForce: 0.5
-  upSprite: {fileID: 21300000, guid: d12f032ddf9a8a7439ad70787b9b8580, type: 3}
-  downSprite: {fileID: 21300000, guid: f12fa7de7e56b534eb182da6a7230bca, type: 3}
-  leftSprite: {fileID: 21300000, guid: 9dcc051323b24544eb3a764d3f637a54, type: 3}
-  rightSprite: {fileID: 21300000, guid: 79a50e0af827e6e4d86fd4981d3cafd7, type: 3}
   batPrefab: {fileID: 6930754229455431999, guid: 7af7c547d996c5f4c8fe168c2486ef30, type: 3}
   gameManager: {fileID: 0}
+  spriteTransform: {fileID: 2806417236730911550}
   dashKey: 0
   dashCooldown: 0
   dashDuration: 0.2
@@ -5407,31 +5404,6 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 0.3, y: 0.47}
   m_Direction: 0
---- !u!114 &1145733397258566874
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6364868091912172025}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5669dd104c4cd4a468493f2f1c992e7c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  CanvaPrefab: {fileID: 37197035463253505, guid: ef9e4f59205d51148b017844f5e2b549, type: 3}
-  unitPrefabs:
-  - {fileID: 2903697257882806275, guid: 6f4f937ecabab9240bb77d5fcf73b0a1, type: 3}
-  - {fileID: 606369980038303244, guid: a8dbfe0da96d5a14cad91a7bc1972cd3, type: 3}
-  - {fileID: 606369980038303244, guid: 07ee5d4f7560cf246bcb79b8747c41ce, type: 3}
-  - {fileID: 606369980038303244, guid: bd31a7626cddbf84c90e3096505a0b6f, type: 3}
-  unitCosts: 0a000000140000001e00000028000000
-  spawnDistance: 1
-  panels:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!82 &-1031967321841958013
 AudioSource:
   m_ObjectHideFlags: 0
@@ -5528,6 +5500,27 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!95 &317424476917236801
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6364868091912172025}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 99e15ddbd03863a41934ab075eff6c85, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &6666350053944488157
 GameObject:
   m_ObjectHideFlags: 0

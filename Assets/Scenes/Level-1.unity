@@ -123,6 +123,11 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!4 &33777303 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 569634062905951378, guid: 5f4b33f352794074d8c3cba275082214, type: 3}
+  m_PrefabInstance: {fileID: 1336805155577145015}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &76194040
 GameObject:
   m_ObjectHideFlags: 0
@@ -362,8 +367,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.00424999, y: -0.005699992, z: 0}
-    m_Extent: {x: 1.50295, y: 1.4972, z: 0}
+    m_Center: {x: -0.0059999824, y: 0.0066999793, z: 0}
+    m_Extent: {x: 1.4961, y: 1.5019, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -583,7 +588,7 @@ MonoBehaviour:
         m_MethodName: TeleportToCoffin
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 425990853}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -703,6 +708,11 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 279162812}
   m_CullTransparentMesh: 1
+--- !u!4 &425990853 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 6569061191235397509, guid: 5f4b33f352794074d8c3cba275082214, type: 3}
+  m_PrefabInstance: {fileID: 1336805155577145015}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &577942094
 GameObject:
   m_ObjectHideFlags: 0
@@ -5957,7 +5967,7 @@ MonoBehaviour:
         m_MethodName: TeleportToCoffin
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 2135504575}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -6240,7 +6250,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: 75bbadfdf75ed4143923292211723de5, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 3ed34cf651a1add42ab350390a93f3f0, type: 3}
   m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
@@ -6413,7 +6423,7 @@ MonoBehaviour:
         m_MethodName: TeleportToCoffin
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 33777303}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -11288,6 +11298,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
+--- !u!4 &1663985658 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 966979033799227259, guid: 5f4b33f352794074d8c3cba275082214, type: 3}
+  m_PrefabInstance: {fileID: 1336805155577145015}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1876933214
 GameObject:
   m_ObjectHideFlags: 0
@@ -11375,7 +11390,7 @@ MonoBehaviour:
         m_MethodName: TeleportToCoffin
         m_Mode: 2
         m_Arguments:
-          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgument: {fileID: 1663985658}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Transform, UnityEngine
           m_IntArgument: 0
           m_FloatArgument: 0
@@ -11517,6 +11532,11 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!4 &2135504575 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2514693752120359199, guid: 5f4b33f352794074d8c3cba275082214, type: 3}
+  m_PrefabInstance: {fileID: 1336805155577145015}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1336805155577145015
 PrefabInstance:
   m_ObjectHideFlags: 0

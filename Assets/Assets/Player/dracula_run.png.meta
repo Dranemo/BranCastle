@@ -1,0 +1,677 @@
+fileFormatVersion: 2
+guid: 76f3c32acae9f0042ba8bbd6374eb668
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: dracula_run_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 386.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40c4d66ab648b524a9c3258aaf3d4a5a
+      internalID: -495566001
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_1
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 386.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fc325c6921d78e24a9d0b1e05314d9ac
+      internalID: 950584238
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_2
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 386.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f39197bdc9b982b488f6f5fe8d91fcdd
+      internalID: -1458879945
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_3
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 386.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aebdf5206d3ac57408531cfecdc72004
+      internalID: -69947896
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_4
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 386.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 8f00d491a428d1c4891bb0cda932087e
+      internalID: 363151376
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 290.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd83a7281726e0a46abdca96feb5b993
+      internalID: 6271519
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_6
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 290.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 757bf448eddfbc945845a670e2f4af16
+      internalID: 370664970
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_7
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 290.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 171a45db3d5800441b85b1bba58f7ce9
+      internalID: -1135796063
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_8
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 290.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 189cbae806b29f342971ffadc982182b
+      internalID: -219027261
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_9
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 290.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f5e8d05c72398e74bb3acaa89928c87d
+      internalID: 751223754
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 194.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9231e7a45bb1b364eab36525a2cb7db6
+      internalID: -751214948
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_11
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 194.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e7dad20ec780d544da5761ac85237eeb
+      internalID: -1802563029
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_12
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 194.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0d9dd513863241445942661b3844cb18
+      internalID: 221364394
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_13
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 194.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 774fdea3ccc963943ab67d9824f4461f
+      internalID: 105779482
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_14
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 194.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f7b5558bf573f9e4697e13d9d2872d86
+      internalID: 2062069263
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 98.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9a3d9f28923697b438d7ca88a237f9c9
+      internalID: -686042903
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_16
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 98.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: c960c3244db1baa408708d3ea777eab7
+      internalID: 907355650
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_17
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 98.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 40a7ab0068f285c4e960a4f1062fdc2a
+      internalID: 143472868
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_18
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 98.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: d4790f956e8dd7b46984e3c127f3b12b
+      internalID: -913137245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_19
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 98.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 207909c9b5bb60d439074b786545276c
+      internalID: 827393680
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2.4000015
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bebe8a862b674bc43b2e239eaf535585
+      internalID: 534568312
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_21
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 2.4000015
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aedff0b5409b44241af4ac08933a5ac7
+      internalID: -529973382
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_22
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 2.4000015
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fb89b8836be89b44ca4ddddaca6a8e3f
+      internalID: 1717762341
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_23
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 2.4000015
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ca7af2c7ed626ed40b3670c4f5f1a1d1
+      internalID: -16542563
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_run_24
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 2.4000015
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 82c9cd9a862fa8c4796cef895e4555d4
+      internalID: 644427374
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      dracula_run_0: -495566001
+      dracula_run_1: 950584238
+      dracula_run_10: -751214948
+      dracula_run_11: -1802563029
+      dracula_run_12: 221364394
+      dracula_run_13: 105779482
+      dracula_run_14: 2062069263
+      dracula_run_15: -686042903
+      dracula_run_16: 907355650
+      dracula_run_17: 143472868
+      dracula_run_18: -913137245
+      dracula_run_19: 827393680
+      dracula_run_2: -1458879945
+      dracula_run_20: 534568312
+      dracula_run_21: -529973382
+      dracula_run_22: 1717762341
+      dracula_run_23: -16542563
+      dracula_run_24: 644427374
+      dracula_run_3: -69947896
+      dracula_run_4: 363151376
+      dracula_run_5: 6271519
+      dracula_run_6: 370664970
+      dracula_run_7: -1135796063
+      dracula_run_8: -219027261
+      dracula_run_9: 751223754
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

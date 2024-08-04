@@ -32,7 +32,7 @@ public class GameManager : MonoBehaviour
 
     public bool isGameOver = false;
     private AudioSource audioSource;
-
+    private GameObject player;
     // -------------------------------------------------------------- Unity Func -------------------------------------------------------------- 
     private void Awake()
     {
@@ -57,7 +57,7 @@ public class GameManager : MonoBehaviour
 
         // Player
         Transform playerSpawnPoint = MapPrefab.transform.Find("PlayerSpawnPoint");
-        GameObject player = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
+        player = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
 
         wavePathIndex = Random.Range(0, spawningPaths.Count);
     }
@@ -197,7 +197,12 @@ public class GameManager : MonoBehaviour
         {
             isGameOver = true;
             Debug.Log("Game Over: Loading GameOver Scene");
-            ScenesManager.Instance.LoadScene("GameOver");
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            Debug.Log(playerMovement);
+            if (playerMovement != null)
+            {
+                StartCoroutine(playerMovement.WaitForDeathAnimation());
+            }
         }
         else if (wave >= 10)
         {
@@ -206,8 +211,6 @@ public class GameManager : MonoBehaviour
             ScenesManager.Instance.LoadScene("Victory");
         }
     }
-
-
 
     public void RestartGame()
     {
