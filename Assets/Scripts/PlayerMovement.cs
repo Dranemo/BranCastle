@@ -35,6 +35,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private float angle;
     [SerializeField] Transform spriteTransform;
+    private bool isFacingLeft = false;
 
     [Header("DashSettings")]
     public KeyCode dashKey;
@@ -90,6 +91,7 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
+
         Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         Debug.Log(angle);
@@ -228,10 +230,16 @@ public class PlayerMovement : MonoBehaviour
     {
         if ((angle <= -90 && angle >= -180) || (angle < 180 && angle > 90))
         {
+            isFacingLeft = true;
+            animator.SetBool("isFacingLeft", isFacingLeft);
+
             spriteTransform.localScale = new Vector3(-2, 2, 1);
         }
         else
         {
+            isFacingLeft = false;
+            animator.SetBool("isFacingLeft", isFacingLeft);
+
             spriteTransform.localScale = new Vector3(2, 2, 1); 
         }
     }
