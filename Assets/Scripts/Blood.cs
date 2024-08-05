@@ -11,19 +11,46 @@ public class Blood : MonoBehaviour
     GameManager manager;
 
 
-    public float bloodAmount = 1;
+    public static float bloodAmountBase = 100;
+    public float bloodAmount = 100;
+
+    // Direction angle
+    public int directionAngleProjection = 0;
+    private float directionAngleRad = 0;
+    private float directionAngleX = 0;
+    private float directionAngleY = 0;
+    private Vector3 directionVector = Vector3.zero;
+
+    private bool spawning = true;
 
     void Start()
     {
         manager = GameManager.Instance;
         player = GameObject.FindGameObjectWithTag("Player");
 
+        directionAngleRad = directionAngleProjection * Mathf.Deg2Rad;
+        directionAngleX = Mathf.Cos(directionAngleRad);
+        directionAngleY = Mathf.Sin(directionAngleRad);
+        directionVector = new Vector3(directionAngleX, directionAngleY, 0);
+        directionVector.Normalize();
+
+        directionVector = transform.position + directionVector;
+
+
         Debug.Log(bloodAmount);
     }
 
     void Update()
     {
-        if (Vector3.Distance(transform.position, player.transform.position) < attractionDistance)
+        if (spawning)
+        {
+            transform.position = Vector3.MoveTowards(transform.position, directionVector, 5 * Time.deltaTime);
+
+            if (transform.position == directionVector)
+                spawning = false;
+        }
+
+        else if (Vector3.Distance(transform.position, player.transform.position) < attractionDistance)
         {
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
         }

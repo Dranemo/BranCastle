@@ -102,7 +102,8 @@ MonoBehaviour:
   speed: 2
   player: {fileID: 6364868091912172025, guid: 19de3fa0c34643347a327facbbc216ab, type: 3}
   pickupRange: 0.5
-  bloodAmount: 1
+  bloodAmount: 100
+  directionAngleProjection: 0
 --- !u!70 &-1226765716199760523
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

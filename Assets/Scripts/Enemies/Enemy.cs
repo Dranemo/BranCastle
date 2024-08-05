@@ -15,6 +15,7 @@ public class Enemy : MonoBehaviour
     public int currentPathIndex = 0;
     private int currentWaypointIndex = 0;
     protected float health = 50;
+    protected float damageByPlayer = 0;
 
     protected GameObject player;
     protected GameObject ritual;
@@ -43,6 +44,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected GameObject bloodPrefab;
 
 
+    [SerializeField] protected float maxHealth = 50;
     [SerializeField] protected float bloodCount = 10;
     [SerializeField] protected float detectionRadius = 5f;
     [SerializeField] protected float attackRadius = 1.5f;
@@ -79,6 +81,7 @@ public class Enemy : MonoBehaviour
     protected void Start()
     {
         units = new List<GameObject>();
+        health = maxHealth;
 
         //utez vos waypoints � la liste ici, ou initialisez-les dans l'inspecteur Unity
         player = GameObject.FindGameObjectWithTag("Player");
@@ -307,23 +310,171 @@ public class Enemy : MonoBehaviour
     {
         spawnBlood = true;
 
-        GameObject blood = Instantiate(bloodPrefab, transform.position, Quaternion.identity);
-        blood.GetComponent<Blood>().bloodAmount = bloodCount;
+        float percentDamageF = damageByPlayer / maxHealth;
+        int percentDamage = Mathf.RoundToInt(percentDamageF);
 
+        float numberBloodF = bloodCount * percentDamage;
+        int numberBlood = Mathf.RoundToInt(numberBloodF);
 
-        Debug.Log(bloodCount + " // " + blood.GetComponent<Blood>().bloodAmount);
+        SpawnBlood(numberBlood);
 
 
         Destroy(gameObject);
     }
 
-    public void TakeDamage(float damage)
+    void SpawnBlood(int amount)
     {
-        health -= damage;
-        if (health <= 0 && !spawnBlood)
+        float numberOfBloodF = amount / Blood.bloodAmountBase;
+        int numberOfBlood = (int)numberOfBloodF;
+
+
+
+        List<int> directionList = new();
+        int lastDirection = 0;
+
+
+        int bloodAmountNotRound = 0;
+        if (numberOfBlood != numberOfBloodF)
+            bloodAmountNotRound = 1;
+
+
+        // Directions de base (séparées de minimum 30°
+        for(int i = 0; i < numberOfBlood + bloodAmountNotRound; i++)
+        {
+            int direction = -1;
+
+            if(lastDirection != -1)
+            {
+                int security = 50;
+                for (int j = 0; j < security; j++)
+                {
+                    direction = Random.Range(0, 360);
+                    foreach (int dir in directionList)
+                    {
+                        if (dir >= 30 && dir <= 330)
+                        {
+                            if (direction >= dir - 30 && direction <= dir + 30)
+                            {
+                                direction = -1;
+                                break;
+                            }
+                        }
+                        else if (dir < 30)
+                        {
+                            if (direction >= dir - 30 && direction <= dir + 30 || direction >= 360 + dir - 30 && direction <= 360)
+                            {
+                                direction = -1;
+                                break;
+                            }
+                        }
+                        else if (dir > 330)
+                        {
+                            if (direction >= dir - 30 && direction <= dir + 30 || direction >= 0 && direction <= 30 - (360 - dir))
+                            {
+                                direction = -1;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (direction != -1)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            Debug.Log("direction : " + direction);
+            lastDirection = direction;
+
+            // Plus de place dans le cercle de base, envoie le sang dans le trou le plus gros du cercle
+            if(lastDirection == -1)
+            {
+                directionList.Sort();
+
+                int biggestHole = 0;
+                int holeStartWhereID = 0;
+
+                for(int j = 0; j < directionList.Count - 1; j++)
+                {
+                    int hole = directionList[j + 1] - directionList[j];
+                    if(hole > biggestHole)
+                    {
+                        holeStartWhereID = j;
+                        biggestHole = hole;
+                    }
+                }
+
+                int holeZero = 360 - directionList[directionList.Count - 1] + directionList[0];
+                if(holeZero > biggestHole)
+                {
+                    holeStartWhereID = directionList.Count - 1;
+                    biggestHole = holeZero;
+                }
+
+
+
+
+                float placeF = biggestHole / 2;
+                int place = Mathf.RoundToInt(placeF);
+
+                if (holeStartWhereID != directionList.Count - 1)
+                {
+                    direction = directionList[holeStartWhereID] + place;
+                }
+                else
+                {
+                    direction = directionList[holeStartWhereID] + place;
+                    if (direction > 360)
+                    {
+                        direction -= 360;
+                    }
+                }
+            }
+
+
+
+
+
+
+
+            GameObject blood = Instantiate(bloodPrefab, transform.position, Quaternion.identity);
+            if(direction != -1)
+            {
+                blood.GetComponent<Blood>().directionAngleProjection = direction;
+                directionList.Add(direction);
+            }
+            else
+                blood.GetComponent<Blood>().directionAngleProjection = directionList[Random.Range(0, directionList.Count)];
+
+            if(i == numberOfBlood)
+            {
+                blood.GetComponent<Blood>().bloodAmount = amount - Blood.bloodAmountBase * numberOfBlood ;
+            }
+        }
+    }
+
+    public void TakeDamage(float damage, bool playerDealtDamage = true)
+    {
+        float tempHealth = health;
+        tempHealth -= damage;
+
+
+        if (tempHealth <= 0 && !spawnBlood)
         {
             Debug.Log("Die");
+            if(playerDealtDamage)
+                damageByPlayer += (health);
+
+            health = 0;
+
             Die();
+        }
+        else
+        {
+            if(playerDealtDamage)
+                damageByPlayer += damage;
+            health = tempHealth;
         }
     }
 
