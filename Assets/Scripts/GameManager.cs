@@ -33,6 +33,8 @@ public class GameManager : MonoBehaviour
     public bool isGameOver = false;
     private AudioSource audioSource;
     private GameObject player;
+    [SerializeField] private AudioClip audioGong;
+    [SerializeField] private AudioClip audioGameOver;
     // -------------------------------------------------------------- Unity Func -------------------------------------------------------------- 
     private void Awake()
     {
@@ -73,7 +75,12 @@ public class GameManager : MonoBehaviour
 
             if(time >= 720) // 12h
             {
-                if(enemyCooldownLeft <= 0)
+                if (time==720)
+                {
+                    audioSource.clip = audioGong;
+                    audioSource.Play();
+                }
+                if (enemyCooldownLeft <= 0)
                 {
                     enemyCooldownLeft = enemyCooldown;
                     SpawnEnemy();
@@ -85,6 +92,8 @@ public class GameManager : MonoBehaviour
                     enemyWaveCooldownLeft = enemyWaveCooldown;
                     enemyCooldownLeft = 0;
                     wave++;
+                    audioSource.clip = audioGong;
+                    audioSource.Play();
                     enemyCooldown -= enemyCooldownDecrease;
                     wavePathIndex = Random.Range(0, spawningPaths.Count);
                 }
@@ -191,6 +200,7 @@ public class GameManager : MonoBehaviour
     {
         if (blood <= 0 && audioSource != null)
         {
+            audioSource.clip = audioGameOver;
             audioSource.Play();
         }
         if (blood <= 0 || time > 1439) // 23h59

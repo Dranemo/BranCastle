@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+
 public class BatAttack : MonoBehaviour
 {
     public float minSpeed = 4f; // The minimum speed of the bat
@@ -34,10 +35,9 @@ public class BatAttack : MonoBehaviour
 
     public void SetDirection(Vector2 newDirection)
     {
-        direction = newDirection;
+        // Normalize the direction to ensure it is a unit vector
+        direction = newDirection.normalized;
     }
-
-
 
     private void OnTriggerEnter2D(Collider2D other)
     {
@@ -68,4 +68,4 @@ public class BatAttack : MonoBehaviour
             Destroy(gameObject);
         }
     }
-}   
+}

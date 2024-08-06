@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using UnityEngine.Rendering;
 using static UnityEngine.ParticleSystem;
 
@@ -11,7 +12,6 @@ public class PlayerMovement : MonoBehaviour
     public float moveSpeed = 5f;
 
     public float coupDistance = 2f;
-    public float batDistance = 2.5f;
     public GameObject coupPrefab;
     public float punchForce = 0.1f;
     private GameObject currentCoup;
@@ -20,9 +20,6 @@ public class PlayerMovement : MonoBehaviour
     private Vector2 movement;
     private SpriteRenderer spriteRenderer;
     private bool punchEnabled = true;
-    private GameObject rectangle;
-    private bool isDrawingRectangle = false;
-    public GameObject batPrefab;
     private TrailRenderer trail;
 
     public GameManager gameManager;
@@ -36,6 +33,17 @@ public class PlayerMovement : MonoBehaviour
     private float angle;
     [SerializeField] Transform spriteTransform;
     private bool isFacingLeft = false;
+
+    [Header("UI")]
+    private Image cooldownImage; 
+
+    [Header("BatAttack")]
+    public float batAttackCooldown = 5f;
+    private bool canBatAttack = true;
+    public float batDistance = 2.5f;
+    private GameObject rectangle;
+    private bool isDrawingRectangle = false;
+    public GameObject batPrefab;
 
     [Header("DashSettings")]
     public KeyCode dashKey;
@@ -86,7 +94,15 @@ public class PlayerMovement : MonoBehaviour
         }
         gameManager = GameManager.Instance;
         particles = GetComponentInChildren<ParticleSystem>();
-
+        GameObject cooldownFillObject = GameObject.Find("cooldown_fill");
+        if (cooldownFillObject != null)
+        {
+            cooldownImage = cooldownFillObject.GetComponent<Image>();
+        }
+        else
+        {
+            Debug.LogError("L'objet 'cooldown_fill' n'a pas été trouvé dans la scène.");
+        }
     }
 
     void Update()
@@ -118,8 +134,9 @@ public class PlayerMovement : MonoBehaviour
         }
 
 
-        // Bat attack
-        if (Input.GetMouseButtonDown(2))
+        ////////////////////// Bat attack //////////////////////////////
+        
+        if (Input.GetMouseButtonDown(2) && canBatAttack)
         {
             isDrawingRectangle = true;
             rectangle.SetActive(true);
@@ -175,6 +192,52 @@ public class PlayerMovement : MonoBehaviour
         }
         FlipSpriteBasedOnCursor(angle);
     }
+    void BatAttack()
+    {
+        if (!canBatAttack) return; 
+
+        isDrawingRectangle = false;
+        rectangle.SetActive(false);
+        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        Vector2 playerPosition = transform.position; 
+
+        Vector2 direction = (mousePosition - playerPosition).normalized;
+
+        for (int i = 0; i < 50; i++)
+        {
+            Vector2 randomOffset = new Vector2(
+                Random.Range(-0.5f, 0.5f), 
+                Random.Range(-0.5f, 0.5f)
+            );
+
+            Vector2 spawnPosition2D = playerPosition + direction * (i * 0.1f) + randomOffset;
+            Vector3 spawnPosition = new Vector3(spawnPosition2D.x, spawnPosition2D.y, 0);
+
+            GameObject bat = Instantiate(batPrefab, spawnPosition, Quaternion.identity);
+            BatAttack batScript = bat.GetComponent<BatAttack>();
+            if (batScript != null)
+            {
+                batScript.SetDirection(direction);
+            }
+        }
+        StartCoroutine(BatAttackCooldown());
+    }
+
+    IEnumerator BatAttackCooldown()
+    {
+        canBatAttack = false; // Désactiver l'attaque
+        float cooldownTime = 0f;
+
+        while (cooldownTime < batAttackCooldown)
+        {
+            cooldownTime += Time.deltaTime;
+            cooldownImage.fillAmount = cooldownTime / batAttackCooldown; // Mettre à jour le remplissage de l'image
+            yield return null;
+        }
+
+        cooldownImage.fillAmount = 1f; // Assurez-vous que l'image est complètement remplie à la fin du cooldown
+        canBatAttack = true; // Réactiver l'attaque
+    }
 
 
     public void EnableMovement()
@@ -196,35 +259,8 @@ public class PlayerMovement : MonoBehaviour
             nearestCoffin = null;
         }
     }
-    void BatAttack()
-    {
-        isDrawingRectangle = false;
-        rectangle.SetActive(false);
-        Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 playerPosition = transform.position; // Get the player's position
 
-        // Calculate the direction vector from the player to the mouse cursor
-        Vector2 direction = (mousePosition - playerPosition).normalized;
-        Vector2 rectangleSize = rectangle.GetComponent<SpriteRenderer>().bounds.size;
-        Vector3 rectanglePosition = rectangle.transform.position;
 
-        // Instantiate bats at random positions within the rectangle
-        for (int i = 0; i < 50; i++) // Increase the number of bats to create a swarm
-        {
-            Vector3 spawnPosition = rectanglePosition + new Vector3(
-                Random.Range(-rectangleSize.x / 2, rectangleSize.x / 2),
-                Random.Range(-rectangleSize.y / 2, rectangleSize.y / 2),
-                0);
-
-        GameObject bat = Instantiate(batPrefab, spawnPosition, Quaternion.identity);
-            BatAttack batScript = bat.GetComponent<BatAttack>();
-            if (batScript != null)
-            {
-                batScript.SetDirection(direction);
-            }
-        }
-
-    }
     private void FlipSpriteBasedOnCursor(float angle)
     {
         if ((angle <= -90 && angle >= -180) || (angle < 180 && angle > 90))
