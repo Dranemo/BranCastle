@@ -69,7 +69,10 @@ public class Enemy : MonoBehaviour
     private bool onPath = true;
 
 
-
+    public float GetHealthEnemy()
+    {
+       return health;
+    }
     // ----------------------------------------- Func Unity -----------------------------------------
     protected void Awake()
     {
@@ -247,6 +250,7 @@ public class Enemy : MonoBehaviour
 
         // Trouver tous les GameObjects avec le tag "Unit" et les ajouter à la liste
         units.AddRange(GameObject.FindGameObjectsWithTag("Unit"));
+        Debug.Log(units.Count);
     }
     protected bool IsUnitClose()
     {
@@ -311,9 +315,6 @@ public class Enemy : MonoBehaviour
         blood.GetComponent<Blood>().bloodAmount = bloodCount;
 
 
-        Debug.Log(bloodCount + " // " + blood.GetComponent<Blood>().bloodAmount);
-
-
         Destroy(gameObject);
     }
 
@@ -322,7 +323,6 @@ public class Enemy : MonoBehaviour
         health -= damage;
         if (health <= 0 && !spawnBlood)
         {
-            Debug.Log("Die");
             Die();
         }
     }

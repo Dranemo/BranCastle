@@ -13,10 +13,10 @@ public class Dog : Unit
     }
     void Start()
     {
-        health = 100;
+        health = 10000;
         damage = 10;
-        attackSpeed = 0.1f;
-        bloodCost = 10;
+        attackSpeed = 1f;
+        bloodCost = 100;
 
         if (audioSource != null)
         {

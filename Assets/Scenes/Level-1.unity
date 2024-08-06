@@ -367,8 +367,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.0028500557, y: 0.0009999871, z: 0}
-    m_Extent: {x: 1.49675, y: 1.4984, z: 0}
+    m_Center: {x: 0.00054997206, y: 0.0021499991, z: 0}
+    m_Extent: {x: 1.5078499, y: 1.50155, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -976,14 +976,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Imp
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 6608013390347373377, guid: 07ee5d4f7560cf246bcb79b8747c41ce, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 606369980038303244, guid: 07ee5d4f7560cf246bcb79b8747c41ce, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 1609972817}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 07ee5d4f7560cf246bcb79b8747c41ce, type: 3}
 --- !u!1 &683407840
 GameObject:
@@ -11027,7 +11023,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 484097502180651598, guid: a8dbfe0da96d5a14cad91a7bc1972cd3, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.8077068
+      value: -6.44
       objectReference: {fileID: 0}
     - target: {fileID: 484097502180651598, guid: a8dbfe0da96d5a14cad91a7bc1972cd3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -16360,32 +16356,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: -90, y: 0, z: 0}
---- !u!1 &1609972810 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 606369980038303244, guid: 07ee5d4f7560cf246bcb79b8747c41ce, type: 3}
-  m_PrefabInstance: {fileID: 656927235}
-  m_PrefabAsset: {fileID: 0}
---- !u!95 &1609972817
-Animator:
-  serializedVersion: 5
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1609972810}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: a9a6584b5572a0344b3ac6101281175d, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!4 &1663985658 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 966979033799227259, guid: 5f4b33f352794074d8c3cba275082214, type: 3}
@@ -16781,10 +16751,6 @@ PrefabInstance:
     - target: {fileID: 5572489598378121736, guid: ef9e4f59205d51148b017844f5e2b549, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 5698364517945158973, guid: ef9e4f59205d51148b017844f5e2b549, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 88
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

@@ -69,7 +69,10 @@ public class Unit : MonoBehaviour
         if (enemiesInRange.Count == 0) return null;
         return enemiesInRange.OrderBy(e => (e.transform.position - transform.position).sqrMagnitude).FirstOrDefault();
     }
-
+    public float GetHealthUnit()
+    {
+        return health;
+    }
     void Start()
     {
     }
