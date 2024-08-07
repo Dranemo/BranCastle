@@ -44,7 +44,8 @@ public class PlayerMovement : MonoBehaviour
     private GameObject rectangle;
     private bool isDrawingRectangle = false;
     public GameObject batPrefab;
-
+    [SerializeField] private AudioClip batSound;
+    private AudioSource audioSource;
     [Header("DashSettings")]
     public KeyCode dashKey;
     public float dashCooldown;
@@ -62,7 +63,7 @@ public class PlayerMovement : MonoBehaviour
     public float capePushDuration;
     public GameObject capePrefab;
     public bool canCape = true;
-    private AudioSource capeAudioSource;
+    [SerializeField] private AudioClip capeAudio;
 
     public void DisablePunch()
     {
@@ -75,7 +76,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void Awake()
     {
-        capeAudioSource = GetComponent<AudioSource>();
+        audioSource = GetComponent<AudioSource>();
         mapOverview = FindObjectOfType<MapOverview>();
         canvasFader = FindObjectOfType<CanvasFader>();
         animator = GetComponent<Animator>();
@@ -195,7 +196,8 @@ public class PlayerMovement : MonoBehaviour
     void BatAttack()
     {
         if (!canBatAttack) return; 
-
+        audioSource.clip = batSound;
+        audioSource.Play();
         isDrawingRectangle = false;
         rectangle.SetActive(false);
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -302,7 +304,8 @@ public class PlayerMovement : MonoBehaviour
 
     IEnumerator CapeAttack()
     {
-        //capeAudioSource.Play();
+        audioSource.clip = capeAudio;
+        audioSource.Play();
         Vector2 coupCapePosotion = rb.position;
         currentCape = Instantiate(capePrefab, coupCapePosotion, Quaternion.Euler(0, 0, 0));
         yield return new WaitForSeconds(capeDuration); 
@@ -323,7 +326,6 @@ public class PlayerMovement : MonoBehaviour
 
             rb.MovePosition(rb.position + movement * moveSpeed * Time.fixedDeltaTime);
 
-            // Calculer la vitesse en utilisant la magnitude du vecteur de mouvement
             float speed = movement.magnitude * moveSpeed;
             animator.SetFloat("speed", speed);
 
