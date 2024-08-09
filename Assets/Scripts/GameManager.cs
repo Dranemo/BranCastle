@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public bool isPlayerInLight = false;
 
+    [SerializeField] private GameObject CanvaPrefab;
     [SerializeField] private GameObject MapPrefab;
     private List<Path> paths;
     private List<Path> spawningPaths;
@@ -51,12 +52,17 @@ public class GameManager : MonoBehaviour
         AddPaths();
         SetDistancePaths();
 
-       
+
 
 
         // Player
         Transform playerSpawnPoint = MapPrefab.transform.Find("PlayerSpawnPoint");
         GameObject player = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
+
+
+        // Canva
+        GameObject canva = Instantiate(CanvaPrefab);
+        canva.GetComponent<Canvas>().worldCamera = player.transform.Find("Main Camera").GetComponent<Camera>();
 
         wavePathIndex = Random.Range(0, spawningPaths.Count);
     }
@@ -191,7 +197,7 @@ public class GameManager : MonoBehaviour
         if (blood <= 0 || time > 1439) // 23h59
         {
             isGameOver = true;
-            SceneManager.LoadScene("GameOver");
+            SceneManager.LoadScene("GameOver Dranemo");
         }
     }
 
