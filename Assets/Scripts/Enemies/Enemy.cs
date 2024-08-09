@@ -59,6 +59,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] Sprite downSprite;
     [SerializeField] Sprite leftSprite;
     [SerializeField] Sprite rightSprite;
+    bool flashingSprite;
+    bool shrinkingSprite;
+    bool resetFlashing = false;
+    bool stopFlashingCoroutine = false;
 
     [Header("Status")]
     [SerializeField] public bool isStunned;
@@ -82,6 +86,8 @@ public class Enemy : MonoBehaviour
     {
         units = new List<GameObject>();
         health = maxHealth;
+        flashingSprite = false;
+        shrinkingSprite = false;
 
         //utez vos waypoints � la liste ici, ou initialisez-les dans l'inspecteur Unity
         player = GameObject.FindGameObjectWithTag("Player");
@@ -316,13 +322,11 @@ public class Enemy : MonoBehaviour
         float numberBloodF = bloodCount * percentDamage;
         int numberBlood = Mathf.RoundToInt(numberBloodF);
 
-        SpawnBlood(numberBlood);
-
-
-        Destroy(gameObject);
+        StartCoroutine(Shrinking());
+        StartCoroutine(SpawnBlood(numberBlood));
     }
 
-    void SpawnBlood(int amount)
+    IEnumerator SpawnBlood(int amount)
     {
         float numberOfBloodF = amount / Blood.bloodAmountBase;
         int numberOfBlood = (int)numberOfBloodF;
@@ -337,6 +341,9 @@ public class Enemy : MonoBehaviour
         if (numberOfBlood != numberOfBloodF)
             bloodAmountNotRound = 1;
 
+
+        while (shrinkingSprite)
+            yield return null;
 
         // Directions de base (séparées de minimum 30°
         for(int i = 0; i < numberOfBlood + bloodAmountNotRound; i++)
@@ -452,6 +459,8 @@ public class Enemy : MonoBehaviour
                 blood.GetComponent<Blood>().bloodAmount = amount - Blood.bloodAmountBase * numberOfBlood ;
             }
         }
+
+        Destroy(gameObject);
     }
 
     public void TakeDamage(float damage, bool playerDealtDamage = true)
@@ -460,8 +469,13 @@ public class Enemy : MonoBehaviour
         tempHealth -= damage;
 
 
+
+
+        // Mort ou dégâts
         if (tempHealth <= 0 && !spawnBlood)
         {
+            stopFlashingCoroutine = true;
+
             Debug.Log("Die");
             if(playerDealtDamage)
                 damageByPlayer += (health);
@@ -472,7 +486,11 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            if(playerDealtDamage)
+            // Cligotement
+            if (!flashingSprite)
+                StartCoroutine(Flashing());
+
+            if (playerDealtDamage)
                 damageByPlayer += damage;
             health = tempHealth;
         }
@@ -494,6 +512,88 @@ public class Enemy : MonoBehaviour
     }
 
 
+    IEnumerator Flashing()
+    {
+        Debug.Log("flashing");
+
+        flashingSprite = true;
+        SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        float actualSpeed = speed;
+        speed = 0;
+
+        spriteRenderer.enabled = false;
+
+
+        for (int i = 0; i < 2; i++)
+        {
+            yield return new WaitForSeconds(0.2f);
+
+            spriteRenderer.enabled = true;
+
+            if (resetFlashing)
+            {
+                resetFlashing = false;
+                i = 0;
+            }
+            if (stopFlashingCoroutine)
+            {
+                stopFlashingCoroutine = false;
+
+                ResetFlashingState(spriteRenderer, actualSpeed);
+
+                yield break;
+            }
+
+            yield return new WaitForSeconds(0.2f);
+
+            spriteRenderer.enabled = false;
+
+            if (resetFlashing)
+            {
+                resetFlashing = false;
+                i = 0;
+            }
+            if (stopFlashingCoroutine)
+            {
+                stopFlashingCoroutine = false;
+
+                ResetFlashingState(spriteRenderer, actualSpeed);
+
+                yield break;
+            }
+        }
+
+        yield return new WaitForSeconds(0.2f);
+
+        ResetFlashingState(spriteRenderer, actualSpeed);
+    }
+
+    IEnumerator Shrinking()
+    {
+        shrinkingSprite = true;
+        Debug.Log("shrinking");
+
+        float time = 0;
+        while (time <= 0.5f)
+        {
+            time += Time.deltaTime;
+            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, time);
+            yield return null;
+        }
+
+        shrinkingSprite = false;
+    }
+
+
+    void ResetFlashingState(SpriteRenderer spriteRenderer, float actualSpeed)
+    {
+        spriteRenderer.enabled = true;
+
+        attackCooldown = attackSpeed;
+        speed = actualSpeed;
+
+        flashingSprite = false;
+    }
 
 
     // ----------------------------------------- Path Related -----------------------------------------

@@ -117,8 +117,8 @@ MonoBehaviour:
   m_ShadowVolumeIntensityEnabled: 0
   m_ShadowVolumeIntensity: 0.75
   m_LocalBounds:
-    m_Center: {x: -0.4158001, y: -0.7871001, z: 0}
-    m_Extent: {x: 7.0924, y: 5.2457, z: 0}
+    m_Center: {x: -0.4064498, y: -0.79265, z: 0}
+    m_Extent: {x: 7.09935, y: 5.24275, z: 0}
   m_PointLightInnerAngle: 360
   m_PointLightOuterAngle: 360
   m_PointLightInnerRadius: 0
@@ -432,6 +432,14 @@ PrefabInstance:
       propertyPath: distanceNextWaypoint
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4189637672598945220, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceRitual
+      value: 103.01285
+      objectReference: {fileID: 0}
+    - target: {fileID: 4189637672598945220, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: distanceNextWaypoint
+      value: 14.705442
+      objectReference: {fileID: 0}
     - target: {fileID: 4282450895261771455, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: m_LocalPosition.x
       value: 16.127497
@@ -522,7 +530,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5237321532136972237, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: distancePath
-      value: 88.3074
+      value: 103.01285
       objectReference: {fileID: 0}
     - target: {fileID: 5237321532136972237, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: waypoints.Array.size
@@ -531,11 +539,11 @@ PrefabInstance:
     - target: {fileID: 5237321532136972237, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: waypoints.Array.data[0]
       value: 
-      objectReference: {fileID: 4024250531133509159}
+      objectReference: {fileID: 6186419816765900527}
     - target: {fileID: 5237321532136972237, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: waypoints.Array.data[1]
       value: 
-      objectReference: {fileID: 6186419816765900527}
+      objectReference: {fileID: 4024250531133509159}
     - target: {fileID: 5237321532136972237, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: waypoints.Array.data[2]
       value: 
