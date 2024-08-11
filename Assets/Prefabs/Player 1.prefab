@@ -5229,6 +5229,7 @@ GameObject:
   - component: {fileID: 8961384696548019481}
   - component: {fileID: -1031967321841958013}
   - component: {fileID: 317424476917236801}
+  - component: {fileID: 6844953783898590544}
   m_Layer: 3
   m_Name: Player 1
   m_TagString: Player
@@ -5353,6 +5354,11 @@ MonoBehaviour:
   punchForce: 0.5
   gameManager: {fileID: 0}
   spriteTransform: {fileID: 2806417236730911550}
+  comboResetTime: 1
+  batKey: 49
+  hypnosisKey: 50
+  drainKey: 51
+  biteKey: 52
   batAttackCooldown: 5
   batDistance: 2.5
   batPrefab: {fileID: 6930754229455431999, guid: 7af7c547d996c5f4c8fe168c2486ef30, type: 3}
@@ -5524,6 +5530,21 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6844953783898590544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6364868091912172025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d22740c1dc2ab1e428ac80d54038dd2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPrefab: {fileID: 7379560963317096358, guid: 0df40ff72d36f9144a40654d7962bbd5, type: 3}
+  spawnDistance: 1.5
+  hitLifetime: 0.32
 --- !u!1 &6666350053944488157
 GameObject:
   m_ObjectHideFlags: 0

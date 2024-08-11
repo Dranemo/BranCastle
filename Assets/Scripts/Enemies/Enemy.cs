@@ -22,7 +22,6 @@ public class Enemy : MonoBehaviour
     float attackCooldown = 1;
     protected State state;
 
-
     protected enum State
     {
         Moving,
@@ -38,6 +37,8 @@ public class Enemy : MonoBehaviour
         Right
     }
 
+    private GameObject targetEnemy;
+    public float attackRange = 1.0f;
 
 
     [SerializeField] protected GameObject bloodPrefab;
@@ -95,6 +96,14 @@ public class Enemy : MonoBehaviour
 
     protected void Update()
     {
+        if (isHypnotized)
+        {
+            FindClosestEnemy();
+            if (targetEnemy != null)
+            {
+                FollowAndAttack(targetEnemy);
+            }
+        }
         //CheckBetterWaypoint();
         UpdateUnitList();
 
@@ -135,7 +144,6 @@ public class Enemy : MonoBehaviour
             MovingToTheNextCheckpoint();
 
         }
-
 
         attackCooldown -= Time.deltaTime;
     }
@@ -250,7 +258,6 @@ public class Enemy : MonoBehaviour
 
         // Trouver tous les GameObjects avec le tag "Unit" et les ajouter à la liste
         units.AddRange(GameObject.FindGameObjectsWithTag("Unit"));
-        Debug.Log(units.Count);
     }
     protected bool IsUnitClose()
     {
@@ -471,6 +478,52 @@ public class Enemy : MonoBehaviour
                     currentWaypointIndex++;
                 }
             }
+        }
+    }
+
+    // ----------------------------------------- Hypnosis Related -----------------------------------------
+    public void Hypnotize()
+    {
+        gameObject.tag = "Unit";
+        gameObject.layer = LayerMask.NameToLayer("Unit");
+        Debug.Log("Enemy hypnotized: " + gameObject.name);
+        isHypnotized = true;
+    }
+    void FindClosestEnemy()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        float closestDistance = Mathf.Infinity;
+        GameObject closestEnemy = null;
+
+        foreach (GameObject enemy in enemies)
+        {
+            if (enemy != gameObject) // Ne pas se cibler soi-même
+            {
+                float distanceToEnemy = Vector2.Distance(transform.position, enemy.transform.position);
+                if (distanceToEnemy < closestDistance)
+                {
+                    closestDistance = distanceToEnemy;
+                    closestEnemy = enemy;
+                }
+            }
+        }
+
+        targetEnemy = closestEnemy;
+    }
+
+    void FollowAndAttack(GameObject enemy)
+    {
+        float distanceToEnemy = Vector2.Distance(transform.position, enemy.transform.position);
+
+        if (distanceToEnemy > attackRange)
+        {
+            // Suivre l'ennemi
+            Vector2 direction = (enemy.transform.position - transform.position).normalized;
+            transform.position = Vector2.MoveTowards(transform.position, enemy.transform.position, speed * Time.deltaTime);
+        }
+        else
+        {
+            Attack();
         }
     }
 }

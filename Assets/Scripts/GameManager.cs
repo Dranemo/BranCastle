@@ -133,7 +133,7 @@ public class GameManager : MonoBehaviour
 
 
 
-        Debug.Log("Spawn Enemy : " + enemy.name + " at " + path.name);
+        //Debug.Log("Spawn Enemy : " + enemy.name + " at " + path.name);
         enemy.currentPathIndex = paths.IndexOf(path);
         enemy.paths = this.paths;
 
@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
         List<Path> pathsToLoad = new List<Path>();
         List<Path> pathsLoaded = new List<Path>();
 
-        Debug.Log("Paths : " + paths.Count);
+        //Debug.Log("Paths : " + paths.Count);
         foreach (Path path in paths) 
             pathsToLoad.Add(path);
 
@@ -180,7 +180,7 @@ public class GameManager : MonoBehaviour
                     paths[paths.IndexOf(path)].SetDistancePath();
                     pathsLoaded.Add(path);
 
-                    Debug.Log(path.name + " : " + path.distancePath + "m");
+                    //Debug.Log(path.name + " : " + path.distancePath + "m");
                 }
             }
 

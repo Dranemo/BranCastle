@@ -32,11 +32,12 @@ public class TeleportationManager : MonoBehaviour
     {
         if (playerTransform != null && coffinTransform != null)
         {
-            playerTransform.position = coffinTransform.position;
-            }
+            playerTransform.position = coffinTransform.position + new Vector3(0, -1, 0);
+        }
         else
         {
             Debug.LogError("Référence manquante pour le joueur ou le cercueil.");
         }
     }
+
 }

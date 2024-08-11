@@ -33,6 +33,22 @@ public class PlayerMovement : MonoBehaviour
     private float angle;
     [SerializeField] Transform spriteTransform;
     private bool isFacingLeft = false;
+    private GameObject closestEnemy;
+
+    [Header("Combo Settings")]
+    public float comboResetTime = 0.28f; 
+    private int comboStep = 0;
+    private float lastClickTime = 0;
+    private string[] attackAnimations = { "Attack1", "Attack2", "Attack3" };
+    private bool isAttacking = false;
+    private bool isAttacking2 = false;
+    private bool isAttacking3 = false;
+
+    [Header("Inputs")]
+    [SerializeField] private KeyCode batKey;
+    [SerializeField] private KeyCode hypnosisKey;
+    [SerializeField] private KeyCode drainKey;
+    [SerializeField] private KeyCode biteKey;
 
     [Header("UI")]
     private Image cooldownImage; 
@@ -108,17 +124,19 @@ public class PlayerMovement : MonoBehaviour
 
     void Update()
     {
-
+        if (Time.time - lastClickTime > comboResetTime)
+        {
+            ResetAttackBools();
+            comboStep = 0;
+        }
         Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
         if (punchEnabled && Input.GetMouseButtonDown(0) && currentCoup == null && !isDrawingRectangle && !isOverviewActivated)
         {
-
-            Vector3 coupPosition = transform.position + new Vector3(direction.x, direction.y, 0) * coupDistance;
-
-
-            currentCoup = Instantiate(coupPrefab, coupPosition, Quaternion.Euler(0, 0, angle+90));
-            StartCoroutine(DestroyAfterSeconds(currentCoup, 0.1f));
+            HandleCombo();
+            //Vector3 coupPosition = transform.position + new Vector3(direction.x, direction.y, 0) * coupDistance;
+            //currentCoup = Instantiate(coupPrefab, coupPosition, Quaternion.Euler(0, 0, angle+90));
+            //StartCoroutine(DestroyAfterSeconds(currentCoup, 0.1f));
         }
         // Movement
         transform.position += (Vector3)movement * moveSpeed * Time.deltaTime;
@@ -136,11 +154,11 @@ public class PlayerMovement : MonoBehaviour
 
 
         ////////////////////// Bat attack //////////////////////////////
-        
-        if (Input.GetMouseButtonDown(2) && canBatAttack)
+
+        if (Input.GetKeyDown(batKey))
         {
-            isDrawingRectangle = true;
-            rectangle.SetActive(true);
+            isDrawingRectangle = !isDrawingRectangle;
+            rectangle.SetActive(isDrawingRectangle);
         }
         if (isDrawingRectangle)
         {
@@ -149,11 +167,6 @@ public class PlayerMovement : MonoBehaviour
             direction = direction.normalized * batDistance; // Keep the rectangle within the specified radius
             rectangle.transform.position = transform.position + new Vector3(direction.x, direction.y, 0);
             rectangle.transform.rotation = Quaternion.Euler(0, 0, angle);
-        }
-        if (Input.GetMouseButtonDown(1) && isDrawingRectangle)
-        {
-            isDrawingRectangle = false;
-            rectangle.SetActive(false);
         }
         if (Input.GetMouseButtonDown(0) && isDrawingRectangle)
         {
@@ -192,6 +205,96 @@ public class PlayerMovement : MonoBehaviour
             mapOverview.DeactivateOverview();
         }
         FlipSpriteBasedOnCursor(angle);
+
+        // Hypnosis logic
+        if (Input.GetKeyDown(hypnosisKey))
+        {
+            FindClosestEnemyToCursor();
+        }
+    }
+    void FindClosestEnemyToCursor()
+    {
+        Vector2 cursorPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        float closestDistance = Mathf.Infinity;
+
+        foreach (GameObject enemy in enemies)
+        {
+            float distanceToCursor = Vector2.Distance(cursorPosition, enemy.transform.position);
+            if (distanceToCursor < closestDistance)
+            {
+                closestDistance = distanceToCursor;
+                closestEnemy = enemy;
+            }
+        }
+
+        if (closestEnemy != null)
+        {
+            Debug.Log("Closest enemy to cursor: " + closestEnemy.name);
+            closestEnemy.GetComponent<Enemy>().Hypnotize();
+        }
+    }
+    void HandleCombo()
+    {
+        if (animator == null)
+        {
+            Debug.LogError("Animator n'est pas assigné !");
+            return;
+        }
+
+        float timeSinceLastClick = Time.time - lastClickTime;
+
+        if (timeSinceLastClick > comboResetTime)
+        {
+            comboStep = 0;
+            ResetAttackBools();
+        }
+
+        lastClickTime = Time.time;
+
+        if (comboStep < attackAnimations.Length)
+        {
+            animator.Play(attackAnimations[comboStep]);
+            SetAttackBool(comboStep);
+            comboStep++;
+        }
+        else
+        {
+            comboStep = 0;
+            ResetAttackBools();
+        }
+    }
+
+    void SetAttackBool(int step)
+    {
+        ResetAttackBools();
+
+        switch (step)
+        {
+            case 0:
+                isAttacking = true;
+                animator.SetBool("isAttacking", isAttacking);
+                break;
+            case 1:
+                isAttacking2 = true;
+                animator.SetBool("isAttacking2", isAttacking2);
+                break;
+            case 2:
+                isAttacking3 = true;
+                animator.SetBool("isAttacking3", isAttacking3);
+                break;
+        }
+    }
+
+    void ResetAttackBools()
+    {
+        isAttacking = false;
+        isAttacking2 = false;
+        isAttacking3 = false;
+
+        animator.SetBool("isAttacking", isAttacking);
+        animator.SetBool("isAttacking2", isAttacking2);
+        animator.SetBool("isAttacking3", isAttacking3);
     }
     void BatAttack()
     {
@@ -284,6 +387,7 @@ public class PlayerMovement : MonoBehaviour
 
     public IEnumerator WaitForDeathAnimation()
     {
+        canMove = false;
         animator.SetBool("Dead", true);
         Debug.Log("Player is dead");
 
