@@ -24,6 +24,7 @@ public class Gargoyle : Unit
         {
             if (value) state = GargoyleState.Wall;
             animator.SetBool("isWall", value);
+            animator.SetBool("isIdle", !value);
         }
     }
 
@@ -34,6 +35,7 @@ public class Gargoyle : Unit
         {
             if (value) state = GargoyleState.Idle;
             animator.SetBool("isIdle", value);
+            animator.SetBool("isWall", !value);
         }
     }
 
@@ -117,7 +119,6 @@ public class Gargoyle : Unit
         }
         if (IsWall)
         {
-            // Animation wall
             health = healthWall;
             unitCircleScript.triggerActive = false;
         }
@@ -128,13 +129,11 @@ public class Gargoyle : Unit
         }
         else if (IsAttacking)
         {
-            // Do attack stuff
             health = healthWall / 2;
             unitCircleScript.triggerActive = true;
         }
         else if (IsMoving)
         {
-            // Do move stuff
             health = healthWall / 2;
             unitCircleScript.triggerActive = true;
         }
