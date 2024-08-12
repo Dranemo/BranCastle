@@ -23,7 +23,7 @@ public class ProjectileEnemy : MonoBehaviour
     public void Activate()
     {
         gameObject.SetActive(true);
-        Debug.Break();
+        //Debug.Break();
 
         startPos = transform.position;
         timeElapsed = 0;

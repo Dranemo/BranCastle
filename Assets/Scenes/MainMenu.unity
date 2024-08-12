@@ -741,7 +741,7 @@ RectTransform:
   m_GameObject: {fileID: 1291707482}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2076414797}
@@ -816,7 +816,7 @@ RectTransform:
   m_GameObject: {fileID: 1712117735}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.8, y: 0.8, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2076414797}
@@ -1032,6 +1032,10 @@ PrefabInstance:
       propertyPath: mainMenu
       value: 
       objectReference: {fileID: 754305845}
+    - target: {fileID: 3945979035845515897, guid: 392beda38a8c5e54caa4297b1f703684, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 4339122377252394335, guid: 392beda38a8c5e54caa4297b1f703684, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1213,6 +1217,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 293052887}
+    - target: {fileID: 8867806444000723392, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 8935589271820372607, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
       propertyPath: m_Name
       value: CanvasOptions
@@ -1242,6 +1250,10 @@ PrefabInstance:
       propertyPath: canvaAchievement
       value: 
       objectReference: {fileID: 983559676}
+    - target: {fileID: 3483815043325784036, guid: 61a3a44b0041fef4fabdb63beb9bf3e1, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 5002174886360224801, guid: 61a3a44b0041fef4fabdb63beb9bf3e1, type: 3}
       propertyPath: m_Camera
       value: 
@@ -1427,6 +1439,10 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 293052887}
+    - target: {fileID: 5321175625796395034, guid: 6c3171474e9c5c74ab84501e7ff39694, type: 3}
+      propertyPath: m_AnchoredPosition.y
+      value: 300
+      objectReference: {fileID: 0}
     - target: {fileID: 5591614068145705329, guid: 6c3171474e9c5c74ab84501e7ff39694, type: 3}
       propertyPath: mainMenu
       value: 

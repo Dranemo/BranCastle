@@ -32,6 +32,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] public float time /*{ get; private set; }*/ = 690; // 11h30
 
     public bool isGameOver = false;
+    bool coroutineStartedDeath = false;
+
     private AudioSource audioSource;
     private GameObject player;
     [SerializeField] private AudioClip audioGong;
@@ -215,8 +217,9 @@ public class GameManager : MonoBehaviour
             Debug.Log("Game Over: Loading GameOver Scene");
             PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
             Debug.Log(playerMovement);
-            if (playerMovement != null)
+            if (playerMovement != null && !coroutineStartedDeath)
             {
+                coroutineStartedDeath = true;
                 StartCoroutine(playerMovement.WaitForDeathAnimation());
             }
         }
