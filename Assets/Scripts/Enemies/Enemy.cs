@@ -38,7 +38,7 @@ public class Enemy : MonoBehaviour
         Right
     }
 
-    private GameObject targetEnemy;
+    [SerializeField] protected GameObject targetEnemy;
     public float attackRange = 1.0f;
 
 
@@ -105,6 +105,11 @@ public class Enemy : MonoBehaviour
 
     protected void Update()
     {
+        UpdateUnitList();
+        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
+        bool isUnitClose = IsUnitClose();
+
+
         if (isHypnotized)
         {
             FindClosestEnemy();
@@ -113,50 +118,48 @@ public class Enemy : MonoBehaviour
                 FollowAndAttack(targetEnemy);
             }
         }
-        //CheckBetterWaypoint();
-        UpdateUnitList();
 
-
-        float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
-        bool isUnitClose = IsUnitClose();
-
-        if (isStunned)
-        {
-            StartCoroutine(Stunned());
-        }
-        else if (isUnitClose || distanceToPlayer < detectionRadius)
-        {
-            if (isUnitClose)
-            {
-                DetectUnit();
-            }
-            if (distanceToPlayer < detectionRadius)
-            {
-                RaycastHit2D hit = Physics2D.Linecast(transform.position, player.transform.position, layerMaskRaycast);
-
-
-                if (hit.collider == null)
-                {
-                    DetectPlayer();
-                    Debug.DrawLine(transform.position, player.transform.position, Color.green);
-                }
-                else
-                {
-                    MovingToTheNextCheckpoint();
-                    Debug.DrawLine(transform.position, player.transform.position, Color.red);
-                }
-            }
-        }
         else
         {
-            //Debug.Log("Player Not Detected");
-            MovingToTheNextCheckpoint();
+            if (isStunned)
+            {
+                StartCoroutine(Stunned());
+            }
+            else if (isUnitClose || distanceToPlayer < detectionRadius)
+            {
+                if (isUnitClose)
+                {
+                    DetectUnit();
+                }
+                if (distanceToPlayer < detectionRadius)
+                {
+                    RaycastHit2D hit = Physics2D.Linecast(transform.position, player.transform.position, layerMaskRaycast);
 
+
+                    if (hit.collider == null)
+                    {
+                        DetectPlayer();
+                        Debug.DrawLine(transform.position, player.transform.position, Color.green);
+                    }
+                    else
+                    {
+                        MovingToTheNextCheckpoint();
+                        Debug.DrawLine(transform.position, player.transform.position, Color.red);
+                    }
+                }
+            }
+
+
+            else
+            {
+                //Debug.Log("Player Not Detected");
+                MovingToTheNextCheckpoint();
+
+            }
         }
 
         attackCooldown -= Time.deltaTime;
     }
-
 
 
 
@@ -471,7 +474,7 @@ public class Enemy : MonoBehaviour
             }
         }
 
-        Destroy(gameObject);
+        StartCoroutine(DestroyAfterFrame());
     }
 
     public void TakeDamage(float damage, bool playerDealtDamage = true)
@@ -604,6 +607,15 @@ public class Enemy : MonoBehaviour
         speed = actualSpeed;
 
         flashingSprite = false;
+    }
+
+    IEnumerator DestroyAfterFrame()
+    {
+        // Attendez la fin de la frame
+        yield return new WaitForEndOfFrame();
+
+        // Détruisez l'objet de jeu
+        Destroy(gameObject);
     }
 
 
@@ -743,7 +755,13 @@ public class Enemy : MonoBehaviour
         gameObject.layer = LayerMask.NameToLayer("Unit");
         Debug.Log("Enemy hypnotized: " + gameObject.name);
         isHypnotized = true;
+
+        state = State.Moving;
+
+        //Debug.Break();
     }
+
+
     void FindClosestEnemy()
     {
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
@@ -772,12 +790,14 @@ public class Enemy : MonoBehaviour
 
         if (distanceToEnemy > attackRange)
         {
+            state = State.Moving;
             // Suivre l'ennemi
             Vector2 direction = (enemy.transform.position - transform.position).normalized;
             transform.position = Vector2.MoveTowards(transform.position, enemy.transform.position, speed * Time.deltaTime);
         }
         else
         {
+            state = State.AttackingUnit;
             Attack();
         }
     }

@@ -33,9 +33,16 @@ using UnityEngine;
             {
                 GameManager.Instance.TakeDamage(damage);
             }
-            else if (state == State.AttackingUnit)
+            else if (state == State.AttackingUnit && gameObject.layer != 7)
             {
-                closestUnit.GetComponent<Unit>().TakeDamage(damage);
-            }
+                if (closestUnit.gameObject.GetComponent<Unit>() != null)
+                {
+                    closestUnit.gameObject.GetComponent<Unit>().TakeDamage(damage);
+                }
+                else
+                {
+                    closestUnit.gameObject.GetComponent<Enemy>().TakeDamage(damage);
+                }
+        }
         }
     }
