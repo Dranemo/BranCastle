@@ -43,7 +43,7 @@ public class Unit : MonoBehaviour
             attackCoroutine = null;
         }
     }
-    private IEnumerator AttackEnemy()
+    protected virtual IEnumerator AttackEnemy()
     {
         while (enemiesInRange.Count > 0)
         {
@@ -63,19 +63,22 @@ public class Unit : MonoBehaviour
         attackCoroutine = null;
     }
 
-    private GameObject GetClosestEnemy()
+    protected GameObject GetClosestEnemy()
     {
         enemiesInRange.RemoveAll(item => item == null); // Nettoyer la liste des ennemis nuls
         if (enemiesInRange.Count == 0) return null;
         return enemiesInRange.OrderBy(e => (e.transform.position - transform.position).sqrMagnitude).FirstOrDefault();
     }
-
+    public float GetHealthUnit()
+    {
+        return health;
+    }
     void Start()
     {
     }
 
     // Update is called once per frame
-    void Update()
+    protected virtual void Update()
     {
         AttackEnemy();
     }

@@ -1,59 +1,69 @@
-using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using System.Collections;
 
 public class PlayerAttack : MonoBehaviour
 {
-    public float attackDuration = 0.2f;
-    private EdgeCollider2D attackCollider;
-    private Vector2[] colliderPoints;
-
-
+    public GameObject hitPrefab;
+    public float spawnDistance = 1.0f; 
+    public float hitLifetime = 2.0f; 
+    private Animator animator;
 
     void Start()
     {
-        attackCollider = GetComponent<EdgeCollider2D>();
-        attackCollider.enabled = false;
-
-        // Create points for a 1/5 arc
-        colliderPoints = new Vector2[20];
-        for (int i = 0; i < colliderPoints.Length; i++)
+        animator = GetComponent<Animator>();
+        if (animator == null)
         {
-            float angle = i * Mathf.PI / 5f / (colliderPoints.Length - 1); // Divide by 5 for a 1/5 arc
-            colliderPoints[i] = new Vector2(Mathf.Cos(angle), Mathf.Sin(angle));
+            Debug.LogError("Animator n'est pas assigné !");
         }
-        attackCollider.points = colliderPoints;
     }
 
     void Update()
     {
-        // Attack
         if (Input.GetMouseButtonDown(0))
         {
-            StartCoroutine(Attack());
+            SpawnHitPrefab();
         }
     }
 
-   
-
-    IEnumerator Attack()
+    void SpawnHitPrefab()
     {
-        attackCollider.enabled = true;
-        yield return new WaitForSeconds(attackDuration);
-        attackCollider.enabled = false;
-    }
-
-    // Draw the collider in the scene view
-    void OnDrawGizmos()
-    {
-        if (attackCollider && attackCollider.enabled)
+        if (hitPrefab == null)
         {
-            Gizmos.color = Color.red;
-            for (int i = 0; i < colliderPoints.Length - 1; i++)
-            {
-                Gizmos.DrawLine(transform.TransformPoint(colliderPoints[i]), transform.TransformPoint(colliderPoints[i + 1]));
-            }
+            Debug.LogError("hitPrefab n'est pas assigné !");
+            return;
         }
+        Vector3 playerPosition = transform.position;
+
+        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+        Vector3 direction = (mousePosition - playerPosition).normalized;
+
+        Vector3 spawnPosition = playerPosition + direction * spawnDistance;
+
+        float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
+        Quaternion rotation = Quaternion.Euler(0, 0, angle + 90); 
+
+        GameObject hitInstance = Instantiate(hitPrefab, spawnPosition, rotation);
+
+        Animator hitAnimator = hitInstance.GetComponent<Animator>();
+        if (hitAnimator != null)
+        {
+            hitAnimator.SetBool("isAttacking", animator.GetBool("isAttacking"));
+            hitAnimator.SetBool("isAttacking2", animator.GetBool("isAttacking2"));
+            hitAnimator.SetBool("isAttacking3", animator.GetBool("isAttacking3"));
+        }
+        else
+        {
+            Debug.LogError("hitPrefab n'a pas d'Animator !");
+        }
+
+        StartCoroutine(DestroyAfterTime(hitInstance, hitLifetime));
+    }
+
+    IEnumerator DestroyAfterTime(GameObject instance, float delay)
+    {
+        yield return new WaitForSeconds(delay);
+        Destroy(instance);
     }
 }
+
