@@ -31,7 +31,7 @@ public class MainMenu : MonoBehaviour
 
     void Play()
     {
-        ScenesManager.LoadScene("Level-1 Dranemo");
+        ScenesManager.Instance.LoadScene("Level-1");
     }
 
     void Options() {
