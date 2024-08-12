@@ -58,7 +58,7 @@ public class PlayerMovement : MonoBehaviour
     private bool canBatAttack = true;
     public float batDistance = 2.5f;
     private GameObject rectangle;
-    private bool isDrawingRectangle = false;
+    public bool isDrawingRectangle = false;
     public GameObject batPrefab;
     [SerializeField] private AudioClip batSound;
     private AudioSource audioSource;
@@ -81,6 +81,7 @@ public class PlayerMovement : MonoBehaviour
     public bool canCape = true;
     [SerializeField] private AudioClip capeAudio;
 
+    public bool isHypnotizing = false; 
     public void DisablePunch()
     {
         punchEnabled = false;
@@ -214,6 +215,7 @@ public class PlayerMovement : MonoBehaviour
     }
     void FindClosestEnemyToCursor()
     {
+        isHypnotizing = true;
         Vector2 cursorPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
         float closestDistance = Mathf.Infinity;
@@ -232,6 +234,11 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("Closest enemy to cursor: " + closestEnemy.name);
             closestEnemy.GetComponent<Enemy>().Hypnotize();
+            isHypnotizing = false;
+        }
+        else
+        {
+            isHypnotizing = false;
         }
     }
     void HandleCombo()
@@ -372,17 +379,13 @@ public class PlayerMovement : MonoBehaviour
         {
             isFacingLeft = true;
             animator.SetBool("isFacingLeft", isFacingLeft);
-
-            spriteTransform.localScale = new Vector3(-2, 2, 1);
         }
         else
         {
             isFacingLeft = false;
-            animator.SetBool("isFacingLeft", isFacingLeft);
-
-            spriteTransform.localScale = new Vector3(2, 2, 1); 
         }
     }
+
 
 
     public IEnumerator WaitForDeathAnimation()

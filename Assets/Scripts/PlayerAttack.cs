@@ -34,14 +34,17 @@ public class PlayerAttack : MonoBehaviour
         }
         Vector3 playerPosition = transform.position;
 
-        Vector3 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        // Utiliser la profondeur de la caméra pour obtenir la position correcte du curseur en coordonnées du monde
+        Vector3 mousePosition = Input.mousePosition;
+        mousePosition.z = Camera.main.WorldToScreenPoint(playerPosition).z;
+        Vector3 worldMousePosition = Camera.main.ScreenToWorldPoint(mousePosition);
 
-        Vector3 direction = (mousePosition - playerPosition).normalized;
+        Vector3 direction = (worldMousePosition - playerPosition).normalized;
 
         Vector3 spawnPosition = playerPosition + direction * spawnDistance;
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        Quaternion rotation = Quaternion.Euler(0, 0, angle + 90); 
+        Quaternion rotation = Quaternion.Euler(0, 0, angle + 90);
 
         GameObject hitInstance = Instantiate(hitPrefab, spawnPosition, rotation);
 
@@ -59,6 +62,7 @@ public class PlayerAttack : MonoBehaviour
 
         StartCoroutine(DestroyAfterTime(hitInstance, hitLifetime));
     }
+
 
     IEnumerator DestroyAfterTime(GameObject instance, float delay)
     {
