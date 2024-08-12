@@ -41,6 +41,7 @@ public class AchievementMenu : MonoBehaviour
             go.GetComponent<TextMeshProUGUI>().fontSize = 20;
             go.GetComponent<TextMeshProUGUI>().color = ach.isUnlocked ? Color.green : Color.red;
             go.transform.position = new Vector3(0, 0, 0) + folderAch.transform.position;
+            go.transform.localScale = new Vector3(1, 1, 1);
         }
 
         mainMenu.gameObject.SetActive(false);

@@ -15,13 +15,13 @@ public class Enemy : MonoBehaviour
     public int currentPathIndex = 0;
     private int currentWaypointIndex = 0;
     protected float health = 50;
+    protected float damageByPlayer = 0;
 
     protected GameObject player;
     protected GameObject ritual;
 
     float attackCooldown = 1;
     protected State state;
-
 
     protected enum State
     {
@@ -38,11 +38,14 @@ public class Enemy : MonoBehaviour
         Right
     }
 
+    [SerializeField] protected GameObject targetEnemy;
+    public float attackRange = 1.0f;
 
 
     [SerializeField] protected GameObject bloodPrefab;
 
 
+    [SerializeField] protected float maxHealth = 50;
     [SerializeField] protected float bloodCount = 10;
     [SerializeField] protected float detectionRadius = 5f;
     [SerializeField] protected float attackRadius = 1.5f;
@@ -57,6 +60,10 @@ public class Enemy : MonoBehaviour
     [SerializeField] Sprite downSprite;
     [SerializeField] Sprite leftSprite;
     [SerializeField] Sprite rightSprite;
+    bool flashingSprite;
+    bool shrinkingSprite;
+    bool resetFlashing = false;
+    bool stopFlashingCoroutine = false;
 
     [Header("Status")]
     [SerializeField] public bool isStunned;
@@ -69,7 +76,10 @@ public class Enemy : MonoBehaviour
     private bool onPath = true;
 
 
-
+    public float GetHealthEnemy()
+    {
+       return health;
+    }
     // ----------------------------------------- Func Unity -----------------------------------------
     protected void Awake()
     {
@@ -79,6 +89,9 @@ public class Enemy : MonoBehaviour
     protected void Start()
     {
         units = new List<GameObject>();
+        health = maxHealth;
+        flashingSprite = false;
+        shrinkingSprite = false;
 
         //utez vos waypoints � la liste ici, ou initialisez-les dans l'inspecteur Unity
         player = GameObject.FindGameObjectWithTag("Player");
@@ -92,51 +105,61 @@ public class Enemy : MonoBehaviour
 
     protected void Update()
     {
-        //CheckBetterWaypoint();
         UpdateUnitList();
-
-
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         bool isUnitClose = IsUnitClose();
 
-        if (isStunned)
-        {
-            StartCoroutine(Stunned());
-        }
-        else if (isUnitClose || distanceToPlayer < detectionRadius)
-        {
-            if (isUnitClose)
-            {
-                DetectUnit();
-            }
-            if (distanceToPlayer < detectionRadius)
-            {
-                RaycastHit2D hit = Physics2D.Linecast(transform.position, player.transform.position, layerMaskRaycast);
 
-
-                if (hit.collider == null)
-                {
-                    DetectPlayer();
-                    Debug.DrawLine(transform.position, player.transform.position, Color.green);
-                }
-                else
-                {
-                    MovingToTheNextCheckpoint();
-                    Debug.DrawLine(transform.position, player.transform.position, Color.red);
-                }
+        if (isHypnotized)
+        {
+            FindClosestEnemy();
+            if (targetEnemy != null)
+            {
+                FollowAndAttack(targetEnemy);
             }
         }
+
         else
         {
-            //Debug.Log("Player Not Detected");
-            MovingToTheNextCheckpoint();
+            if (isStunned)
+            {
+                StartCoroutine(Stunned());
+            }
+            else if (isUnitClose || distanceToPlayer < detectionRadius)
+            {
+                if (isUnitClose)
+                {
+                    DetectUnit();
+                }
+                if (distanceToPlayer < detectionRadius)
+                {
+                    RaycastHit2D hit = Physics2D.Linecast(transform.position, player.transform.position, layerMaskRaycast);
 
+
+                    if (hit.collider == null)
+                    {
+                        DetectPlayer();
+                        Debug.DrawLine(transform.position, player.transform.position, Color.green);
+                    }
+                    else
+                    {
+                        MovingToTheNextCheckpoint();
+                        Debug.DrawLine(transform.position, player.transform.position, Color.red);
+                    }
+                }
+            }
+
+
+            else
+            {
+                //Debug.Log("Player Not Detected");
+                MovingToTheNextCheckpoint();
+
+            }
         }
-
 
         attackCooldown -= Time.deltaTime;
     }
-
 
 
 
@@ -307,23 +330,183 @@ public class Enemy : MonoBehaviour
     {
         spawnBlood = true;
 
-        GameObject blood = Instantiate(bloodPrefab, transform.position, Quaternion.identity);
-        blood.GetComponent<Blood>().bloodAmount = bloodCount;
+        float percentDamageF = damageByPlayer / maxHealth;
+        int percentDamage = Mathf.RoundToInt(percentDamageF);
 
+        float numberBloodF = bloodCount * percentDamage;
+        int numberBlood = Mathf.RoundToInt(numberBloodF);
 
-        Debug.Log(bloodCount + " // " + blood.GetComponent<Blood>().bloodAmount);
-
-
-        Destroy(gameObject);
+        StartCoroutine(Shrinking());
+        StartCoroutine(SpawnBlood(numberBlood));
     }
 
-    public void TakeDamage(float damage)
+    IEnumerator SpawnBlood(int amount)
     {
-        health -= damage;
-        if (health <= 0 && !spawnBlood)
+        float numberOfBloodF = amount / Blood.bloodAmountBase;
+        int numberOfBlood = (int)numberOfBloodF;
+
+
+
+        List<int> directionList = new();
+        int lastDirection = 0;
+
+
+        int bloodAmountNotRound = 0;
+        if (numberOfBlood != numberOfBloodF)
+            bloodAmountNotRound = 1;
+
+
+        while (shrinkingSprite)
+            yield return null;
+
+        // Directions de base (séparées de minimum 30°
+        for(int i = 0; i < numberOfBlood + bloodAmountNotRound; i++)
         {
+            int direction = -1;
+
+            if(lastDirection != -1)
+            {
+                int security = 50;
+                for (int j = 0; j < security; j++)
+                {
+                    direction = Random.Range(0, 360);
+                    foreach (int dir in directionList)
+                    {
+                        if (dir >= 30 && dir <= 330)
+                        {
+                            if (direction >= dir - 30 && direction <= dir + 30)
+                            {
+                                direction = -1;
+                                break;
+                            }
+                        }
+                        else if (dir < 30)
+                        {
+                            if (direction >= dir - 30 && direction <= dir + 30 || direction >= 360 + dir - 30 && direction <= 360)
+                            {
+                                direction = -1;
+                                break;
+                            }
+                        }
+                        else if (dir > 330)
+                        {
+                            if (direction >= dir - 30 && direction <= dir + 30 || direction >= 0 && direction <= 30 - (360 - dir))
+                            {
+                                direction = -1;
+                                break;
+                            }
+                        }
+                    }
+
+                    if (direction != -1)
+                    {
+                        break;
+                    }
+                }
+            }
+
+            Debug.Log("direction : " + direction);
+            lastDirection = direction;
+
+            // Plus de place dans le cercle de base, envoie le sang dans le trou le plus gros du cercle
+            if(lastDirection == -1)
+            {
+                directionList.Sort();
+
+                int biggestHole = 0;
+                int holeStartWhereID = 0;
+
+                for(int j = 0; j < directionList.Count - 1; j++)
+                {
+                    int hole = directionList[j + 1] - directionList[j];
+                    if(hole > biggestHole)
+                    {
+                        holeStartWhereID = j;
+                        biggestHole = hole;
+                    }
+                }
+
+                int holeZero = 360 - directionList[directionList.Count - 1] + directionList[0];
+                if(holeZero > biggestHole)
+                {
+                    holeStartWhereID = directionList.Count - 1;
+                    biggestHole = holeZero;
+                }
+
+
+
+
+                float placeF = biggestHole / 2;
+                int place = Mathf.RoundToInt(placeF);
+
+                if (holeStartWhereID != directionList.Count - 1)
+                {
+                    direction = directionList[holeStartWhereID] + place;
+                }
+                else
+                {
+                    direction = directionList[holeStartWhereID] + place;
+                    if (direction > 360)
+                    {
+                        direction -= 360;
+                    }
+                }
+            }
+
+
+
+
+
+
+
+            GameObject blood = Instantiate(bloodPrefab, transform.position, Quaternion.identity);
+            if(direction != -1)
+            {
+                blood.GetComponent<Blood>().directionAngleProjection = direction;
+                directionList.Add(direction);
+            }
+            else
+                blood.GetComponent<Blood>().directionAngleProjection = directionList[Random.Range(0, directionList.Count)];
+
+            if(i == numberOfBlood)
+            {
+                blood.GetComponent<Blood>().bloodAmount = amount - Blood.bloodAmountBase * numberOfBlood ;
+            }
+        }
+
+        StartCoroutine(DestroyAfterFrame());
+    }
+
+    public void TakeDamage(float damage, bool playerDealtDamage = true)
+    {
+        float tempHealth = health;
+        tempHealth -= damage;
+
+
+
+
+        // Mort ou dégâts
+        if (tempHealth <= 0 && !spawnBlood)
+        {
+            stopFlashingCoroutine = true;
+
             Debug.Log("Die");
+            if(playerDealtDamage)
+                damageByPlayer += (health);
+
+            health = 0;
+
             Die();
+        }
+        else
+        {
+            // Cligotement
+            if (!flashingSprite)
+                StartCoroutine(Flashing());
+
+            if (playerDealtDamage)
+                damageByPlayer += damage;
+            health = tempHealth;
         }
     }
 
@@ -343,6 +526,97 @@ public class Enemy : MonoBehaviour
     }
 
 
+    IEnumerator Flashing()
+    {
+        Debug.Log("flashing");
+
+        flashingSprite = true;
+        SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
+        float actualSpeed = speed;
+        speed = 0;
+
+        spriteRenderer.enabled = false;
+
+
+        for (int i = 0; i < 2; i++)
+        {
+            yield return new WaitForSeconds(0.2f);
+
+            spriteRenderer.enabled = true;
+
+            if (resetFlashing)
+            {
+                resetFlashing = false;
+                i = 0;
+            }
+            if (stopFlashingCoroutine)
+            {
+                stopFlashingCoroutine = false;
+
+                ResetFlashingState(spriteRenderer, actualSpeed);
+
+                yield break;
+            }
+
+            yield return new WaitForSeconds(0.2f);
+
+            spriteRenderer.enabled = false;
+
+            if (resetFlashing)
+            {
+                resetFlashing = false;
+                i = 0;
+            }
+            if (stopFlashingCoroutine)
+            {
+                stopFlashingCoroutine = false;
+
+                ResetFlashingState(spriteRenderer, actualSpeed);
+
+                yield break;
+            }
+        }
+
+        yield return new WaitForSeconds(0.2f);
+
+        ResetFlashingState(spriteRenderer, actualSpeed);
+    }
+
+    IEnumerator Shrinking()
+    {
+        shrinkingSprite = true;
+        Debug.Log("shrinking");
+
+        float time = 0;
+        while (time <= 0.5f)
+        {
+            time += Time.deltaTime;
+            transform.localScale = Vector3.Lerp(transform.localScale, Vector3.zero, time);
+            yield return null;
+        }
+
+        shrinkingSprite = false;
+    }
+
+
+    void ResetFlashingState(SpriteRenderer spriteRenderer, float actualSpeed)
+    {
+        spriteRenderer.enabled = true;
+
+        attackCooldown = attackSpeed;
+        speed = actualSpeed;
+
+        flashingSprite = false;
+    }
+
+    IEnumerator DestroyAfterFrame()
+    {
+        // Attendez la fin de la frame
+        yield return new WaitForEndOfFrame();
+
+        // Détruisez l'objet de jeu
+        Destroy(gameObject);
+    }
 
 
     // ----------------------------------------- Path Related -----------------------------------------
@@ -471,6 +745,60 @@ public class Enemy : MonoBehaviour
                     currentWaypointIndex++;
                 }
             }
+        }
+    }
+
+    // ----------------------------------------- Hypnosis Related -----------------------------------------
+    public void Hypnotize()
+    {
+        gameObject.tag = "Unit";
+        gameObject.layer = LayerMask.NameToLayer("Unit");
+        Debug.Log("Enemy hypnotized: " + gameObject.name);
+        isHypnotized = true;
+
+        state = State.Moving;
+
+        //Debug.Break();
+    }
+
+
+    void FindClosestEnemy()
+    {
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        float closestDistance = Mathf.Infinity;
+        GameObject closestEnemy = null;
+
+        foreach (GameObject enemy in enemies)
+        {
+            if (enemy != gameObject) // Ne pas se cibler soi-même
+            {
+                float distanceToEnemy = Vector2.Distance(transform.position, enemy.transform.position);
+                if (distanceToEnemy < closestDistance)
+                {
+                    closestDistance = distanceToEnemy;
+                    closestEnemy = enemy;
+                }
+            }
+        }
+
+        targetEnemy = closestEnemy;
+    }
+
+    void FollowAndAttack(GameObject enemy)
+    {
+        float distanceToEnemy = Vector2.Distance(transform.position, enemy.transform.position);
+
+        if (distanceToEnemy > attackRange)
+        {
+            state = State.Moving;
+            // Suivre l'ennemi
+            Vector2 direction = (enemy.transform.position - transform.position).normalized;
+            transform.position = Vector2.MoveTowards(transform.position, enemy.transform.position, speed * Time.deltaTime);
+        }
+        else
+        {
+            state = State.AttackingUnit;
+            Attack();
         }
     }
 }

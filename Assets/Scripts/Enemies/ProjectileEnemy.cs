@@ -22,6 +22,9 @@ public class ProjectileEnemy : MonoBehaviour
 
     public void Activate()
     {
+        gameObject.SetActive(true);
+        //Debug.Break();
+
         startPos = transform.position;
         timeElapsed = 0;
 
@@ -30,7 +33,6 @@ public class ProjectileEnemy : MonoBehaviour
 
         gameObject.layer = 10;
 
-        gameObject.SetActive(true);
     }
 
 
@@ -88,7 +90,15 @@ public class ProjectileEnemy : MonoBehaviour
         }
         else if (collision.gameObject == target && target.tag == "Unit")
         {
-            collision.gameObject.GetComponent<Unit>().TakeDamage(damage);
+            if(collision.gameObject.GetComponent<Unit>() != null)
+            {
+                collision.gameObject.GetComponent<Unit>().TakeDamage(damage);
+            }
+            else
+            {
+                collision.gameObject.GetComponent<Enemy>().TakeDamage(damage);
+            }
+
             Debug.Log("Unit hit by projectile");
             Deactivate();
         }

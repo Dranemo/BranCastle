@@ -1,25 +1,50 @@
 using UnityEngine;
+using System.Collections;
 
 public class LightDamage : MonoBehaviour
 {
     public GameManager gameManager;
+    private WaitForSecondsRealtime wait = new WaitForSecondsRealtime(1);
+    private Coroutine damageCoroutine;
 
-    private void OnTriggerStay2D(Collider2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
-        // Vérifiez si l'objet qui est entré dans le trigger est le joueur
         if (collision.gameObject.CompareTag("Player"))
         {
             gameManager.isPlayerInLight = true;
-            gameManager.AddBlood(-50);
+            if (damageCoroutine == null)
+            {
+                damageCoroutine = StartCoroutine(DamagePlayerOverTime());
+            }
         }
     }
-    void OnTriggerExit2D(Collider2D other)
+
+    private void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Player"))
         {
             gameManager.isPlayerInLight = false;
+            if (damageCoroutine != null)
+            {
+                StopCoroutine(damageCoroutine);
+                damageCoroutine = null;
+            }
         }
     }
+
+    private IEnumerator DamagePlayerOverTime()
+    {
+        yield return wait;
+
+        if (gameManager.isPlayerInLight)
+        {
+            while (gameManager.isPlayerInLight)
+            {
+                gameManager.TakeDamage(5);
+                yield return null; 
+            }
+        }
+
+        damageCoroutine = null;
+    }
 }
-
-

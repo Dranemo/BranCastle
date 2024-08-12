@@ -1,0 +1,677 @@
+fileFormatVersion: 2
+guid: e24a2b602b98230469bcee22d67f6aa2
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 12
+  mipmaps:
+    mipMapMode: 0
+    enableMipMap: 0
+    sRGBTexture: 1
+    linearTexture: 0
+    fadeOut: 0
+    borderMipMap: 0
+    mipMapsPreserveCoverage: 0
+    alphaTestReferenceValue: 0.5
+    mipMapFadeDistanceStart: 1
+    mipMapFadeDistanceEnd: 3
+  bumpmap:
+    convertToNormalMap: 0
+    externalNormalMap: 0
+    heightScale: 0.25
+    normalMapFilter: 0
+    flipGreenChannel: 0
+  isReadable: 0
+  streamingMipmaps: 0
+  streamingMipmapsPriority: 0
+  vTOnly: 0
+  ignoreMipmapLimit: 0
+  grayScaleToAlpha: 0
+  generateCubemap: 6
+  cubemapConvolution: 0
+  seamlessCubemap: 0
+  textureFormat: 1
+  maxTextureSize: 2048
+  textureSettings:
+    serializedVersion: 2
+    filterMode: 1
+    aniso: 1
+    mipBias: 0
+    wrapU: 1
+    wrapV: 1
+    wrapW: 1
+  nPOTScale: 0
+  lightmap: 0
+  compressionQuality: 50
+  spriteMode: 2
+  spriteExtrude: 1
+  spriteMeshType: 1
+  alignment: 0
+  spritePivot: {x: 0.5, y: 0.5}
+  spritePixelsToUnits: 100
+  spriteBorder: {x: 0, y: 0, z: 0, w: 0}
+  spriteGenerateFallbackPhysicsShape: 1
+  alphaUsage: 1
+  alphaIsTransparency: 1
+  spriteTessellationDetail: -1
+  textureType: 8
+  textureShape: 1
+  singleChannelComponent: 0
+  flipbookRows: 1
+  flipbookColumns: 1
+  maxTextureSizeSet: 0
+  compressionQualitySet: 0
+  textureFormatSet: 0
+  ignorePngGamma: 0
+  applyGammaDecoding: 0
+  swizzle: 50462976
+  cookieLightType: 0
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 3
+    buildTarget: Server
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  spriteSheet:
+    serializedVersion: 2
+    sprites:
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 386.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a3e50503611d2ad468d8334421632e53
+      internalID: -1593795592
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_1
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 386.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e437d67ad6380254892a452f05418a24
+      internalID: -384770357
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_2
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 386.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 3270149001907e942a09c97d77f38908
+      internalID: -1759250366
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_3
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 386.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 1ed592273a35d52498a040a3cf327666
+      internalID: -785333489
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_4
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 386.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: effd2fd6c9214ad4584b9bbcd109aa0b
+      internalID: -1986763050
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_5
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 290.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 280e058ac69e53a4d9f4f11792e450bc
+      internalID: -141532114
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_6
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 290.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6c2107db91644f647bf5eb7765a243cf
+      internalID: 624758330
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_7
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 290.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9364908e7f73b7e45b98c119da9bb8cf
+      internalID: 2050092670
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_8
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 290.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: fe720e2406b301c47a274ee6d2491e5e
+      internalID: 1464802285
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_9
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 290.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ed953ee2419ed4748be4dc87b3ab95ac
+      internalID: -1431121583
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_10
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 194.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 455c781c28b84014eb3a9f6aa87fd358
+      internalID: 775135098
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_11
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 194.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: ba50e8a6238b4c741b5bd962c8aa3731
+      internalID: -576127964
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_12
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 194.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa46feb9b73cea746bd3ebe9edfcec30
+      internalID: -295563319
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_13
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 194.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f361d05d94fc8534ca85ca4304efd5dd
+      internalID: -855759930
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_14
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 194.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: dd4d515193466a947835bc71de154532
+      internalID: -2022265802
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_15
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 98.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 9d462b6cd5dda8a4ab1b7175b8d01343
+      internalID: -1289220655
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_16
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 98.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: f64e7df76da17a140bee289231de2dbd
+      internalID: -2000976162
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_17
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 98.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: bd9889e295caf5443833e59a9d2528d7
+      internalID: -1016140688
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_18
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 98.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 686c67349bce8d1458f6be4d6989b19e
+      internalID: -636502240
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_19
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 98.4
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 956bf8ee519452247a2e6f2ae6421a3f
+      internalID: 292714469
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_20
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 2.4000015
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 79d5d62e0a458ae4ca2f3ea84eb69e51
+      internalID: -1542001245
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_21
+      rect:
+        serializedVersion: 2
+        x: 103
+        y: 2.4000015
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 5bf8333dafb21d4489e7a97a28f5c1a4
+      internalID: 551616745
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_22
+      rect:
+        serializedVersion: 2
+        x: 206
+        y: 2.4000015
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 78e46e4bedf6b3c44859be2902d3ced9
+      internalID: 1055761825
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_23
+      rect:
+        serializedVersion: 2
+        x: 309
+        y: 2.4000015
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 6bc48b3c8aab4f64fb4eb48961c5af72
+      internalID: -712863941
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: dracula_idle-removebg-preview_24
+      rect:
+        serializedVersion: 2
+        x: 412
+        y: 2.4000015
+        width: 103.4
+        height: 96.6
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: a92d6c24ba2a1d04fbc693ee7e4832fd
+      internalID: 1095168437
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    outline: []
+    physicsShape: []
+    bones: []
+    spriteID: 5e97eb03825dee720800000000000000
+    internalID: 0
+    vertices: []
+    indices: 
+    edges: []
+    weights: []
+    secondaryTextures: []
+    nameFileIdTable:
+      dracula_idle-removebg-preview_0: -1593795592
+      dracula_idle-removebg-preview_1: -384770357
+      dracula_idle-removebg-preview_10: 775135098
+      dracula_idle-removebg-preview_11: -576127964
+      dracula_idle-removebg-preview_12: -295563319
+      dracula_idle-removebg-preview_13: -855759930
+      dracula_idle-removebg-preview_14: -2022265802
+      dracula_idle-removebg-preview_15: -1289220655
+      dracula_idle-removebg-preview_16: -2000976162
+      dracula_idle-removebg-preview_17: -1016140688
+      dracula_idle-removebg-preview_18: -636502240
+      dracula_idle-removebg-preview_19: 292714469
+      dracula_idle-removebg-preview_2: -1759250366
+      dracula_idle-removebg-preview_20: -1542001245
+      dracula_idle-removebg-preview_21: 551616745
+      dracula_idle-removebg-preview_22: 1055761825
+      dracula_idle-removebg-preview_23: -712863941
+      dracula_idle-removebg-preview_24: 1095168437
+      dracula_idle-removebg-preview_3: -785333489
+      dracula_idle-removebg-preview_4: -1986763050
+      dracula_idle-removebg-preview_5: -141532114
+      dracula_idle-removebg-preview_6: 624758330
+      dracula_idle-removebg-preview_7: 2050092670
+      dracula_idle-removebg-preview_8: 1464802285
+      dracula_idle-removebg-preview_9: -1431121583
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

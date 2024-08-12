@@ -10,6 +10,7 @@ public class GameManager : MonoBehaviour
     public static GameManager Instance { get; private set; }
     public bool isPlayerInLight = false;
 
+    [SerializeField] private GameObject CanvaPrefab;
     [SerializeField] private GameObject MapPrefab;
     private List<Path> paths;
     private List<Path> spawningPaths;
@@ -31,13 +32,18 @@ public class GameManager : MonoBehaviour
     [SerializeField] public float time /*{ get; private set; }*/ = 690; // 11h30
 
     public bool isGameOver = false;
+    bool coroutineStartedDeath = false;
 
-
+    private AudioSource audioSource;
+    private GameObject player;
+    [SerializeField] private AudioClip audioGong;
+    [SerializeField] private AudioClip audioGameOver;
     // -------------------------------------------------------------- Unity Func -------------------------------------------------------------- 
     private void Awake()
     {
         // Singleton
         CreateSingleton();
+        audioSource = GetComponent<AudioSource>();
 
 
         paths = new List<Path>();
@@ -51,12 +57,17 @@ public class GameManager : MonoBehaviour
         AddPaths();
         SetDistancePaths();
 
-       
+
 
 
         // Player
         Transform playerSpawnPoint = MapPrefab.transform.Find("PlayerSpawnPoint");
-        GameObject player = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
+        player = Instantiate(playerPrefab, playerSpawnPoint.position, Quaternion.identity);
+
+
+        // Canva
+        GameObject canva = Instantiate(CanvaPrefab);
+        canva.GetComponent<Canvas>().worldCamera = player.transform.Find("Main Camera").GetComponent<Camera>();
 
         wavePathIndex = Random.Range(0, spawningPaths.Count);
     }
@@ -72,7 +83,12 @@ public class GameManager : MonoBehaviour
 
             if(time >= 720) // 12h
             {
-                if(enemyCooldownLeft <= 0)
+                if (time==720)
+                {
+                    audioSource.clip = audioGong;
+                    audioSource.Play();
+                }
+                if (enemyCooldownLeft <= 0)
                 {
                     enemyCooldownLeft = enemyCooldown;
                     SpawnEnemy();
@@ -84,6 +100,8 @@ public class GameManager : MonoBehaviour
                     enemyWaveCooldownLeft = enemyWaveCooldown;
                     enemyCooldownLeft = 0;
                     wave++;
+                    audioSource.clip = audioGong;
+                    audioSource.Play();
                     enemyCooldown -= enemyCooldownDecrease;
                     wavePathIndex = Random.Range(0, spawningPaths.Count);
                 }
@@ -123,7 +141,7 @@ public class GameManager : MonoBehaviour
 
 
 
-        Debug.Log("Spawn Enemy : " + enemy.name + " at " + path.name);
+        //Debug.Log("Spawn Enemy : " + enemy.name + " at " + path.name);
         enemy.currentPathIndex = paths.IndexOf(path);
         enemy.paths = this.paths;
 
@@ -156,7 +174,7 @@ public class GameManager : MonoBehaviour
         List<Path> pathsToLoad = new List<Path>();
         List<Path> pathsLoaded = new List<Path>();
 
-        Debug.Log("Paths : " + paths.Count);
+        //Debug.Log("Paths : " + paths.Count);
         foreach (Path path in paths) 
             pathsToLoad.Add(path);
 
@@ -170,7 +188,7 @@ public class GameManager : MonoBehaviour
                     paths[paths.IndexOf(path)].SetDistancePath();
                     pathsLoaded.Add(path);
 
-                    Debug.Log(path.name + " : " + path.distancePath + "m");
+                    //Debug.Log(path.name + " : " + path.distancePath + "m");
                 }
             }
 
@@ -188,17 +206,34 @@ public class GameManager : MonoBehaviour
     // -------------------------------------------------------------- Game Func --------------------------------------------------------------
     private void GameOver()
     {
+        if (blood <= 0 && audioSource != null)
+        {
+            audioSource.clip = audioGameOver;
+            audioSource.Play();
+        }
         if (blood <= 0 || time > 1439) // 23h59
         {
             isGameOver = true;
-            SceneManager.LoadScene("GameOver");
+            Debug.Log("Game Over: Loading GameOver Scene");
+            PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
+            Debug.Log(playerMovement);
+            if (playerMovement != null && !coroutineStartedDeath)
+            {
+                coroutineStartedDeath = true;
+                StartCoroutine(playerMovement.WaitForDeathAnimation());
+            }
+        }
+        else if (wave >= 10)
+        {
+            isGameOver = true;
+            Debug.Log("Victory: Loading Victory Scene");
+            ScenesManager.Instance.LoadScene("Victory");
         }
     }
 
-
     public void RestartGame()
     {
-        SceneManager.LoadScene("Level-1"); 
+        ScenesManager.Instance.LoadScene("Level-1"); 
         Destroy(gameObject);
         Instance = null;
     }

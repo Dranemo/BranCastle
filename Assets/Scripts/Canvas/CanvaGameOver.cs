@@ -20,14 +20,14 @@ public class CanvaGameOver : MonoBehaviour
         GameManager gameManager = GameManager.Instance;
 
 
-        string text = "Vous avez survécu jusqu'à ";
+        string text = "";
         if(gameManager.time > 1439)
         {
-            text += "minuit !";
+            text = "Vous avez survécu !";
         }
         else
         {
-            text += "la " + gameManager.wave + "ème vague !";
+            text = "Vous avez atteint la " + gameManager.wave + "ème vague !";
         }
 
         scoreText.GetComponent<TextMeshProUGUI>().text = text;

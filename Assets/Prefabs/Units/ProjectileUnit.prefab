@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 427998140537355737}
   - component: {fileID: 1273195437182000745}
   - component: {fileID: 3194575039589917941}
-  - component: {fileID: 4859658857397799311}
+  - component: {fileID: -6443237549088184855}
   m_Layer: 0
   m_Name: ProjectileUnit
   m_TagString: Damage
@@ -29,7 +29,7 @@ Transform:
   m_GameObject: {fileID: 6285388318475031793}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: -4.58, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 0.2, y: 0.2, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -149,7 +149,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.5
---- !u!114 &4859658857397799311
+--- !u!114 &-6443237549088184855
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,10 +158,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 6285388318475031793}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c18c43c37cc143842adffc51bd76fd49, type: 3}
+  m_Script: {fileID: 11500000, guid: cb55b27479c4a2c4b958bed5276c2951, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  target: {fileID: 0}
-  damage: 1
-  speed: 1
-  distanceDestroy: 10
+  damage: 10
