@@ -44,4 +44,12 @@ public class Buttons : MonoBehaviour
             imageComponent = buttonsState[2];
         }
     }
+
+    public void OnPointerUp(PointerEventData eventData)
+    {
+        if (buttonsState[0] != null)
+        {
+            imageComponent = buttonsState[0];
+        }
+    }
 }

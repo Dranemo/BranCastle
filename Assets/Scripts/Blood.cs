@@ -13,6 +13,7 @@ public class Blood : MonoBehaviour
 
     public static float bloodAmountBase = 100;
     public float bloodAmount = 100;
+    private float timeMoving = 0;
 
     // Direction angle
     public int directionAngleProjection = 0;
@@ -21,7 +22,7 @@ public class Blood : MonoBehaviour
     private float directionAngleY = 0;
     private Vector3 directionVector = Vector3.zero;
 
-    private bool spawning = true;
+    //private bool spawning = true;
 
     void Start()
     {
@@ -42,12 +43,12 @@ public class Blood : MonoBehaviour
 
     void Update()
     {
-        if (spawning)
+        if (timeMoving < 2)
         {
-            transform.position = Vector3.MoveTowards(transform.position, directionVector, 5 * Time.deltaTime);
+            //transform.position = Vector3.MoveTowards(transform.position, directionVector, 5 * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, directionVector, timeMoving);
 
-            if (transform.position == directionVector)
-                spawning = false;
+            timeMoving += Time.deltaTime;
         }
 
         else if (Vector3.Distance(transform.position, player.transform.position) < attractionDistance)
