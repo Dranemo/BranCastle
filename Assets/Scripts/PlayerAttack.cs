@@ -7,7 +7,7 @@ public class PlayerAttack : MonoBehaviour
     public float spawnDistance = 1.0f; 
     public float hitLifetime = 2.0f; 
     private Animator animator;
-
+    private PlayerMovement playerMovement;
     void Start()
     {
         animator = GetComponent<Animator>();

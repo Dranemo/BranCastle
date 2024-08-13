@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Blood : MonoBehaviour
@@ -7,7 +5,7 @@ public class Blood : MonoBehaviour
     [SerializeField] float attractionDistance = 0f;
     [SerializeField] float speed = 2f;
     [SerializeField] GameObject player;
-    [SerializeField] float pickupRange = 0.5f;
+    //[SerializeField] float pickupRange = 0.5f;
     GameManager manager;
 
 

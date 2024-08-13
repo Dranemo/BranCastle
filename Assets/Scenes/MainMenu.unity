@@ -554,7 +554,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   fadeCanvasGroup: {fileID: 150069469}
-  fadeDuration: 0.5
   fadeCanvas: {fileID: 150069465}
 --- !u!4 &541050186
 Transform:
@@ -590,6 +589,7 @@ MonoBehaviour:
   hypnotizeCursor: {fileID: 0}
   hotSpot: {x: 0, y: 0}
   cursorMode: 0
+  playerMovement: {fileID: 3241817483652316768, guid: 373c28a179bfae446ac5931e4b43aab2, type: 3}
 --- !u!223 &754305845 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 5002174886360224801, guid: 61a3a44b0041fef4fabdb63beb9bf3e1, type: 3}

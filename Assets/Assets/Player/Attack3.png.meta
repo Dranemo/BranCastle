@@ -113,12 +113,12 @@ TextureImporter:
       name: Attack3_0
       rect:
         serializedVersion: 2
-        x: 0
-        y: 0
-        width: 172
-        height: 83
+        x: 52
+        y: 10
+        width: 81
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -134,12 +134,12 @@ TextureImporter:
       name: Attack3_1
       rect:
         serializedVersion: 2
-        x: 172
-        y: 0
-        width: 172
-        height: 83
+        x: 229
+        y: 10
+        width: 81
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -155,12 +155,12 @@ TextureImporter:
       name: Attack3_2
       rect:
         serializedVersion: 2
-        x: 344
-        y: 0
-        width: 172
-        height: 83
+        x: 398
+        y: 10
+        width: 81
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
@@ -176,12 +176,12 @@ TextureImporter:
       name: Attack3_3
       rect:
         serializedVersion: 2
-        x: 516
-        y: 0
-        width: 172
-        height: 83
+        x: 566
+        y: 10
+        width: 81
+        height: 64
       alignment: 0
-      pivot: {x: 0, y: 0}
+      pivot: {x: 0.5, y: 0.5}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []

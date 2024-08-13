@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
-using UnityEngine;
-
-    public class Physical : Enemy
+﻿public class Physical : Enemy
     {
 
         // Start is called before the first frame updatee

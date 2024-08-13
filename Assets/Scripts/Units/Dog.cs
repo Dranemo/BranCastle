@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Dog : Unit
@@ -26,11 +24,5 @@ public class Dog : Unit
         {
             Debug.LogWarning("AudioSource n'est pas attaché au GameObject.");
         }
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 }

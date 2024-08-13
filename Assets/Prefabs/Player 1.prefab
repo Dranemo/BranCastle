@@ -158,6 +158,7 @@ GameObject:
   - component: {fileID: 3621041430156262343}
   - component: {fileID: 2627271447204041725}
   - component: {fileID: 684508377899323919}
+  - component: {fileID: 7525446014810757100}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -245,7 +246,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   player: {fileID: 2806417236730911550}
   smoothSpeed: 0.075
-  maxOffset: 0.9
+  maxOffset: 2
 --- !u!81 &2627271447204041725
 AudioListener:
   m_ObjectHideFlags: 0
@@ -298,6 +299,43 @@ MonoBehaviour:
     mipBias: 0
     varianceClampScale: 0.9
     contrastAdaptiveSharpening: 0
+--- !u!114 &7525446014810757100
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164716061307843877}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b981d2783f1006844ae3e058c2c49119, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  curve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0.0083351135
+      value: 0.21463013
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: -0.0070762634
+      inSlope: 2
+      outSlope: 2
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  duration: 1
 --- !u!1 &1460391449779104021
 GameObject:
   m_ObjectHideFlags: 0
@@ -5242,10 +5280,10 @@ GameObject:
   - component: {fileID: 7649309892707455253}
   - component: {fileID: 7376588624759367515}
   - component: {fileID: 3241817483652316768}
+  - component: {fileID: 6844953783898590544}
   - component: {fileID: 8961384696548019481}
   - component: {fileID: -1031967321841958013}
   - component: {fileID: 317424476917236801}
-  - component: {fileID: 6844953783898590544}
   m_Layer: 3
   m_Name: Player 1
   m_TagString: Player
@@ -5314,7 +5352,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f12fa7de7e56b534eb182da6a7230bca, type: 3}
+  m_Sprite: {fileID: -1593795592, guid: e24a2b602b98230469bcee22d67f6aa2, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -5377,12 +5415,13 @@ MonoBehaviour:
   biteKey: 52
   batAttackCooldown: 5
   batDistance: 2.5
+  isDrawingRectangle: 0
   batPrefab: {fileID: 6930754229455431999, guid: 7af7c547d996c5f4c8fe168c2486ef30, type: 3}
   batSound: {fileID: 8300000, guid: 50c36d8cf0cfd7f4c9c8052d45dba4fc, type: 3}
   dashKey: 32
-  dashCooldown: 0.57
-  dashDuration: 0.2
-  dashForce: 10
+  dashCooldown: 0.1
+  dashDuration: 0.15
+  dashForce: 25
   canDash: 1
   isDashing: 0
   capeDMG: 0.6
@@ -5394,6 +5433,22 @@ MonoBehaviour:
   capePrefab: {fileID: 6334495684338012574, guid: 47d5ce90fb41ecc4e925422adb5a9ea0, type: 3}
   canCape: 1
   capeAudio: {fileID: 8300000, guid: c72e570e91dd18f459242817d1713326, type: 3}
+  isHypnotizing: 0
+--- !u!114 &6844953783898590544
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6364868091912172025}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d22740c1dc2ab1e428ac80d54038dd2a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  hitPrefab: {fileID: 7379560963317096358, guid: 0df40ff72d36f9144a40654d7962bbd5, type: 3}
+  spawnDistance: 1
+  hitLifetime: 0.32
 --- !u!70 &8961384696548019481
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -5546,21 +5601,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &6844953783898590544
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6364868091912172025}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d22740c1dc2ab1e428ac80d54038dd2a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  hitPrefab: {fileID: 7379560963317096358, guid: 0df40ff72d36f9144a40654d7962bbd5, type: 3}
-  spawnDistance: 1.5
-  hitLifetime: 0.32
 --- !u!1 &6666350053944488157
 GameObject:
   m_ObjectHideFlags: 0

@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections;
-
 public class BatAttack : MonoBehaviour
 {
     public float minSpeed = 4f; // The minimum speed of the bat

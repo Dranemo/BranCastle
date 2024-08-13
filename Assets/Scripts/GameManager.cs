@@ -1,8 +1,5 @@
-using System.Collections;
 using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -38,6 +35,8 @@ public class GameManager : MonoBehaviour
     private GameObject player;
     [SerializeField] private AudioClip audioGong;
     [SerializeField] private AudioClip audioGameOver;
+
+    [SerializeField] private ScreenShake shake;
     // -------------------------------------------------------------- Unity Func -------------------------------------------------------------- 
     private void Awake()
     {
@@ -70,6 +69,9 @@ public class GameManager : MonoBehaviour
         canva.GetComponent<Canvas>().worldCamera = player.transform.Find("Main Camera").GetComponent<Camera>();
 
         wavePathIndex = Random.Range(0, spawningPaths.Count);
+
+        //Screenshake
+        shake = player.transform.Find("Main Camera").GetComponent<ScreenShake>();
     }
 
 
@@ -120,9 +122,20 @@ public class GameManager : MonoBehaviour
     }
     public void TakeDamage(float damage)
     {
+        Debug.Log("TakeDamage appelé");
+        if (shake == null)
+        {
+            Debug.LogError("shake est null !");
+            return;
+        }
+        shake.StartShake();
         blood -= damage;
+        Debug.Log("Nouveau niveau de sang: " + blood);
         GameOver();
     }
+
+
+
 
 
     // -------------------------------------------------------------- Enemy Func --------------------------------------------------------------

@@ -64,7 +64,6 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextEventHandler.cs" />
     <Compile Include="Assets\Scripts\Cape.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeA.cs" />
-    <Compile Include="Assets\Scripts\PlayerLight.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\EnvMapAnimator.cs" />
     <Compile Include="Assets\Scripts\Canvas\LanguageMenu.cs" />
     <Compile Include="Assets\Scripts\Units\ProjectileUnit.cs" />
@@ -107,7 +106,6 @@
     <Compile Include="Assets\Scripts\Enemies\DistanceEnemy.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_ExampleScript_01.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMPro_InstructionOverlay.cs" />
-    <Compile Include="Assets\Scripts\Tower.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\VertexShakeB.cs" />
     <Compile Include="Assets\Scripts\LightCollider.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\DropdownSample.cs" />
@@ -133,6 +131,7 @@
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextSelector_B.cs" />
     <Compile Include="Assets\Scripts\ScenesManager.cs" />
     <Compile Include="Assets\Scripts\Units\UnitSpawn.cs" />
+    <Compile Include="Assets\Scripts\ScreenShake.cs" />
     <Compile Include="Assets\Scripts\Units\Gargoyle.cs" />
     <Compile Include="Assets\Scripts\Enemies\ProjectileEnemy.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\SkewTextExample.cs" />
@@ -143,6 +142,7 @@
     <Compile Include="Assets\Scripts\GameOverScene.cs" />
     <Compile Include="Assets\Scripts\LightDamage.cs" />
     <Compile Include="Assets\Scripts\BloodSlider.cs" />
+    <Compile Include="Assets\Scripts\DisplayOptions.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\TMP_TextInfoDebugTool.cs" />
   </ItemGroup>
   <ItemGroup>

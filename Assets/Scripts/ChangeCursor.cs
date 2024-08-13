@@ -8,7 +8,7 @@ public class ChangeCursor : MonoBehaviour
     [SerializeField] private Texture2D hypnotizeCursor;
     [SerializeField] private Vector2 hotSpot = Vector2.zero;
     [SerializeField] private CursorMode cursorMode = CursorMode.Auto;
-    private PlayerMovement playerMovement;
+    [SerializeField] private PlayerMovement playerMovement;
 
     void Start()
     {

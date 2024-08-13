@@ -7,7 +7,6 @@ public class ScenesManager : MonoBehaviour
 {
     public static ScenesManager Instance { get; private set; }
     [SerializeField] private CanvasGroup fadeCanvasGroup;
-    [SerializeField] private float fadeDuration = 1f;
     [SerializeField] Canvas fadeCanvas;
 
     private void Awake()

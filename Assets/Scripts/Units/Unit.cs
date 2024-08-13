@@ -11,7 +11,6 @@ public class Unit : MonoBehaviour
     [SerializeField] protected float bloodCost;
     private Coroutine attackCoroutine;
     public List<GameObject> enemiesInRange = new List<GameObject>();
-    [SerializeField] private float delayBeforeAppearance = 2f; // Temps en secondes avant que l'unité apparaisse
 
     private SpriteRenderer spriteRenderer;
     public void TakeDamage(float damage)
