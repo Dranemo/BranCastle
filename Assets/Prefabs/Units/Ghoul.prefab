@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.02745098}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -424,12 +424,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c7f005a319fed4bafa2effcc6652ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 41.98
+  health: 199.9
   damage: 8.7
   attackSpeed: 10.32
   bloodCost: 8.01
   enemiesInRange: []
-  delayBeforeAppearance: 2
 --- !u!82 &430610242894339953
 AudioSource:
   m_ObjectHideFlags: 0

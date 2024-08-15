@@ -5,19 +5,40 @@ public class Imp : Unit
 {
     [SerializeField] GameObject projectilePrefab;
     private bool isAttacking = false;
+    private Animator animator;
+    private bool isDeadCoroutineStarted = false;
 
+    private void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
     protected override void Update()
     {
         if (!isAttacking && enemiesInRange.Count > 0)
         {
             StartCoroutine(AttackEnemy());
         }
+        Die();
     }
-
+    override protected void Die()
+    {
+        if (health <= 0 && !isDeadCoroutineStarted)
+        {
+            StartCoroutine(HandleDeath());
+        }
+    }
+    private IEnumerator HandleDeath()
+    {
+        isDeadCoroutineStarted = true;
+        animator.SetBool("dead", true); 
+        Debug.Log(animator.GetCurrentAnimatorClipInfo(0));
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+        Destroy(gameObject);
+    }
     protected override IEnumerator AttackEnemy()
     {
         isAttacking = true;
-
+        animator.SetBool("isAttacking", true);
         while (enemiesInRange.Count > 0)
         {
             GameObject closestEnemy = GetClosestEnemy();
@@ -50,6 +71,8 @@ public class Imp : Unit
         }
 
         isAttacking = false;
+
+        animator.SetBool("isAttacking", false);
     }
 }
 

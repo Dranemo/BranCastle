@@ -22,20 +22,10 @@ public class ChangeCursor : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetMouseButton(0) && !playerMovement.isDrawingRectangle && !playerMovement.isHypnotizing)
+        if (Input.GetMouseButton(0) )
         {
             Debug.Log("Mouse button held down, setting Click Cursor");
             SetClickCursor();
-        }
-        else if (playerMovement.isDrawingRectangle)
-        {
-            Debug.Log("Drawing Rectangle, setting Bat Cursor");
-            SetBatCursor();
-        }
-        else if (playerMovement.isHypnotizing)
-        {
-            Debug.Log("Hypnotizing, setting Hypnotize Cursor");
-            SetHypnotizeCursor();
         }
         else
         {

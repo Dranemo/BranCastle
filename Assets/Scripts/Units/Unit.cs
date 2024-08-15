@@ -9,7 +9,7 @@ public class Unit : MonoBehaviour
     [SerializeField] protected float damage; 
     [SerializeField] protected float attackSpeed;
     [SerializeField] protected float bloodCost;
-    private Coroutine attackCoroutine;
+    protected Coroutine attackCoroutine;
     public List<GameObject> enemiesInRange = new List<GameObject>();
 
     private SpriteRenderer spriteRenderer;
@@ -21,7 +21,7 @@ public class Unit : MonoBehaviour
             Die();
         }
     }
-    protected void Die()
+    protected virtual void Die()
     {
         StopAttack();
         Destroy(gameObject);

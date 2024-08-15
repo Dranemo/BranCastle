@@ -1,5 +1,5 @@
 using UnityEngine;
-
+using System.Collections;
 public class Gargoyle : Unit
 {
     private UnitCircle unitCircleScript;
@@ -15,6 +15,7 @@ public class Gargoyle : Unit
     private GargoyleState state = GargoyleState.Idle;
     private AudioSource audioSource;
     private Animator animator;
+    private bool isDeadCoroutineStarted = false;
 
     // Propriétés booléennes pour vérifier l'état
     private bool IsWall
@@ -91,12 +92,25 @@ public class Gargoyle : Unit
         {
             Debug.LogWarning("UnitCircle script not found on any children of Gargoyle.");
         }
+    } 
+    override protected void Die()
+    {
+        if (health <= 0 && !isDeadCoroutineStarted)
+        {
+            StartCoroutine(HandleDeath());
+        }
     }
-
+    private IEnumerator HandleDeath()
+    {
+        isDeadCoroutineStarted = true;
+        animator.SetBool("isDeath", true); // Assurez-vous que le trigger "Die" existe dans l'Animator
+        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+        Destroy(gameObject);
+    }
     protected override void Update()
     {
-        base.Update(); 
-
+        base.Update();
+        
         if (unitCircleScript != null && unitCircleScript.isPlayerInside)
         {
             if (Input.GetButtonDown("Coffin"))
@@ -119,22 +133,18 @@ public class Gargoyle : Unit
         }
         if (IsWall)
         {
-            health = healthWall;
             unitCircleScript.triggerActive = false;
         }
         else if (IsIdle)
         {
-            health = healthWall / 2;
             unitCircleScript.triggerActive = true;
         }
         else if (IsAttacking)
         {
-            health = healthWall / 2;
             unitCircleScript.triggerActive = true;
         }
         else if (IsMoving)
         {
-            health = healthWall / 2;
             unitCircleScript.triggerActive = true;
         }
     }
