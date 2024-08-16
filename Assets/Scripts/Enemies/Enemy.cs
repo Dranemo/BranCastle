@@ -1,25 +1,28 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using UnityEditor.Animations;
 using UnityEngine;
 
 
 
 public class Enemy : MonoBehaviour
 {
+
+    [Header("Path")]
     public List<Path> paths;
     [SerializeField] LayerMask layerMaskRaycast;
     public int currentPathIndex = 0;
     private int currentWaypointIndex = 0;
-    protected float health = 50;
-    protected float damageByPlayer = 0;
+
+
 
     protected GameObject player;
     protected GameObject ritual;
+    [SerializeField] protected GameObject targetEnemy;
 
-    float attackCooldown = 1;
+
     protected State state;
-
     protected enum State
     {
         Moving,
@@ -27,40 +30,37 @@ public class Enemy : MonoBehaviour
         AttackingRitual,
         AttackingUnit
     }
-    private enum Direction
-    {
-        Up,
-        Down,
-        Left,
-        Right
-    }
 
-    [SerializeField] protected GameObject targetEnemy;
-    public float attackRange = 1.0f;
 
 
     [SerializeField] protected GameObject bloodPrefab;
 
-
+    [Header ("Variables")]
+    [SerializeField] protected float health = 50;
+    protected float damageByPlayer = 0;
     [SerializeField] protected float maxHealth = 50;
     [SerializeField] protected float bloodCount = 10;
     [SerializeField] protected float detectionRadius = 5f;
     [SerializeField] protected float attackRadius = 1.5f;
+    [SerializeField] protected float attackSpeed = 1;
+    public float attackRange = 1.0f;
     [SerializeField] protected float damage = 0;
     [SerializeField] protected float speed = 2;
-    [SerializeField] protected float attackSpeed = 1;
+    float attackCooldown = 1;
+
+    [Header("Units")]
     [SerializeField] protected List<GameObject> units;
     [SerializeField] protected GameObject closestUnit;
 
     [Header("Sprite")]
-    [SerializeField] Sprite upSprite;
-    [SerializeField] Sprite downSprite;
-    [SerializeField] Sprite leftSprite;
-    [SerializeField] Sprite rightSprite;
     bool flashingSprite;
     bool shrinkingSprite;
     bool resetFlashing = false;
     bool stopFlashingCoroutine = false;
+
+    [Header("Animator")]
+    Animator animator;
+    Vector3 positionFrameBefore;
 
     [Header("Status")]
     [SerializeField] public bool isStunned;
@@ -95,6 +95,10 @@ public class Enemy : MonoBehaviour
         capeKnockback = player.GetComponent<PlayerMovement>().capePushForce;
         ritual = GameObject.FindGameObjectWithTag("Ritual");
         layerMaskRaycast = LayerMask.GetMask("Wall");
+
+        animator = GetComponent<Animator>();
+
+        positionFrameBefore = transform.position;
     }
 
 
@@ -102,60 +106,72 @@ public class Enemy : MonoBehaviour
 
     protected void Update()
     {
+        if(animator != null)
+            animator.SetBool("Idle", Vector3.Distance(transform.position, positionFrameBefore) == 0);
+
+        positionFrameBefore = transform.position;
+
         UpdateUnitList();
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         bool isUnitClose = IsUnitClose();
 
 
-        if (isHypnotized)
+
+        if((animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Hit")) || animator == null)
         {
-            FindClosestEnemy();
-            if (targetEnemy != null)
-            {
-                FollowAndAttack(targetEnemy);
-            }
-        }
 
-        else
-        {
-            if (isStunned)
+
+
+            if (isHypnotized)
             {
-                StartCoroutine(Stunned());
-            }
-            else if (isUnitClose || distanceToPlayer < detectionRadius)
-            {
-                if (isUnitClose)
+                FindClosestEnemy();
+                if (targetEnemy != null)
                 {
-                    DetectUnit();
-                }
-                if (distanceToPlayer < detectionRadius)
-                {
-                    RaycastHit2D hit = Physics2D.Linecast(transform.position, player.transform.position, layerMaskRaycast);
-
-
-                    if (hit.collider == null)
-                    {
-                        DetectPlayer();
-                        Debug.DrawLine(transform.position, player.transform.position, Color.green);
-                    }
-                    else
-                    {
-                        MovingToTheNextCheckpoint();
-                        Debug.DrawLine(transform.position, player.transform.position, Color.red);
-                    }
+                    FollowAndAttack(targetEnemy);
                 }
             }
-
 
             else
             {
-                //Debug.Log("Player Not Detected");
-                MovingToTheNextCheckpoint();
+                if (isStunned)
+                {
+                    StartCoroutine(Stunned());
+                }
+                else if (isUnitClose || distanceToPlayer < detectionRadius)
+                {
+                    if (isUnitClose)
+                    {
+                        DetectUnit();
+                    }
+                    if (distanceToPlayer < detectionRadius)
+                    {
+                        RaycastHit2D hit = Physics2D.Linecast(transform.position, player.transform.position, layerMaskRaycast);
 
+
+                        if (hit.collider == null)
+                        {
+                            DetectPlayer();
+                            Debug.DrawLine(transform.position, player.transform.position, Color.green);
+                        }
+                        else
+                        {
+                            MovingToTheNextCheckpoint();
+                            Debug.DrawLine(transform.position, player.transform.position, Color.red);
+                        }
+                    }
+                }
+
+
+                else
+                {
+                    //Debug.Log("Player Not Detected");
+                    MovingToTheNextCheckpoint();
+
+                }
             }
-        }
 
-        attackCooldown -= Time.deltaTime;
+            attackCooldown -= Time.deltaTime;
+        }
     }
 
 
@@ -175,7 +191,7 @@ public class Enemy : MonoBehaviour
         {
             state = State.AttackingPlayer;
 
-            if (attackCooldown <= 0)
+            if (attackCooldown <= 0 && health > 0)
             {
                 Attack();
                 attackCooldown = attackSpeed;
@@ -195,7 +211,7 @@ public class Enemy : MonoBehaviour
             state = State.AttackingRitual;
 
             attackCooldown -= Time.deltaTime;
-            if (attackCooldown <= 0)
+            if (attackCooldown <= 0 && health > 0)
             {
                 Attack();
                 attackCooldown = attackSpeed;
@@ -210,51 +226,35 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Attack()
     {
-        Debug.Log("Attack");
+        if(animator != null)
+        {
+
+            
+            animator.Play("Attack1");
+            //animator.SetTrigger("Attack");
+        }
     }
 
 
 
 
     // ----------------------------------------- Sprite Related -----------------------------------------
-    void TurningSprite(Direction dir)
-    {
-        switch (dir)
-        {
-            case Direction.Up:
-                GetComponent<SpriteRenderer>().sprite = upSprite;
-                break;
-            case Direction.Down:
-                GetComponent<SpriteRenderer>().sprite = downSprite;
-                break;
-            case Direction.Left:
-                GetComponent<SpriteRenderer>().sprite = leftSprite;
-                break;
-            case Direction.Right:
-                GetComponent<SpriteRenderer>().sprite = rightSprite;
-                break;
-        }
-    }
     void TurningSprite(Vector3 pos)
     {
         Vector3 direction = pos - transform.position;
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        if (angle > -45 && angle <= 45)
+
+        if (animator != null)
         {
-            GetComponent<SpriteRenderer>().sprite = rightSprite;
-        }
-        else if (angle > 45 && angle <= 135)
-        {
-            GetComponent<SpriteRenderer>().sprite = upSprite;
-        }
-        else if (angle > 135 || angle <= -135)
-        {
-            GetComponent<SpriteRenderer>().sprite = leftSprite;
-        }
-        else if (angle > -135 && angle <= -45)
-        {
-            GetComponent<SpriteRenderer>().sprite = downSprite;
+            if (angle >= -90 && angle <= 90)
+            {
+                animator.SetBool("isFacingLeft", false);
+            }
+            else
+            {
+                animator.SetBool("isFacingLeft", true);
+            }
         }
     }
 
@@ -333,8 +333,20 @@ public class Enemy : MonoBehaviour
         float numberBloodF = bloodCount * percentDamage;
         int numberBlood = Mathf.RoundToInt(numberBloodF);
 
-        StartCoroutine(Shrinking());
+
+        if(animator != null)
+        {
+            animator.SetBool("isDead", true);
+        }
+        else
+        {
+            StartCoroutine(Shrinking());
+        }
+
         StartCoroutine(SpawnBlood(numberBlood));
+
+
+
     }
 
     IEnumerator SpawnBlood(int amount)
@@ -352,9 +364,17 @@ public class Enemy : MonoBehaviour
         if (numberOfBlood != numberOfBloodF)
             bloodAmountNotRound = 1;
 
-
-        while (shrinkingSprite)
-            yield return null;
+        if(animator != null)
+        {
+            while (!animator.GetCurrentAnimatorStateInfo(0).IsName("BloodAnim"))
+                yield return null;
+        }
+        else
+        {
+            while (shrinkingSprite)
+                yield return null;
+        }
+        
 
         // Directions de base (séparées de minimum 30°
         for(int i = 0; i < numberOfBlood + bloodAmountNotRound; i++)
@@ -471,39 +491,56 @@ public class Enemy : MonoBehaviour
             }
         }
 
+        if (animator != null)
+        {
+            while (animator.GetCurrentAnimatorStateInfo(0).IsName("BloodAnim"))
+                yield return null;
+        }
+
         StartCoroutine(DestroyAfterFrame());
     }
 
     public void TakeDamage(float damage, bool playerDealtDamage = true)
     {
-        float tempHealth = health;
-        tempHealth -= damage;
+        
+        if (health > 0) {
+            float tempHealth = health;
+            tempHealth -= damage;
+
+
+            if (animator != null)
+                animator.Play("Hit");
 
 
 
+            // Mort ou dégâts
+            if (tempHealth <= 0 && !spawnBlood)
+            {
+                stopFlashingCoroutine = true;
 
-        // Mort ou dégâts
-        if (tempHealth <= 0 && !spawnBlood)
-        {
-            stopFlashingCoroutine = true;
+                Debug.Log("Die");
+                if(playerDealtDamage)
+                    damageByPlayer += (health);
 
-            Debug.Log("Die");
-            if(playerDealtDamage)
-                damageByPlayer += (health);
+                health = 0;
 
-            health = 0;
+                Die();
+            }
+            else
+            {
+            
 
-            Die();
-        }
-        else
-        {
-            // Cligotement
-            if (!flashingSprite)
-                StartCoroutine(Flashing());
+                if(animator == null)
+                {
+                    // Cligotement
+                    if (!flashingSprite)
+                        StartCoroutine(Flashing());
+                }
 
-            if (playerDealtDamage)
-                damageByPlayer += damage;
-            health = tempHealth;
+                if (playerDealtDamage)
+                    damageByPlayer += damage;
+                health = tempHealth;
+            }
         }
     }
 
@@ -608,6 +645,9 @@ public class Enemy : MonoBehaviour
 
     IEnumerator DestroyAfterFrame()
     {
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+
+
         // Attendez la fin de la frame
         yield return new WaitForEndOfFrame();
 

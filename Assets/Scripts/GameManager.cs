@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using UnityEditor.Animations;
 using UnityEngine;
 
 public class GameManager : MonoBehaviour
@@ -9,7 +10,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] private GameObject CanvaPrefab;
     [SerializeField] private GameObject MapPrefab;
-    private List<Path> paths;
+    [SerializeField] private List<Path> paths;
     private List<Path> spawningPaths;
     [SerializeField] private GameObject playerPrefab;
 
@@ -120,7 +121,7 @@ public class GameManager : MonoBehaviour
     {
         blood += amount;
     }
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, bool playerIsDamaged = false)
     {
         Debug.Log("TakeDamage appelé");
         if (shake == null)
@@ -128,7 +129,9 @@ public class GameManager : MonoBehaviour
             Debug.LogError("shake est null !");
             return;
         }
-        shake.StartShake();
+        if(playerIsDamaged)
+            shake.StartShake();
+
         blood -= damage;
         Debug.Log("Nouveau niveau de sang: " + blood);
         GameOver();
@@ -250,6 +253,7 @@ public class GameManager : MonoBehaviour
         Destroy(gameObject);
         Instance = null;
     }
+
 
 
 
