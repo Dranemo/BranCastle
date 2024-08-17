@@ -5877,7 +5877,6 @@ MonoBehaviour:
   audioGameOver: {fileID: 8300000, guid: 3ed34cf651a1add42ab350390a93f3f0, type: 3}
   bloodPickup: {fileID: 8300000, guid: 4f3499409e35d2043afd7f539df31cf3, type: 3}
   shake: {fileID: 0}
-  coffin_input: {fileID: 0}
 --- !u!4 &1540615496
 Transform:
   m_ObjectHideFlags: 0
@@ -6282,6 +6281,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: 'Map '
       objectReference: {fileID: 0}
+    - target: {fileID: 3677918009227447452, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1540615495}
     - target: {fileID: 4282450895261771455, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: m_LocalPosition.x
       value: 16.127497
@@ -6322,6 +6325,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 6292518240416001158, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: gameManager
+      value: 
+      objectReference: {fileID: 1540615495}
     - target: {fileID: 6364159196516171162, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: gameManager
       value: 
