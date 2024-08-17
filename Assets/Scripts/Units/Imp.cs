@@ -7,10 +7,12 @@ public class Imp : Unit
     private bool isAttacking = false;
     private Animator animator;
     private bool isDeadCoroutineStarted = false;
-
+    [SerializeField] private AudioClip deathSound; 
+    private AudioSource audioSource;
     private void Start()
     {
         animator = GetComponent<Animator>();
+        audioSource = GetComponent<AudioSource>();
     }
     protected override void Update()
     {
@@ -29,12 +31,49 @@ public class Imp : Unit
     }
     private IEnumerator HandleDeath()
     {
+        Debug.Log("HandleDeath: Coroutine commencée.");
         isDeadCoroutineStarted = true;
-        animator.SetBool("dead", true); 
-        Debug.Log(animator.GetCurrentAnimatorClipInfo(0));
-        yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+        Debug.Log("HandleDeath: isDeadCoroutineStarted = " + isDeadCoroutineStarted);
+
+        if (animator != null)
+        {
+            animator.SetBool("dead", true);
+            Debug.Log("HandleDeath: Animation de mort déclenchée.");
+        }
+        else
+        {
+            Debug.LogError("HandleDeath: Animator est null.");
+        }
+
+        Debug.Log("HandleDeath: Animation actuelle = " + animator.GetCurrentAnimatorClipInfo(0));
+
+        if (audioSource != null)
+        {
+            audioSource.clip = deathSound;
+            Debug.Log("HandleDeath: Clip audio de mort assigné.");
+            audioSource.Play();
+            Debug.Log("HandleDeath: Son de mort joué.");
+        }
+        else
+        {
+            Debug.LogError("HandleDeath: AudioSource est null.");
+        }
+
+        if (animator != null)
+        {
+            float animationLength = animator.GetCurrentAnimatorStateInfo(0).length;
+            Debug.Log("HandleDeath: Durée de l'animation de mort = " + animationLength);
+            yield return new WaitForSeconds(animationLength);
+        }
+        else
+        {
+            Debug.LogError("HandleDeath: Impossible d'obtenir la durée de l'animation car l'Animator est null.");
+        }
+
+        Debug.Log("HandleDeath: Destruction du GameObject.");
         Destroy(gameObject);
     }
+
     protected override IEnumerator AttackEnemy()
     {
         isAttacking = true;

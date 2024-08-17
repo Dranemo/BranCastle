@@ -109,6 +109,7 @@ MonoBehaviour:
   attackSpeed: 10
   bloodCost: 60
   enemiesInRange: []
+  deathSound: {fileID: 8300000, guid: f648809ffc34cd54c8d85ae77dae7b5e, type: 3}
 --- !u!70 &8944362452835413066
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

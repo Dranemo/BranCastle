@@ -4,6 +4,8 @@ public class Ghoul : Unit
 {
     private Animator animator;
     private bool isDeadCoroutineStarted = false;
+    [SerializeField] private AudioClip deathSound;
+    private AudioSource audioSource;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,6 +22,8 @@ public class Ghoul : Unit
     {
         isDeadCoroutineStarted = true;
         animator.SetBool("dead", true); // Assurez-vous que le trigger "Die" existe dans l'Animator
+        audioSource.clip = deathSound;
+        audioSource.Play();
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
         Destroy(gameObject);
     }

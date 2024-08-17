@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform spriteTransform;
     private bool isFacingLeft = false;
     private GameObject closestEnemy;
-
+    private Image coffin_input;
     [Header("Combo Settings")]
     public float comboResetTime = 0.28f; 
     private int comboStep = 0;
@@ -94,6 +94,10 @@ public class PlayerMovement : MonoBehaviour
         mapOverview = FindObjectOfType<MapOverview>();
         canvasFader = FindObjectOfType<CanvasFader>();
         animator = GetComponent<Animator>();
+        GameObject canvas = GameObject.Find("CanvasInput");
+        coffin_input = canvas.GetComponentInChildren<Image>();
+
+
     }
     void Start()
     {
@@ -118,6 +122,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.LogError("L'objet 'cooldown_fill' n'a pas été trouvé dans la scène.");
         }
+        coffin_input.enabled = false;
     }
 
     void Update()
@@ -182,6 +187,14 @@ public class PlayerMovement : MonoBehaviour
         {
             particles.Play();
         }
+        if (nearestCoffin != null && nearestCoffin.CanInteract())
+        {
+            coffin_input.enabled = true;
+        }
+        else
+        {
+            coffin_input.enabled = false;
+        }
         if (Input.GetButtonDown("Coffin") && nearestCoffin != null && nearestCoffin.CanInteract() && !isOverviewActivated)
         {
             rb.isKinematic = true;
@@ -190,7 +203,6 @@ public class PlayerMovement : MonoBehaviour
             canMove = false;
             isOverviewActivated = true;
             canvasFader.StartFadeIn();
-
             mapOverview.ActivateOverview();
         }
         // Désactivation de la vue d'ensemble
@@ -380,6 +392,7 @@ public class PlayerMovement : MonoBehaviour
         else
         {
             isFacingLeft = false;
+            animator.SetBool("isFacingLeft", isFacingLeft);
         }
     }
 

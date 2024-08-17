@@ -278,6 +278,7 @@ MonoBehaviour:
   attackSpeed: 35.18
   bloodCost: 19.44
   enemiesInRange: []
+  deathSound: {fileID: 8300000, guid: 4795d33396c686149a5f99b98dd76207, type: 3}
 --- !u!82 &1727681776462200360
 AudioSource:
   m_ObjectHideFlags: 0

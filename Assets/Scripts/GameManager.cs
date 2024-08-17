@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public float blood /*{ get; private set; }*/ = 10000;
@@ -35,7 +35,7 @@ public class GameManager : MonoBehaviour
     private GameObject player;
     [SerializeField] private AudioClip audioGong;
     [SerializeField] private AudioClip audioGameOver;
-
+    [SerializeField] private AudioClip bloodPickup;
     [SerializeField] private ScreenShake shake;
     // -------------------------------------------------------------- Unity Func -------------------------------------------------------------- 
     private void Awake()
@@ -119,6 +119,8 @@ public class GameManager : MonoBehaviour
     public void AddBlood(float amount)
     {
         blood += amount;
+        audioSource.clip = bloodPickup;
+        audioSource.Play();
     }
     public void TakeDamage(float damage)
     {
