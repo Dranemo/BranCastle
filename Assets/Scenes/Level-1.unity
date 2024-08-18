@@ -5877,6 +5877,7 @@ MonoBehaviour:
   audioGameOver: {fileID: 8300000, guid: 3ed34cf651a1add42ab350390a93f3f0, type: 3}
   bloodPickup: {fileID: 8300000, guid: 4f3499409e35d2043afd7f539df31cf3, type: 3}
   shake: {fileID: 0}
+  invincibilityDuration: 0.5
 --- !u!4 &1540615496
 Transform:
   m_ObjectHideFlags: 0

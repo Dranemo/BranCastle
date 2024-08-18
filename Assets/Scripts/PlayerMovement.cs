@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Drawing;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -96,6 +98,9 @@ public class PlayerMovement : MonoBehaviour
         animator = GetComponent<Animator>();
         GameObject canvas = GameObject.Find("CanvasInput");
         coffin_input = canvas.GetComponentInChildren<Image>();
+        rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        trail = this.gameObject.GetComponentInChildren<TrailRenderer>();
 
 
     }
@@ -104,9 +109,6 @@ public class PlayerMovement : MonoBehaviour
         canDash = true;
         rectangle = transform.Find("BatArea").gameObject;
         rectangle.SetActive(false);
-        rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        trail = this.gameObject.GetComponentInChildren<TrailRenderer>();
         if (trail != null)
         {
             trail.enabled = false;
@@ -190,10 +192,12 @@ public class PlayerMovement : MonoBehaviour
         if (nearestCoffin != null && nearestCoffin.CanInteract())
         {
             coffin_input.enabled = true;
+
         }
         else
         {
             coffin_input.enabled = false;
+
         }
         if (Input.GetButtonDown("Coffin") && nearestCoffin != null && nearestCoffin.CanInteract() && !isOverviewActivated)
         {
