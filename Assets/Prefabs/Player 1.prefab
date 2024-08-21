@@ -5434,7 +5434,7 @@ MonoBehaviour:
   capePushDuration: 0.36
   capePrefab: {fileID: 6334495684338012574, guid: 47d5ce90fb41ecc4e925422adb5a9ea0, type: 3}
   canCape: 1
-  capeAudio: {fileID: 8300000, guid: 166208649dcd48a479b7db32c367f493, type: 3}
+  capeAudio: {fileID: 8300000, guid: 86a0f46c5035b4142bd6cd56f9f4e67b, type: 3}
   isHypnotizing: 0
 --- !u!114 &6844953783898590544
 MonoBehaviour:
