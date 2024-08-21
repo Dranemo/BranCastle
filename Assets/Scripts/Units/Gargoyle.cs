@@ -19,6 +19,7 @@ public class Gargoyle : Unit
     private bool isDeadCoroutineStarted = false;
     [SerializeField] private AudioClip deathSound;
     private SpriteRenderer sprite;
+    private PlayerMovement player;
     // Propriétés booléennes pour vérifier l'état
     private bool IsWall
     {
@@ -67,6 +68,7 @@ public class Gargoyle : Unit
         // Obtenez la référence à l'AudioSource et à l'Animator
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
+        player = FindObjectOfType<PlayerMovement>();
     }
 
     private void Start()
@@ -120,6 +122,7 @@ public class Gargoyle : Unit
         Die();
         if (unitCircleScript != null && unitCircleScript.isPlayerInside)
         {
+            player.coffin_input.enabled = true;
             if (Input.GetButtonDown("Coffin"))
             {
                 if (IsIdle)
@@ -133,6 +136,10 @@ public class Gargoyle : Unit
                     Debug.Log("Gargoyle is now idle.");
                 }
             }
+        }
+        else
+        {
+            player.coffin_input.enabled = false;
         }
         if (IsWall)
         {

@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] Transform spriteTransform;
     private bool isFacingLeft = false;
     private GameObject closestEnemy;
-    private Image coffin_input;
+    public Image coffin_input;
     [Header("Combo Settings")]
     public float comboResetTime = 0.28f; 
     private int comboStep = 0;
@@ -50,7 +50,9 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private KeyCode biteKey;
 
     [Header("UI")]
-    private Image cooldownImage; 
+    private Image cooldownBatImage;
+    private Image cooldownIceImage;
+    private Image cooldownHypnosisImage;
 
     [Header("BatAttack")]
     public float batAttackCooldown = 5f;
@@ -80,7 +82,9 @@ public class PlayerMovement : MonoBehaviour
     public bool canCape = true;
     [SerializeField] private AudioClip capeAudio;
 
-    public bool isHypnotizing = false; 
+    [Header("Hypnosis")]
+    public bool isHypnotizing = false;
+    private float hypnosisDuration = 5f;
     public void DisablePunch()
     {
         punchEnabled = false;
@@ -115,15 +119,12 @@ public class PlayerMovement : MonoBehaviour
         }
         gameManager = GameManager.Instance;
         particles = GetComponentInChildren<ParticleSystem>();
-        GameObject cooldownFillObject = GameObject.Find("cooldown_fill");
-        if (cooldownFillObject != null)
-        {
-            cooldownImage = cooldownFillObject.GetComponent<Image>();
-        }
-        else
-        {
-            Debug.LogError("L'objet 'cooldown_fill' n'a pas été trouvé dans la scène.");
-        }
+        GameObject cooldownBatObject = GameObject.Find("cooldown_bat");
+        cooldownBatImage = cooldownBatObject.GetComponent<Image>();
+        GameObject cooldownIceObject = GameObject.Find("cooldown_ice");
+        cooldownIceImage = cooldownIceObject.GetComponent<Image>();
+        GameObject cooldownHypnosisObject = GameObject.Find("cooldown_hypnosis");
+        cooldownHypnosisImage = cooldownHypnosisObject.GetComponent<Image>();
         coffin_input.enabled = false;
     }
 
@@ -153,8 +154,7 @@ public class PlayerMovement : MonoBehaviour
         //Cape Attack
         if (punchEnabled && Input.GetMouseButtonDown(1) && currentCape == null && !isDrawingRectangle && canCape)
         {
-            canCape = false;
-            StartCoroutine(CapeAttack());
+            CapeAttack();
         }
 
 
@@ -247,7 +247,7 @@ public class PlayerMovement : MonoBehaviour
         {
             Debug.Log("Closest enemy to cursor: " + closestEnemy.name);
             closestEnemy.GetComponent<Enemy>().Hypnotize();
-            isHypnotizing = false;
+            StartCoroutine(AttackCooldown(cooldownHypnosisImage, hypnosisDuration, isHypnotizing));
         }
         else
         {
@@ -345,23 +345,23 @@ public class PlayerMovement : MonoBehaviour
                 batScript.SetDirection(direction);
             }
         }
-        StartCoroutine(BatAttackCooldown());
+        StartCoroutine(AttackCooldown(cooldownBatImage, batAttackCooldown, canBatAttack));
     }
 
-    IEnumerator BatAttackCooldown()
+    IEnumerator AttackCooldown(Image cooldownImage, float attackCooldown, bool canAttack)
     {
-        canBatAttack = false; // Désactiver l'attaque
+        canAttack = false;
         float cooldownTime = 0f;
 
-        while (cooldownTime < batAttackCooldown)
+        while (cooldownTime < attackCooldown)
         {
             cooldownTime += Time.deltaTime;
-            cooldownImage.fillAmount = cooldownTime / batAttackCooldown; // Mettre à jour le remplissage de l'image
+            cooldownImage.fillAmount = cooldownTime / attackCooldown; 
             yield return null;
         }
 
-        cooldownImage.fillAmount = 1f; // Assurez-vous que l'image est complètement remplie à la fin du cooldown
-        canBatAttack = true; // Réactiver l'attaque
+        cooldownImage.fillAmount = 1f; 
+        canAttack = true; 
     }
 
 
@@ -423,17 +423,74 @@ public class PlayerMovement : MonoBehaviour
         ScenesManager.Instance.LoadScene("GameOver");
     }
 
-    IEnumerator CapeAttack()
+    void CapeAttack()
     {
         audioSource.clip = capeAudio;
         audioSource.Play();
-        Vector2 coupCapePosotion = rb.position;
-        currentCape = Instantiate(capePrefab, coupCapePosotion, Quaternion.Euler(0, 0, 0));
-        yield return new WaitForSeconds(capeDuration); 
-        Destroy(currentCape);
-        yield return new WaitForSeconds(capeCooldown);
+        Vector2 coupCapePosition = rb.position;
+        currentCape = Instantiate(capePrefab, coupCapePosition, Quaternion.Euler(0, 0, 0));
+        Debug.Log("Cape attack");
+        Debug.Log(currentCape.transform);
+        StartCoroutine(HandleCapeAttack(currentCape));
+    }
+
+    IEnumerator HandleCapeAttack(GameObject cape)
+    {
+        yield return StartCoroutine(ScaleOverTime(cape, Vector3.zero, new Vector3(5, 5, 1), 0.2f));
+        StartCoroutine(AttackCooldown(cooldownIceImage, capeCooldown, canCape));
+        yield return StartCoroutine(FadeOutOverTime(cape, capeDuration));
+        Destroy(cape);
         currentCape = null;
-        canCape = true;
+    }
+
+    IEnumerator ScaleOverTime(GameObject target, Vector3 initialScale, Vector3 finalScale, float duration)
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            if (target == null)
+            {
+                yield break; // Sortir de la coroutine si l'objet a été détruit
+            }
+
+            target.transform.localScale = Vector3.Lerp(initialScale, finalScale, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        if (target != null)
+        {
+            target.transform.localScale = finalScale; // Assurez-vous que la mise à l'échelle finale est appliquée
+        }
+    }
+
+    IEnumerator FadeOutOverTime(GameObject target, float duration)
+    {
+        SpriteRenderer spriteRenderer = target.GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
+        {
+            yield break;
+        }
+
+        float elapsedTime = 0f;
+        UnityEngine.Color initialColor = spriteRenderer.color;
+        UnityEngine.Color finalColor = initialColor;
+        finalColor.a = 0f; // Alpha final à 0 (complètement transparent)
+
+        while (elapsedTime < duration)
+        {
+            if (target == null)
+            {
+                yield break; // Sortir de la coroutine si l'objet a été détruit
+            }
+
+            spriteRenderer.color = UnityEngine.Color.Lerp(initialColor, finalColor, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        if (target != null)
+        {
+            spriteRenderer.color = finalColor; // Assurez-vous que l'alpha final est appliqué
+        }
     }
 
     void FixedUpdate()

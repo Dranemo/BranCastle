@@ -7,7 +7,6 @@ public class Imp : Unit
     private bool isAttacking = false;
     private Animator animator;
     private bool isDeadCoroutineStarted = false;
-    [SerializeField] private AudioClip deathSound; 
     private AudioSource audioSource;
     private void Start()
     {
@@ -43,20 +42,6 @@ public class Imp : Unit
         else
         {
             Debug.LogError("HandleDeath: Animator est null.");
-        }
-
-        Debug.Log("HandleDeath: Animation actuelle = " + animator.GetCurrentAnimatorClipInfo(0));
-
-        if (audioSource != null)
-        {
-            audioSource.clip = deathSound;
-            Debug.Log("HandleDeath: Clip audio de mort assigné.");
-            audioSource.Play();
-            Debug.Log("HandleDeath: Son de mort joué.");
-        }
-        else
-        {
-            Debug.LogError("HandleDeath: AudioSource est null.");
         }
 
         if (animator != null)

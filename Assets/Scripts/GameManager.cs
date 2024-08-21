@@ -123,6 +123,7 @@ public class GameManager : MonoBehaviour
     public void AddBlood(float amount)
     {
         blood += amount;
+        if (!audioSource.isPlaying)
         audioSource.clip = bloodPickup;
         audioSource.Play();
     }
