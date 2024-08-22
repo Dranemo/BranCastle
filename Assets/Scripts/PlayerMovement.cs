@@ -318,24 +318,30 @@ public class PlayerMovement : MonoBehaviour
     }
     void BatAttack()
     {
-        if (!canBatAttack) return; 
+        if (!canBatAttack) return;
         audioSource.clip = batSound;
         audioSource.Play();
         isDrawingRectangle = false;
         rectangle.SetActive(false);
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 playerPosition = transform.position; 
+        Vector2 playerPosition = transform.position;
 
         Vector2 direction = (mousePosition - playerPosition).normalized;
 
-        for (int i = 0; i < 50; i++)
+        StartCoroutine(SpawnBats(playerPosition, direction));
+        StartCoroutine(AttackCooldown(cooldownBatImage, batAttackCooldown, canBatAttack));
+    }
+
+    IEnumerator SpawnBats(Vector2 playerPosition, Vector2 direction)
+    {
+        for (int i = 0; i < 20; i++)
         {
             Vector2 randomOffset = new Vector2(
-                Random.Range(-0.5f, 0.5f), 
-                Random.Range(-0.5f, 0.5f)
+                Random.Range(-0.2f, 0.2f),
+                Random.Range(-0.2f, 0.2f)
             );
 
-            Vector2 spawnPosition2D = playerPosition + direction * (i * 0.1f) + randomOffset;
+            Vector2 spawnPosition2D = playerPosition + direction + randomOffset; 
             Vector3 spawnPosition = new Vector3(spawnPosition2D.x, spawnPosition2D.y, 0);
 
             GameObject bat = Instantiate(batPrefab, spawnPosition, Quaternion.identity);
@@ -344,9 +350,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 batScript.SetDirection(direction);
             }
+
+            yield return new WaitForSeconds(0.01f);
         }
-        StartCoroutine(AttackCooldown(cooldownBatImage, batAttackCooldown, canBatAttack));
     }
+
 
     IEnumerator AttackCooldown(Image cooldownImage, float attackCooldown, bool canAttack)
     {

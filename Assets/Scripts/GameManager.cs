@@ -160,17 +160,16 @@ public class GameManager : MonoBehaviour
 
         while (elapsedTime < invincibilityDuration)
         {
-            // Mettre à jour l'alpha du sprite à chaque frame
-            SpriteRenderer spriteRenderer = player.GetComponent<SpriteRenderer>();
-            if (spriteRenderer != null)
+            if (player)
             {
-                Color color = spriteRenderer.color;
+            SpriteRenderer spriteRenderer = player.GetComponent<SpriteRenderer>(); 
+            Color color = spriteRenderer.color;
                 color.a = 0.5f; 
                 spriteRenderer.color = color;
-            }
 
             elapsedTime += Time.deltaTime;
             yield return null; 
+            }
         }
 
         SpriteRenderer finalSpriteRenderer = player.GetComponent<SpriteRenderer>();

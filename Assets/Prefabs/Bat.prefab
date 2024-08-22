@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minSpeed: 4
-  maxSpeed: 5
+  maxSpeed: 7
   maxDistance: 5
 --- !u!50 &8667624876191649209
 Rigidbody2D:

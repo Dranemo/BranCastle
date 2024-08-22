@@ -5871,7 +5871,7 @@ MonoBehaviour:
   enemyWaveCooldown: 30
   enemyWaveCooldownLeft: 30
   enemyCooldownDecrease: 0.2
-  time: 690
+  time: 705
   isGameOver: 0
   audioGong: {fileID: 8300000, guid: 17d7d34497a17a342ac1d72cfb847292, type: 3}
   audioGameOver: {fileID: 8300000, guid: 3ed34cf651a1add42ab350390a93f3f0, type: 3}
