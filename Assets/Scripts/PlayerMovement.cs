@@ -31,7 +31,7 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private float angle;
     [SerializeField] Transform spriteTransform;
-    private bool isFacingLeft = false;
+    private bool isFacingLeft;
     private GameObject closestEnemy;
     public Image coffin_input;
     [Header("Combo Settings")]
@@ -396,17 +396,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void FlipSpriteBasedOnCursor(float angle)
     {
-        if ((angle <= -90 && angle >= -180) || (angle < 180 && angle > 90))
+
+        bool shouldFaceLeft = (angle <= -90 && angle >= -180) || (angle < 180 && angle > 90);
+
+        if (shouldFaceLeft != isFacingLeft)
         {
-            isFacingLeft = true;
-            animator.SetBool("isFacingLeft", isFacingLeft);
-        }
-        else
-        {
-            isFacingLeft = false;
+            isFacingLeft = shouldFaceLeft;
+            spriteRenderer.flipX = isFacingLeft;
             animator.SetBool("isFacingLeft", isFacingLeft);
         }
     }
+
+
 
 
 
