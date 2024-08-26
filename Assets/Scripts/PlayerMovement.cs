@@ -18,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 movement;
     private SpriteRenderer spriteRenderer;
-    private bool punchEnabled = true;
+    public bool canPunch = true;
     private TrailRenderer trail;
 
     public GameManager gameManager;
@@ -56,10 +56,11 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("BatAttack")]
     public float batAttackCooldown = 5f;
-    private bool canBatAttack = true;
+    public bool canBatAttack = true;
     public float batDistance = 2.5f;
     private GameObject rectangle;
     public bool isDrawingRectangle = false;
+    public bool canDrawRectangle = true;
     public GameObject batPrefab;
     [SerializeField] private AudioClip batSound;
     private AudioSource audioSource;
@@ -85,14 +86,18 @@ public class PlayerMovement : MonoBehaviour
     [Header("Hypnosis")]
     public bool isHypnotizing = false;
     private float hypnosisDuration = 5f;
+    public bool canHypnotize = true;
+
+    private PauseMenu pause;
+
     public void DisablePunch()
     {
-        punchEnabled = false;
+        canPunch = false;
     }
 
     public void EnablePunch()
     {
-        punchEnabled = true;
+        canPunch = true;
     }
     void Awake()
     {
@@ -126,6 +131,7 @@ public class PlayerMovement : MonoBehaviour
         GameObject cooldownHypnosisObject = GameObject.Find("cooldown_hypnosis");
         cooldownHypnosisImage = cooldownHypnosisObject.GetComponent<Image>();
         coffin_input.enabled = false;
+        pause = FindObjectOfType<PauseMenu>();
     }
 
     void Update()
@@ -137,12 +143,9 @@ public class PlayerMovement : MonoBehaviour
         }
         Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        if (punchEnabled && Input.GetMouseButtonDown(0) && currentCoup == null && !isDrawingRectangle && !isOverviewActivated)
+        if (canPunch && Input.GetMouseButtonDown(0) && currentCoup == null && !isDrawingRectangle && !isOverviewActivated)
         {
             HandleCombo();
-            //Vector3 coupPosition = transform.position + new Vector3(direction.x, direction.y, 0) * coupDistance;
-            //currentCoup = Instantiate(coupPrefab, coupPosition, Quaternion.Euler(0, 0, angle+90));
-            //StartCoroutine(DestroyAfterSeconds(currentCoup, 0.1f));
         }
         // Movement
         transform.position += (Vector3)movement * moveSpeed * Time.deltaTime;
@@ -152,15 +155,15 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(Dash());
 
         //Cape Attack
-        if (punchEnabled && Input.GetMouseButtonDown(1) && currentCape == null && !isDrawingRectangle && canCape)
+        if (canPunch && Input.GetMouseButtonDown(1) && currentCape == null && !isDrawingRectangle && canCape)
         {
             CapeAttack();
         }
 
 
-        ////////////////////// Bat attack //////////////////////////////
+        ///////////////////////// Bat attack //////////////////////////////
 
-        if (Input.GetKeyDown(batKey))
+        if (Input.GetKeyDown(batKey) && canDrawRectangle)
         {
             isDrawingRectangle = !isDrawingRectangle;
             rectangle.SetActive(isDrawingRectangle);
@@ -178,6 +181,8 @@ public class PlayerMovement : MonoBehaviour
             BatAttack();
         }
 
+        ///////////////////////// Light //////////////////////////////
+
         if (!gameManager.isPlayerInLight)
         {
             //particles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
@@ -189,6 +194,11 @@ public class PlayerMovement : MonoBehaviour
         {
             particles.Play();
         }
+
+
+        ///////////////////////// Coffin /////////////////////////////////
+       
+
         if (nearestCoffin != null && nearestCoffin.CanInteract())
         {
             coffin_input.enabled = true;
@@ -218,7 +228,11 @@ public class PlayerMovement : MonoBehaviour
             isOverviewActivated = false;
             mapOverview.DeactivateOverview();
         }
-        FlipSpriteBasedOnCursor(angle);
+        if(pause.isPaused==false)
+        {
+            FlipSpriteBasedOnCursor(angle);
+        }
+        
 
         // Hypnosis logic
         if (Input.GetKeyDown(hypnosisKey))
@@ -231,7 +245,7 @@ public class PlayerMovement : MonoBehaviour
         isHypnotizing = true;
         Vector2 cursorPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        float closestDistance = Mathf.Infinity;
+        float closestDistance = 20f;
 
         foreach (GameObject enemy in enemies)
         {
@@ -243,7 +257,7 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (closestEnemy != null)
+        if (closestEnemy != null && canHypnotize)
         {
             Debug.Log("Closest enemy to cursor: " + closestEnemy.name);
             closestEnemy.GetComponent<Enemy>().Hypnotize();
@@ -417,20 +431,30 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("Dead", true);
         Debug.Log("Player is dead");
 
+        float timeout = 5.0f; // Timeout de 5 secondes
+        float elapsedTime = 0f;
+
         // Attendre la fin de l'animation de mort
-        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("death") || animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        while ((!animator.GetCurrentAnimatorStateInfo(0).IsName("death") || animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f) && elapsedTime < timeout)
         {
             // Ajouter des logs pour vérifier les conditions
             Debug.Log("Checking animation state...");
             Debug.Log("Is 'death' animation playing: " + animator.GetCurrentAnimatorStateInfo(0).IsName("death"));
             Debug.Log("Normalized time of 'death' animation: " + animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
+            elapsedTime += Time.deltaTime;
             yield return null;
+        }
+
+        if (elapsedTime >= timeout)
+        {
+            Debug.LogError("Timeout reached while waiting for death animation to finish.");
         }
 
         Debug.Log("Game Over");
         ScenesManager.Instance.LoadScene("GameOver");
     }
+
 
     void CapeAttack()
     {

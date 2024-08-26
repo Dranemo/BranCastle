@@ -15,6 +15,7 @@ public class Imp : Unit
     }
     protected override void Update()
     {
+        base.Update();
         if (!isAttacking && enemiesInRange.Count > 0)
         {
             StartCoroutine(AttackEnemy());

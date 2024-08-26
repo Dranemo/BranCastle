@@ -127,6 +127,10 @@ public class GameManager : MonoBehaviour
         audioSource.clip = bloodPickup;
         audioSource.Play();
     }
+    public void BloodCost(float amount)
+    {
+        blood -= amount;
+    }
     public void TakeDamage(float damage)
     {
         Debug.Log("TakeDamage appelé");
@@ -273,7 +277,7 @@ public class GameManager : MonoBehaviour
             audioSource.clip = audioGameOver;
             audioSource.Play();
         }
-        if (blood <= 0 || time > 1439) // 23h59
+        if (blood <= 0)
         {
             isGameOver = true;
             Debug.Log("Game Over: Loading GameOver Scene");
@@ -289,7 +293,7 @@ public class GameManager : MonoBehaviour
         {
             isGameOver = true;
             Debug.Log("Victory: Loading Victory Scene");
-            ScenesManager.Instance.LoadScene("Victory");
+            ScenesManager.Instance.LoadScene("GameOver");
         }
     }
 
@@ -300,7 +304,24 @@ public class GameManager : MonoBehaviour
         Instance = null;
     }
 
-
+    public void Reset()
+    {
+        blood = 10000;
+        time = 690;
+        wave = 1;
+        isGameOver = false;
+        coroutineStartedDeath = false;
+        isPlayerInLight = false;
+        isInvincible = false;
+        enemyCooldown = 10;
+        enemyCooldownLeft = 0;
+        enemyWaveCooldown = 30;
+        enemyWaveCooldownLeft = 30;
+        enemyCooldownDecrease = 0.2f;
+        wavePathIndex = Random.Range(0, spawningPaths.Count);
+        Destroy(gameObject);
+        Instance = null;
+    }
 
 
     // -------------------------------------------------------------- Getter Func --------------------------------------------------------------

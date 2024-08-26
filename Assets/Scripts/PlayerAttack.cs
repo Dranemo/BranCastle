@@ -7,7 +7,7 @@ public class PlayerAttack : MonoBehaviour
     public float spawnDistance = 1.0f;
     public float hitLifetime = 2.0f;
     private Animator animator;
-    private PlayerMovement playerMovement;
+    private PlayerMovement player;
     private GameObject currentHitInstance; // Référence à l'instance actuelle du coup
 
     void Start()
@@ -17,11 +17,12 @@ public class PlayerAttack : MonoBehaviour
         {
             Debug.LogError("Animator n'est pas assigné !");
         }
+        player = GetComponent<PlayerMovement>();
     }
 
     void Update()
     {
-        if (Input.GetMouseButtonDown(0))
+        if (Input.GetMouseButtonDown(0) && player.canPunch)
         {
             SpawnHitPrefab();
         }

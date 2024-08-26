@@ -5,14 +5,24 @@ using System.Linq;
 
 public class Unit : MonoBehaviour
 {
-    [SerializeField] protected float health; 
-    [SerializeField] protected float damage; 
+    [SerializeField] protected float health;
+    [SerializeField] protected float damage;
     [SerializeField] protected float attackSpeed;
     [SerializeField] protected float bloodCost;
     protected Coroutine attackCoroutine;
     public List<GameObject> enemiesInRange = new List<GameObject>();
 
     private SpriteRenderer spriteRenderer;
+
+    void Start()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
+        {
+            Debug.LogError("SpriteRenderer is not attached to the GameObject.");
+        }
+    }
+
     public void TakeDamage(float damage)
     {
         health -= damage;
@@ -21,11 +31,13 @@ public class Unit : MonoBehaviour
             Die();
         }
     }
+
     protected virtual void Die()
     {
         StopAttack();
         Destroy(gameObject);
     }
+
     public void StartAttack(GameObject enemy)
     {
         if (attackCoroutine == null)
@@ -42,6 +54,7 @@ public class Unit : MonoBehaviour
             attackCoroutine = null;
         }
     }
+
     protected virtual IEnumerator AttackEnemy()
     {
         while (enemiesInRange.Count > 0)
@@ -55,7 +68,7 @@ public class Unit : MonoBehaviour
             }
             else
             {
-                yield break; 
+                yield break;
             }
         }
 
@@ -64,21 +77,41 @@ public class Unit : MonoBehaviour
 
     protected GameObject GetClosestEnemy()
     {
-        enemiesInRange.RemoveAll(item => item == null); // Nettoyer la liste des ennemis nuls
+        enemiesInRange.RemoveAll(item => item == null);
         if (enemiesInRange.Count == 0) return null;
         return enemiesInRange.OrderBy(e => (e.transform.position - transform.position).sqrMagnitude).FirstOrDefault();
     }
+
     public float GetHealthUnit()
     {
         return health;
     }
-    void Start()
-    {
-    }
 
-    // Update is called once per frame
     protected virtual void Update()
     {
+        if (enemiesInRange.Count > 0)
+        {
+            FlipSprite();
+        }
         AttackEnemy();
     }
+
+    private void FlipSprite()
+    {
+        if (spriteRenderer == null) return; 
+
+        GameObject closestEnemy = GetClosestEnemy();
+        if (closestEnemy != null)
+        {
+            if (closestEnemy.transform.position.x < transform.position.x)
+            {
+                spriteRenderer.flipX = true;
+            }
+            else
+            {
+                spriteRenderer.flipX = false;
+            }
+        }
+    }
 }
+

@@ -110,7 +110,6 @@ MonoBehaviour:
   bloodCost: 50
   enemiesInRange: []
   projectilePrefab: {fileID: 6285388318475031793, guid: 4c7e5cb89ea28944f80a2d2034675885, type: 3}
-  deathSound: {fileID: 8300000, guid: 4101691ab7672714d94c49e6aa3bacbf, type: 3}
 --- !u!70 &8944362452835413066
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -203,7 +202,7 @@ AudioSource:
   m_GameObject: {fileID: 606369980038303244}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 1268658952232906004, guid: e7a9e2ce18ef4374c9a5c2edafc1555f, type: 2}
   m_audioClip: {fileID: 8300000, guid: 55080fc1fde47e24b99f546b852617dc, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
