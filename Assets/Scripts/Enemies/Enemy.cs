@@ -326,6 +326,7 @@ public class Enemy : MonoBehaviour
     protected void Die()
     {
         spawnBlood = true;
+        Debug.Log("Damage by player: " + damageByPlayer);
 
         float percentDamageF = damageByPlayer / maxHealth;
         int percentDamage = Mathf.RoundToInt(percentDamageF);

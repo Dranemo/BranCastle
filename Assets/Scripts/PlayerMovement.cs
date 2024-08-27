@@ -1,4 +1,6 @@
 using System.Collections;
+using System.Drawing;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +18,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private Vector2 movement;
     private SpriteRenderer spriteRenderer;
-    private bool punchEnabled = true;
+    public bool canPunch = true;
     private TrailRenderer trail;
 
     public GameManager gameManager;
@@ -29,9 +31,9 @@ public class PlayerMovement : MonoBehaviour
     private Animator animator;
     private float angle;
     [SerializeField] Transform spriteTransform;
-    private bool isFacingLeft = false;
+    private bool isFacingLeft;
     private GameObject closestEnemy;
-
+    public Image coffin_input;
     [Header("Combo Settings")]
     public float comboResetTime = 0.28f; 
     private int comboStep = 0;
@@ -48,14 +50,17 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private KeyCode biteKey;
 
     [Header("UI")]
-    private Image cooldownImage; 
+    private Image cooldownBatImage;
+    private Image cooldownIceImage;
+    private Image cooldownHypnosisImage;
 
     [Header("BatAttack")]
     public float batAttackCooldown = 5f;
-    private bool canBatAttack = true;
+    public bool canBatAttack = true;
     public float batDistance = 2.5f;
     private GameObject rectangle;
     public bool isDrawingRectangle = false;
+    public bool canDrawRectangle = true;
     public GameObject batPrefab;
     [SerializeField] private AudioClip batSound;
     private AudioSource audioSource;
@@ -78,15 +83,21 @@ public class PlayerMovement : MonoBehaviour
     public bool canCape = true;
     [SerializeField] private AudioClip capeAudio;
 
-    public bool isHypnotizing = false; 
+    [Header("Hypnosis")]
+    public bool isHypnotizing = false;
+    private float hypnosisDuration = 5f;
+    public bool canHypnotize = true;
+
+    private PauseMenu pause;
+
     public void DisablePunch()
     {
-        punchEnabled = false;
+        canPunch = false;
     }
 
     public void EnablePunch()
     {
-        punchEnabled = true;
+        canPunch = true;
     }
     void Awake()
     {
@@ -94,30 +105,33 @@ public class PlayerMovement : MonoBehaviour
         mapOverview = FindObjectOfType<MapOverview>();
         canvasFader = FindObjectOfType<CanvasFader>();
         animator = GetComponent<Animator>();
+        GameObject canvas = GameObject.Find("CanvasInput");
+        coffin_input = canvas.GetComponentInChildren<Image>();
+        rb = GetComponent<Rigidbody2D>();
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        trail = this.gameObject.GetComponentInChildren<TrailRenderer>();
+
+
     }
     void Start()
     {
         canDash = true;
         rectangle = transform.Find("BatArea").gameObject;
         rectangle.SetActive(false);
-        rb = GetComponent<Rigidbody2D>();
-        spriteRenderer = GetComponent<SpriteRenderer>();
-        trail = this.gameObject.GetComponentInChildren<TrailRenderer>();
         if (trail != null)
         {
             trail.enabled = false;
         }
         gameManager = GameManager.Instance;
         particles = GetComponentInChildren<ParticleSystem>();
-        GameObject cooldownFillObject = GameObject.Find("cooldown_fill");
-        if (cooldownFillObject != null)
-        {
-            cooldownImage = cooldownFillObject.GetComponent<Image>();
-        }
-        else
-        {
-            Debug.LogError("L'objet 'cooldown_fill' n'a pas été trouvé dans la scène.");
-        }
+        GameObject cooldownBatObject = GameObject.Find("cooldown_bat");
+        cooldownBatImage = cooldownBatObject.GetComponent<Image>();
+        GameObject cooldownIceObject = GameObject.Find("cooldown_ice");
+        cooldownIceImage = cooldownIceObject.GetComponent<Image>();
+        GameObject cooldownHypnosisObject = GameObject.Find("cooldown_hypnosis");
+        cooldownHypnosisImage = cooldownHypnosisObject.GetComponent<Image>();
+        coffin_input.enabled = false;
+        pause = FindObjectOfType<PauseMenu>();
     }
 
     void Update()
@@ -129,12 +143,9 @@ public class PlayerMovement : MonoBehaviour
         }
         Vector2 direction = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
         angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        if (punchEnabled && Input.GetMouseButtonDown(0) && currentCoup == null && !isDrawingRectangle && !isOverviewActivated)
+        if (canPunch && Input.GetMouseButtonDown(0) && currentCoup == null && !isDrawingRectangle && !isOverviewActivated)
         {
             HandleCombo();
-            //Vector3 coupPosition = transform.position + new Vector3(direction.x, direction.y, 0) * coupDistance;
-            //currentCoup = Instantiate(coupPrefab, coupPosition, Quaternion.Euler(0, 0, angle+90));
-            //StartCoroutine(DestroyAfterSeconds(currentCoup, 0.1f));
         }
         // Movement
         transform.position += (Vector3)movement * moveSpeed * Time.deltaTime;
@@ -144,16 +155,15 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(Dash());
 
         //Cape Attack
-        if (punchEnabled && Input.GetMouseButtonDown(1) && currentCape == null && !isDrawingRectangle && canCape)
+        if (canPunch && Input.GetMouseButtonDown(1) && currentCape == null && !isDrawingRectangle && canCape)
         {
-            canCape = false;
-            StartCoroutine(CapeAttack());
+            CapeAttack();
         }
 
 
-        ////////////////////// Bat attack //////////////////////////////
+        ///////////////////////// Bat attack //////////////////////////////
 
-        if (Input.GetKeyDown(batKey))
+        if (Input.GetKeyDown(batKey) && canDrawRectangle)
         {
             isDrawingRectangle = !isDrawingRectangle;
             rectangle.SetActive(isDrawingRectangle);
@@ -171,6 +181,8 @@ public class PlayerMovement : MonoBehaviour
             BatAttack();
         }
 
+        ///////////////////////// Light //////////////////////////////
+
         if (!gameManager.isPlayerInLight)
         {
             //particles.Stop(true, ParticleSystemStopBehavior.StopEmitting);
@@ -182,6 +194,21 @@ public class PlayerMovement : MonoBehaviour
         {
             particles.Play();
         }
+
+
+        ///////////////////////// Coffin /////////////////////////////////
+       
+
+        if (nearestCoffin != null && nearestCoffin.CanInteract())
+        {
+            coffin_input.enabled = true;
+
+        }
+        else
+        {
+            coffin_input.enabled = false;
+
+        }
         if (Input.GetButtonDown("Coffin") && nearestCoffin != null && nearestCoffin.CanInteract() && !isOverviewActivated)
         {
             rb.isKinematic = true;
@@ -190,7 +217,6 @@ public class PlayerMovement : MonoBehaviour
             canMove = false;
             isOverviewActivated = true;
             canvasFader.StartFadeIn();
-
             mapOverview.ActivateOverview();
         }
         // Désactivation de la vue d'ensemble
@@ -202,7 +228,11 @@ public class PlayerMovement : MonoBehaviour
             isOverviewActivated = false;
             mapOverview.DeactivateOverview();
         }
-        FlipSpriteBasedOnCursor(angle);
+        if(pause.isPaused==false)
+        {
+            FlipSpriteBasedOnCursor(angle);
+        }
+        
 
         // Hypnosis logic
         if (Input.GetKeyDown(hypnosisKey))
@@ -215,7 +245,7 @@ public class PlayerMovement : MonoBehaviour
         isHypnotizing = true;
         Vector2 cursorPosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
         GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        float closestDistance = Mathf.Infinity;
+        float closestDistance = 20f;
 
         foreach (GameObject enemy in enemies)
         {
@@ -227,11 +257,11 @@ public class PlayerMovement : MonoBehaviour
             }
         }
 
-        if (closestEnemy != null)
+        if (closestEnemy != null && canHypnotize)
         {
             Debug.Log("Closest enemy to cursor: " + closestEnemy.name);
             closestEnemy.GetComponent<Enemy>().Hypnotize();
-            isHypnotizing = false;
+            StartCoroutine(AttackCooldown(cooldownHypnosisImage, hypnosisDuration, isHypnotizing));
         }
         else
         {
@@ -302,24 +332,30 @@ public class PlayerMovement : MonoBehaviour
     }
     void BatAttack()
     {
-        if (!canBatAttack) return; 
+        if (!canBatAttack) return;
         audioSource.clip = batSound;
         audioSource.Play();
         isDrawingRectangle = false;
         rectangle.SetActive(false);
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-        Vector2 playerPosition = transform.position; 
+        Vector2 playerPosition = transform.position;
 
         Vector2 direction = (mousePosition - playerPosition).normalized;
 
-        for (int i = 0; i < 50; i++)
+        StartCoroutine(SpawnBats(playerPosition, direction));
+        StartCoroutine(AttackCooldown(cooldownBatImage, batAttackCooldown, canBatAttack));
+    }
+
+    IEnumerator SpawnBats(Vector2 playerPosition, Vector2 direction)
+    {
+        for (int i = 0; i < 20; i++)
         {
             Vector2 randomOffset = new Vector2(
-                Random.Range(-0.5f, 0.5f), 
-                Random.Range(-0.5f, 0.5f)
+                Random.Range(-0.2f, 0.2f),
+                Random.Range(-0.2f, 0.2f)
             );
 
-            Vector2 spawnPosition2D = playerPosition + direction * (i * 0.1f) + randomOffset;
+            Vector2 spawnPosition2D = playerPosition + direction + randomOffset; 
             Vector3 spawnPosition = new Vector3(spawnPosition2D.x, spawnPosition2D.y, 0);
 
             GameObject bat = Instantiate(batPrefab, spawnPosition, Quaternion.identity);
@@ -328,24 +364,26 @@ public class PlayerMovement : MonoBehaviour
             {
                 batScript.SetDirection(direction);
             }
+
+            yield return new WaitForSeconds(0.01f);
         }
-        StartCoroutine(BatAttackCooldown());
     }
 
-    IEnumerator BatAttackCooldown()
+
+    IEnumerator AttackCooldown(Image cooldownImage, float attackCooldown, bool canAttack)
     {
-        canBatAttack = false; // Désactiver l'attaque
+        canAttack = false;
         float cooldownTime = 0f;
 
-        while (cooldownTime < batAttackCooldown)
+        while (cooldownTime < attackCooldown)
         {
             cooldownTime += Time.deltaTime;
-            cooldownImage.fillAmount = cooldownTime / batAttackCooldown; // Mettre à jour le remplissage de l'image
+            cooldownImage.fillAmount = cooldownTime / attackCooldown; 
             yield return null;
         }
 
-        cooldownImage.fillAmount = 1f; // Assurez-vous que l'image est complètement remplie à la fin du cooldown
-        canBatAttack = true; // Réactiver l'attaque
+        cooldownImage.fillAmount = 1f; 
+        canAttack = true; 
     }
 
 
@@ -372,16 +410,18 @@ public class PlayerMovement : MonoBehaviour
 
     private void FlipSpriteBasedOnCursor(float angle)
     {
-        if ((angle <= -90 && angle >= -180) || (angle < 180 && angle > 90))
+
+        bool shouldFaceLeft = (angle <= -90 && angle >= -180) || (angle < 180 && angle > 90);
+
+        if (shouldFaceLeft != isFacingLeft)
         {
-            isFacingLeft = true;
+            isFacingLeft = shouldFaceLeft;
+            spriteRenderer.flipX = isFacingLeft;
             animator.SetBool("isFacingLeft", isFacingLeft);
         }
-        else
-        {
-            isFacingLeft = false;
-        }
     }
+
+
 
 
 
@@ -391,32 +431,99 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("Dead", true);
         Debug.Log("Player is dead");
 
+        float timeout = 5.0f; // Timeout de 5 secondes
+        float elapsedTime = 0f;
+
         // Attendre la fin de l'animation de mort
-        while (!animator.GetCurrentAnimatorStateInfo(0).IsName("death") || animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f)
+        while ((!animator.GetCurrentAnimatorStateInfo(0).IsName("death") || animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f) && elapsedTime < timeout)
         {
             // Ajouter des logs pour vérifier les conditions
             Debug.Log("Checking animation state...");
             Debug.Log("Is 'death' animation playing: " + animator.GetCurrentAnimatorStateInfo(0).IsName("death"));
             Debug.Log("Normalized time of 'death' animation: " + animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
+            elapsedTime += Time.deltaTime;
             yield return null;
+        }
+
+        if (elapsedTime >= timeout)
+        {
+            Debug.LogError("Timeout reached while waiting for death animation to finish.");
         }
 
         Debug.Log("Game Over");
         ScenesManager.Instance.LoadScene("GameOver");
     }
 
-    IEnumerator CapeAttack()
+
+    void CapeAttack()
     {
         audioSource.clip = capeAudio;
         audioSource.Play();
-        Vector2 coupCapePosotion = rb.position;
-        currentCape = Instantiate(capePrefab, coupCapePosotion, Quaternion.Euler(0, 0, 0));
-        yield return new WaitForSeconds(capeDuration); 
-        Destroy(currentCape);
-        yield return new WaitForSeconds(capeCooldown);
+        Vector2 coupCapePosition = rb.position;
+        currentCape = Instantiate(capePrefab, coupCapePosition, Quaternion.Euler(0, 0, 0));
+        Debug.Log("Cape attack");
+        Debug.Log(currentCape.transform);
+        StartCoroutine(HandleCapeAttack(currentCape));
+    }
+
+    IEnumerator HandleCapeAttack(GameObject cape)
+    {
+        yield return StartCoroutine(ScaleOverTime(cape, Vector3.zero, new Vector3(5, 5, 1), 0.2f));
+        StartCoroutine(AttackCooldown(cooldownIceImage, capeCooldown, canCape));
+        yield return StartCoroutine(FadeOutOverTime(cape, capeDuration));
+        Destroy(cape);
         currentCape = null;
-        canCape = true;
+    }
+
+    IEnumerator ScaleOverTime(GameObject target, Vector3 initialScale, Vector3 finalScale, float duration)
+    {
+        float elapsedTime = 0f;
+        while (elapsedTime < duration)
+        {
+            if (target == null)
+            {
+                yield break; // Sortir de la coroutine si l'objet a été détruit
+            }
+
+            target.transform.localScale = Vector3.Lerp(initialScale, finalScale, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        if (target != null)
+        {
+            target.transform.localScale = finalScale; // Assurez-vous que la mise à l'échelle finale est appliquée
+        }
+    }
+
+    IEnumerator FadeOutOverTime(GameObject target, float duration)
+    {
+        SpriteRenderer spriteRenderer = target.GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
+        {
+            yield break;
+        }
+
+        float elapsedTime = 0f;
+        UnityEngine.Color initialColor = spriteRenderer.color;
+        UnityEngine.Color finalColor = initialColor;
+        finalColor.a = 0f; // Alpha final à 0 (complètement transparent)
+
+        while (elapsedTime < duration)
+        {
+            if (target == null)
+            {
+                yield break; // Sortir de la coroutine si l'objet a été détruit
+            }
+
+            spriteRenderer.color = UnityEngine.Color.Lerp(initialColor, finalColor, elapsedTime / duration);
+            elapsedTime += Time.deltaTime;
+            yield return null;
+        }
+        if (target != null)
+        {
+            spriteRenderer.color = finalColor; // Assurez-vous que l'alpha final est appliqué
+        }
     }
 
     void FixedUpdate()

@@ -1,5 +1,6 @@
 using UnityEngine;
 using System.Collections;
+using UnityEngine.Rendering;
 public class Gargoyle : Unit
 {
     private UnitCircle unitCircleScript;
@@ -16,7 +17,9 @@ public class Gargoyle : Unit
     private AudioSource audioSource;
     private Animator animator;
     private bool isDeadCoroutineStarted = false;
-
+    [SerializeField] private AudioClip deathSound;
+    private SpriteRenderer sprite;
+    private PlayerMovement player;
     // Propriétés booléennes pour vérifier l'état
     private bool IsWall
     {
@@ -65,6 +68,7 @@ public class Gargoyle : Unit
         // Obtenez la référence à l'AudioSource et à l'Animator
         audioSource = GetComponent<AudioSource>();
         animator = GetComponent<Animator>();
+        player = FindObjectOfType<PlayerMovement>();
     }
 
     private void Start()
@@ -104,15 +108,21 @@ public class Gargoyle : Unit
     {
         isDeadCoroutineStarted = true;
         animator.SetBool("isDeath", true); // Assurez-vous que le trigger "Die" existe dans l'Animator
+        audioSource.clip = deathSound;
+        audioSource.Play();
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
+        sprite = GetComponent<SpriteRenderer>();
+        sprite.enabled = false;
+        yield return new WaitForSeconds(audioSource.clip.length);
         Destroy(gameObject);
     }
     protected override void Update()
     {
         base.Update();
-        
+        Die();
         if (unitCircleScript != null && unitCircleScript.isPlayerInside)
         {
+            player.coffin_input.enabled = true;
             if (Input.GetButtonDown("Coffin"))
             {
                 if (IsIdle)
@@ -127,9 +137,9 @@ public class Gargoyle : Unit
                 }
             }
         }
-        if (health <= 0)
+        else
         {
-            animator.SetBool("isDeath", true);
+            player.coffin_input.enabled = false;
         }
         if (IsWall)
         {

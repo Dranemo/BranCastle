@@ -92,7 +92,9 @@
     <Compile Include="Assets\Scripts\Blood.cs" />
     <Compile Include="Assets\Scripts\PlayerAttack.cs" />
     <Compile Include="Assets\Scripts\BloodCounter.cs" />
+    <Compile Include="Assets\Scripts\Canvas\PauseMenu.cs" />
     <Compile Include="Assets\Scripts\Canvas\AchievementMenu.cs" />
+    <Compile Include="Assets\Scripts\AudioManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\CameraController.cs" />
     <Compile Include="Assets\Scripts\TeleportationManager.cs" />
     <Compile Include="Assets\TextMesh Pro\Examples &amp; Extras\Scripts\Benchmark03.cs" />

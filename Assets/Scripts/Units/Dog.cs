@@ -5,36 +5,21 @@ public class Dog : Unit
 {
     private AudioSource audioSource;
     private Animator animator;
-
+    [SerializeField] private AudioClip deathSound;
     private bool isDeadCoroutineStarted = false;
 
     void Awake()
     {
-        // Obtenez la référence à l'AudioSource
         audioSource = GetComponent<AudioSource>();
-        Debug.Log("Awake: AudioSource initialisé.");
     }
 
     void Start()
     {
         animator = GetComponent<Animator>();
-        if (animator == null)
-        {
-            Debug.LogError("Animator component not found on " + gameObject.name);
-        }
-        else
-        {
-            Debug.Log("Start: Animator initialisé.");
-        }
 
         if (audioSource != null)
         {
             audioSource.Play();
-            Debug.Log("Start: AudioSource joué.");
-        }
-        else
-        {
-            Debug.LogWarning("AudioSource n'est pas attaché au GameObject.");
         }
     }
 
@@ -43,13 +28,37 @@ public class Dog : Unit
         base.Update();
         Die();
     }
-
+    protected override IEnumerator AttackEnemy()
+    {
+        while (enemiesInRange.Count > 0)
+        {
+            GameObject closestEnemy = GetClosestEnemy();
+            if (closestEnemy != null)
+            {
+                animator.SetBool("isAttacking", true);
+                Enemy enemy = closestEnemy.GetComponent<Enemy>();
+                enemy.TakeDamage(damage);
+                yield return new WaitForSeconds(attackSpeed);
+            }
+            else
+            {
+                yield break;
+            }
+        }
+        attackCoroutine = null;
+        animator.SetBool("isAttacking", false); 
+    }
     protected override void Die()
     {
+<<<<<<< HEAD
         //Debug.Log("Die: Health = " + health);
         if (health <= 0 && !isDeadCoroutineStarted)
         {
             //Debug.Log("Die: Lancement de la coroutine HandleDeath.");
+=======
+        if (health <= 0 && !isDeadCoroutineStarted)
+        {
+>>>>>>> GD
             StartCoroutine(HandleDeath());
         }
     }
@@ -57,18 +66,24 @@ public class Dog : Unit
     private IEnumerator HandleDeath()
     {
         isDeadCoroutineStarted = true;
-        Debug.Log("HandleDeath: Coroutine commencée.");
         if (animator != null)
         {
             animator.SetBool("dead", true);
-            Debug.Log("HandleDeath: Animation de mort jouée.");
+            if (deathSound != null && audioSource != null)
+            {
+                audioSource.PlayOneShot(deathSound);
+            }
+            else
+            {
+                Debug.LogWarning("HandleDeath: deathSound ou audioSource est null.");
+            }
             yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
         }
         else
         {
             Debug.LogError("HandleDeath: Animator est null.");
         }
-        Debug.Log("HandleDeath: Destruction du GameObject.");
         Destroy(gameObject);
     }
+
 }
