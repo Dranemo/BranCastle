@@ -1,6 +1,7 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public float blood /*{ get; private set; }*/ = 10000;
@@ -35,8 +36,11 @@ public class GameManager : MonoBehaviour
     private GameObject player;
     [SerializeField] private AudioClip audioGong;
     [SerializeField] private AudioClip audioGameOver;
-
+    [SerializeField] private AudioClip bloodPickup;
     [SerializeField] private ScreenShake shake;
+    private bool isInvincible = false;
+    [SerializeField] private float invincibilityDuration = 0.5f;
+
     // -------------------------------------------------------------- Unity Func -------------------------------------------------------------- 
     private void Awake()
     {
@@ -119,19 +123,68 @@ public class GameManager : MonoBehaviour
     public void AddBlood(float amount)
     {
         blood += amount;
+        if (!audioSource.isPlaying)
+        audioSource.clip = bloodPickup;
+        audioSource.Play();
+    }
+    public void BloodCost(float amount)
+    {
+        blood -= amount;
     }
     public void TakeDamage(float damage)
     {
         Debug.Log("TakeDamage appelé");
+
+        if (isInvincible)
+        {
+            Debug.Log("Le joueur est invincible !");
+            return;
+        }
+
         if (shake == null)
         {
             Debug.LogError("shake est null !");
             return;
         }
-        shake.StartShake();
-        blood -= damage;
-        Debug.Log("Nouveau niveau de sang: " + blood);
-        GameOver();
+
+        if (!isInvincible)
+        {
+            shake.StartShake();
+            blood -= damage;
+            Debug.Log("Nouveau niveau de sang: " + blood);
+            GameOver();
+            StartCoroutine(InvincibilityCoroutine());
+        }
+    }
+
+    private IEnumerator InvincibilityCoroutine()
+    {
+        isInvincible = true;
+        float elapsedTime = 0f;
+
+        while (elapsedTime < invincibilityDuration)
+        {
+            if (player)
+            {
+            SpriteRenderer spriteRenderer = player.GetComponent<SpriteRenderer>(); 
+            Color color = spriteRenderer.color;
+                color.a = 0.5f; 
+                spriteRenderer.color = color;
+
+            elapsedTime += Time.deltaTime;
+            yield return null; 
+            }
+        }
+
+        SpriteRenderer finalSpriteRenderer = player.GetComponent<SpriteRenderer>();
+        if (finalSpriteRenderer != null)
+        {
+            Color finalColor = finalSpriteRenderer.color;
+            finalColor.a = 1f;
+            finalSpriteRenderer.color = finalColor;
+        }
+
+        isInvincible = false;
     }
 
 
@@ -224,7 +277,7 @@ public class GameManager : MonoBehaviour
             audioSource.clip = audioGameOver;
             audioSource.Play();
         }
-        if (blood <= 0 || time > 1439) // 23h59
+        if (blood <= 0)
         {
             isGameOver = true;
             Debug.Log("Game Over: Loading GameOver Scene");
@@ -240,7 +293,7 @@ public class GameManager : MonoBehaviour
         {
             isGameOver = true;
             Debug.Log("Victory: Loading Victory Scene");
-            ScenesManager.Instance.LoadScene("Victory");
+            ScenesManager.Instance.LoadScene("GameOver");
         }
     }
 
@@ -251,7 +304,24 @@ public class GameManager : MonoBehaviour
         Instance = null;
     }
 
-
+    public void Reset()
+    {
+        blood = 10000;
+        time = 690;
+        wave = 1;
+        isGameOver = false;
+        coroutineStartedDeath = false;
+        isPlayerInLight = false;
+        isInvincible = false;
+        enemyCooldown = 10;
+        enemyCooldownLeft = 0;
+        enemyWaveCooldown = 30;
+        enemyWaveCooldownLeft = 30;
+        enemyCooldownDecrease = 0.2f;
+        wavePathIndex = Random.Range(0, spawningPaths.Count);
+        Destroy(gameObject);
+        Instance = null;
+    }
 
 
     // -------------------------------------------------------------- Getter Func --------------------------------------------------------------

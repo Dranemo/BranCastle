@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: Grass_2
   m_EditorClassIdentifier: 
   m_Sprite: {fileID: -2117228887, guid: c2718d007d2e1b24fb810bd24adb112a, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 0.7137255, b: 0, a: 1}
   m_Transform:
     e00: 1
     e01: 0

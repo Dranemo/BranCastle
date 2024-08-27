@@ -534,6 +534,7 @@ GameObject:
   - component: {fileID: 541050186}
   - component: {fileID: 541050185}
   - component: {fileID: 541050187}
+  - component: {fileID: 541050188}
   m_Layer: 0
   m_Name: SceneManager
   m_TagString: Untagged
@@ -590,6 +591,19 @@ MonoBehaviour:
   hotSpot: {x: 2, y: 2}
   cursorMode: 0
   playerMovement: {fileID: 3241817483652316768, guid: 373c28a179bfae446ac5931e4b43aab2, type: 3}
+--- !u!114 &541050188
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 541050184}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d1c765d9a7a7a3f488a597186503f285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioMixer: {fileID: 24100000, guid: e7a9e2ce18ef4374c9a5c2edafc1555f, type: 2}
 --- !u!223 &754305845 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 5002174886360224801, guid: 61a3a44b0041fef4fabdb63beb9bf3e1, type: 3}
@@ -636,7 +650,7 @@ AudioSource:
   m_GameObject: {fileID: 953782956}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
+  OutputAudioMixerGroup: {fileID: 7521768967620036040, guid: e7a9e2ce18ef4374c9a5c2edafc1555f, type: 2}
   m_audioClip: {fileID: 8300000, guid: 01a6e615e268b8d42a70f7677aba5a45, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
@@ -927,6 +941,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 47fc9bfb4a2795741bca04b8e23cfb7a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1829977913 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5206271272250773943, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
+  m_PrefabInstance: {fileID: 4704596823088078539}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 67db9e8f0e2ae9c40bc1e2b64352a6b4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2076414793
 GameObject:
   m_ObjectHideFlags: 0
@@ -1051,10 +1076,6 @@ PrefabInstance:
       propertyPath: mainMenu
       value: 
       objectReference: {fileID: 754305845}
-    - target: {fileID: 3945979035845515897, guid: 392beda38a8c5e54caa4297b1f703684, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 300
-      objectReference: {fileID: 0}
     - target: {fileID: 4339122377252394335, guid: 392beda38a8c5e54caa4297b1f703684, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1148,6 +1169,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 183660630615295999, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
+      propertyPath: m_OnValueChanged.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_FloatArgument
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 311302717992091819, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
       propertyPath: m_Pivot.x
       value: 0
@@ -1232,53 +1257,65 @@ PrefabInstance:
       propertyPath: mainMenu
       value: 
       objectReference: {fileID: 754305845}
-    - target: {fileID: 2730288543487947891, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
-      propertyPath: m_fontAsset
+    - target: {fileID: 1843431842638006681, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
+      propertyPath: audioManager
       value: 
-      objectReference: {fileID: 11400000, guid: ad05efbb032b52949b5b14154331cd28, type: 2}
-    - target: {fileID: 2730288543487947891, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
-      propertyPath: m_sharedMaterial
+      objectReference: {fileID: 541050188}
+    - target: {fileID: 1843431842638006681, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
+      propertyPath: musicVolumeSlider
       value: 
-      objectReference: {fileID: -3214049722050843561, guid: ad05efbb032b52949b5b14154331cd28, type: 2}
-    - target: {fileID: 2730288543487947891, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
-      propertyPath: m_hasFontAssetChanged
+      objectReference: {fileID: 1829977913}
+    - target: {fileID: 2979001394463394401, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
+      propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4629743457333974790, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
-      propertyPath: m_Type
-      value: 1
+    - target: {fileID: 2979001394463394401, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 4629743457333974790, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 10905, guid: 0000000000000000f000000000000000, type: 0}
+    - target: {fileID: 2979001394463394401, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4882360065044692073, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 293052887}
-    - target: {fileID: 8867806444000723392, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 300
+    - target: {fileID: 7778474825805616836, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 7778474825805616836, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8861772295699864032, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8861772295699864032, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8861772295699864032, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8935589271820372607, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
       propertyPath: m_Name
       value: CanvasOptions
       objectReference: {fileID: 0}
-    - target: {fileID: 9053996452036695654, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
-      propertyPath: m_Sprite
-      value: 
-      objectReference: {fileID: 21300000, guid: 0a8a30013c2442048b39277bc5b053a0, type: 3}
-    - target: {fileID: 9053996452036695654, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
-      propertyPath: m_Color.b
+    - target: {fileID: 9004919871639526809, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
+      propertyPath: m_AnchorMax.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9053996452036695654, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
-      propertyPath: m_Color.g
+    - target: {fileID: 9004919871639526809, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
+      propertyPath: m_AnchorMax.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 9053996452036695654, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
-      propertyPath: m_Color.r
-      value: 1
+    - target: {fileID: 9004919871639526809, guid: f8b0b23c1c5dc1d41a67124ce318f75d, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -1305,10 +1342,6 @@ PrefabInstance:
       propertyPath: canvaAchievement
       value: 
       objectReference: {fileID: 983559676}
-    - target: {fileID: 3483815043325784036, guid: 61a3a44b0041fef4fabdb63beb9bf3e1, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 300
-      objectReference: {fileID: 0}
     - target: {fileID: 5002174886360224801, guid: 61a3a44b0041fef4fabdb63beb9bf3e1, type: 3}
       propertyPath: m_Camera
       value: 
@@ -1494,10 +1527,6 @@ PrefabInstance:
       propertyPath: m_Camera
       value: 
       objectReference: {fileID: 293052887}
-    - target: {fileID: 5321175625796395034, guid: 6c3171474e9c5c74ab84501e7ff39694, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 300
-      objectReference: {fileID: 0}
     - target: {fileID: 5591614068145705329, guid: 6c3171474e9c5c74ab84501e7ff39694, type: 3}
       propertyPath: mainMenu
       value: 

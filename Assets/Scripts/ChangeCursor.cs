@@ -12,11 +12,7 @@ public class ChangeCursor : MonoBehaviour
 
     void Start()
     {
-        playerMovement = FindObjectOfType<PlayerMovement>(); // Initialiser playerMovement
-        if (playerMovement == null)
-        {
-            Debug.LogError("PlayerMovement script not found in the scene.");
-        }
+        playerMovement = FindObjectOfType<PlayerMovement>();
         SetIdleCursor();
     }
 
@@ -24,12 +20,10 @@ public class ChangeCursor : MonoBehaviour
     {
         if (Input.GetMouseButton(0) )
         {
-            Debug.Log("Mouse button held down, setting Click Cursor");
             SetClickCursor();
         }
         else
         {
-            Debug.Log("Setting Idle Cursor");
             SetIdleCursor();
         }
     }
