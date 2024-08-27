@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 6121019210393027185}
   - component: {fileID: -2043990845270363811}
   - component: {fileID: 6029289832275368}
+  - component: {fileID: 8434553927378864908}
   m_Layer: 6
   m_Name: Mage
   m_TagString: Enemy
@@ -78,8 +79,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f12fa7de7e56b534eb182da6a7230bca, type: 3}
-  m_Color: {r: 0.8415094, g: 0.017465271, b: 0.64634335, a: 1}
+  m_Sprite: {fileID: -797181738, guid: d4618791159064e4f9e8ae58262dfcbf, type: 3}
+  m_Color: {r: 0.98490566, g: 0.98490566, b: 0.98490566, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -168,25 +169,46 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   currentPathIndex: 0
+  targetEnemy: {fileID: 0}
   bloodPrefab: {fileID: 3594142108930714808, guid: 898715a92e4fe754d87e9b89c09018d7, type: 3}
+  health: 50
+  maxHealth: 50
   bloodCount: 300
   detectionRadius: 7
   attackRadius: 3.5
+  attackSpeed: 3
+  attackRange: 1
   damage: 100
   speed: 2
-  attackSpeed: 3
   units: []
   closestUnit: {fileID: 0}
-  upSprite: {fileID: 21300000, guid: d12f032ddf9a8a7439ad70787b9b8580, type: 3}
-  downSprite: {fileID: 21300000, guid: f12fa7de7e56b534eb182da6a7230bca, type: 3}
-  leftSprite: {fileID: 21300000, guid: 9dcc051323b24544eb3a764d3f637a54, type: 3}
-  rightSprite: {fileID: 21300000, guid: 79a50e0af827e6e4d86fd4981d3cafd7, type: 3}
   isStunned: 0
   stunDuration: 2
   capeKnockback: 1
   isHypnotized: 0
   searchingTarget: 1
   projectiles: []
+--- !u!95 &8434553927378864908
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 176586383936999315}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 417a8c5dd63a5ee46952ccfec9c0c22e, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &1503167668713245064
 GameObject:
   m_ObjectHideFlags: 0

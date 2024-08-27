@@ -260,6 +260,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8659765878594685275, guid: d3b07df38aeada9478b699d0698f7a83, type: 3}
       insertIndex: -1
       addedObject: {fileID: 336082961149286827}
+    - targetCorrespondingSourceObject: {fileID: 8659765878594685275, guid: d3b07df38aeada9478b699d0698f7a83, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1610992661745746633}
   m_SourcePrefab: {fileID: 100100000, guid: d3b07df38aeada9478b699d0698f7a83, type: 3}
 --- !u!4 &109737658863373753 stripped
 Transform:
@@ -288,19 +291,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 2048
   currentPathIndex: 0
+  targetEnemy: {fileID: 0}
   bloodPrefab: {fileID: 3594142108930714808, guid: 898715a92e4fe754d87e9b89c09018d7, type: 3}
+  health: 50
+  maxHealth: 50
   bloodCount: 300
   detectionRadius: 3
   attackRadius: 1
+  attackSpeed: 1
+  attackRange: 1
   damage: 500
   speed: 0.5
-  attackSpeed: 1
   units: []
   closestUnit: {fileID: 0}
-  upSprite: {fileID: 21300000, guid: d12f032ddf9a8a7439ad70787b9b8580, type: 3}
-  downSprite: {fileID: 21300000, guid: f12fa7de7e56b534eb182da6a7230bca, type: 3}
-  leftSprite: {fileID: 21300000, guid: 9dcc051323b24544eb3a764d3f637a54, type: 3}
-  rightSprite: {fileID: 21300000, guid: 79a50e0af827e6e4d86fd4981d3cafd7, type: 3}
   isStunned: 0
   stunDuration: 2
   capeKnockback: 1
@@ -381,7 +384,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: f12fa7de7e56b534eb182da6a7230bca, type: 3}
+  m_Sprite: {fileID: -1549023586, guid: 39711147aa894a048bf2a61b3fa8c4f5, type: 3}
   m_Color: {r: 0.5849056, g: 0.5849056, b: 0.5849056, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -392,3 +395,24 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &1610992661745746633
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 943412472502756549}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 52f13aa3a874e1145aa6fa4f44c21302, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
