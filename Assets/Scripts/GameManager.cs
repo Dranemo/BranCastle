@@ -147,14 +147,6 @@ public class GameManager : MonoBehaviour
             Debug.LogError("shake est null !");
             return;
         }
-<<<<<<< HEAD
-        if(playerIsDamaged)
-            shake.StartShake();
-
-        blood -= damage;
-        Debug.Log("Nouveau niveau de sang: " + blood);
-        GameOver();
-=======
 
         if (!isInvincible)
         {
@@ -194,7 +186,6 @@ public class GameManager : MonoBehaviour
         }
 
         isInvincible = false;
->>>>>>> GD
     }
 
 

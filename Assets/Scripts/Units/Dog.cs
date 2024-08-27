@@ -50,15 +50,8 @@ public class Dog : Unit
     }
     protected override void Die()
     {
-<<<<<<< HEAD
-        //Debug.Log("Die: Health = " + health);
         if (health <= 0 && !isDeadCoroutineStarted)
         {
-            //Debug.Log("Die: Lancement de la coroutine HandleDeath.");
-=======
-        if (health <= 0 && !isDeadCoroutineStarted)
-        {
->>>>>>> GD
             StartCoroutine(HandleDeath());
         }
     }
