@@ -1,7 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using UnityEditor.Animations;
 using UnityEngine;
 
 
@@ -57,6 +56,8 @@ public class Enemy : MonoBehaviour
     bool shrinkingSprite;
     bool resetFlashing = false;
     bool stopFlashingCoroutine = false;
+    private SpriteRenderer spriteHypno;
+    private SpriteRenderer spriteIce;
 
     [Header("Animator")]
     Animator animator;
@@ -99,6 +100,36 @@ public class Enemy : MonoBehaviour
         animator = GetComponent<Animator>();
 
         positionFrameBefore = transform.position;
+
+        Transform hypnoTransform = transform.Find("hypno");
+        if (hypnoTransform != null)
+        {
+            spriteHypno = hypnoTransform.GetComponent<SpriteRenderer>();
+            spriteHypno.enabled = false;
+            if (spriteHypno == null)
+            {
+                Debug.LogError("Le SpriteRenderer n'est pas trouvé sur l'enfant 'hypno'.");
+            }
+        }
+        else
+        {
+            Debug.LogError("L'enfant 'hypno' n'est pas trouvé.");
+        }
+    Transform iceTransform = transform.Find("ice");
+        if (iceTransform != null)
+        {
+            spriteIce = iceTransform.GetComponent<SpriteRenderer>();
+            spriteIce.enabled = false;
+            if (spriteIce == null)
+            {
+                Debug.LogError("Le SpriteRenderer n'est pas trouvé sur l'enfant 'ice'.");
+            }
+        }
+        else
+        {
+            Debug.LogError("L'enfant 'ice' n'est pas trouvé.");
+        }
+       
     }
 
 
@@ -124,6 +155,7 @@ public class Enemy : MonoBehaviour
 
             if (isHypnotized)
             {
+                spriteHypno.enabled = true;
                 FindClosestEnemy();
                 if (targetEnemy != null)
                 {
@@ -135,6 +167,7 @@ public class Enemy : MonoBehaviour
             {
                 if (isStunned)
                 {
+                    spriteIce.enabled = true;
                     StartCoroutine(Stunned());
                 }
                 else if (isUnitClose || distanceToPlayer < detectionRadius)
@@ -558,6 +591,7 @@ public class Enemy : MonoBehaviour
         kbRb.velocity = Vector2.zero;
         yield return new WaitForSeconds(stunDuration - pushDuration);
         isStunned = false;
+        spriteIce.enabled = false;
     }
 
 
