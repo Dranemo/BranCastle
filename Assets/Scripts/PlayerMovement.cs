@@ -34,6 +34,14 @@ public class PlayerMovement : MonoBehaviour
     private bool isFacingLeft;
     private GameObject closestEnemy;
     public Image coffin_input;
+
+    [Header("Sound")]
+
+    private AudioSource audioSourceBat;
+    private AudioSource audioSourceCape;
+    [SerializeField] private AudioClip batSound;
+    [SerializeField] private AudioClip capeAudio;
+
     [Header("Combo Settings")]
     public float comboResetTime = 0.28f; 
     private int comboStep = 0;
@@ -62,8 +70,6 @@ public class PlayerMovement : MonoBehaviour
     public bool isDrawingRectangle = false;
     public bool canDrawRectangle = true;
     public GameObject batPrefab;
-    [SerializeField] private AudioClip batSound;
-    private AudioSource audioSource;
     [Header("DashSettings")]
     public KeyCode dashKey;
     public float dashCooldown;
@@ -81,7 +87,6 @@ public class PlayerMovement : MonoBehaviour
     public float capePushDuration;
     public GameObject capePrefab;
     public bool canCape = true;
-    [SerializeField] private AudioClip capeAudio;
 
     [Header("Hypnosis")]
     public bool isHypnotizing = false;
@@ -101,7 +106,18 @@ public class PlayerMovement : MonoBehaviour
     }
     void Awake()
     {
-        audioSource = GetComponent<AudioSource>();
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+        if (audioSources.Length >= 2)
+        {
+            audioSourceBat = audioSources[0];
+            audioSourceCape = audioSources[1];
+        }
+        else
+        {
+            Debug.LogError("Pas assez de composants AudioSource attachés au GameObject.");
+        }
+        audioSourceBat.clip = batSound;
+        audioSourceCape.clip = capeAudio;
         mapOverview = FindObjectOfType<MapOverview>();
         canvasFader = FindObjectOfType<CanvasFader>();
         animator = GetComponent<Animator>();
@@ -333,8 +349,7 @@ public class PlayerMovement : MonoBehaviour
     void BatAttack()
     {
         if (!canBatAttack) return;
-        audioSource.clip = batSound;
-        audioSource.Play();
+        audioSourceBat.Play();
         isDrawingRectangle = false;
         rectangle.SetActive(false);
         Vector2 mousePosition = Camera.main.ScreenToWorldPoint(Input.mousePosition);
@@ -458,8 +473,7 @@ public class PlayerMovement : MonoBehaviour
 
     void CapeAttack()
     {
-        audioSource.clip = capeAudio;
-        audioSource.Play();
+        audioSourceCape.Play();
         Vector2 coupCapePosition = rb.position;
         currentCape = Instantiate(capePrefab, coupCapePosition, Quaternion.Euler(0, 0, 0));
         Debug.Log("Cape attack");

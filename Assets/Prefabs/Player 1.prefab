@@ -5284,6 +5284,7 @@ GameObject:
   - component: {fileID: 8961384696548019481}
   - component: {fileID: -1031967321841958013}
   - component: {fileID: 317424476917236801}
+  - component: {fileID: 9186137740362317770}
   m_Layer: 3
   m_Name: Player 1
   m_TagString: Player
@@ -5407,19 +5408,23 @@ MonoBehaviour:
   coupDistance: 0.5
   coupPrefab: {fileID: 7379560963317096358, guid: 0df40ff72d36f9144a40654d7962bbd5, type: 3}
   punchForce: 0.5
+  canPunch: 1
   gameManager: {fileID: 0}
   spriteTransform: {fileID: 2806417236730911550}
   coffin_input: {fileID: 0}
+  batSound: {fileID: 8300000, guid: 50c36d8cf0cfd7f4c9c8052d45dba4fc, type: 3}
+  capeAudio: {fileID: 8300000, guid: 86a0f46c5035b4142bd6cd56f9f4e67b, type: 3}
   comboResetTime: 1
   batKey: 49
   hypnosisKey: 50
   drainKey: 51
   biteKey: 52
   batAttackCooldown: 5
+  canBatAttack: 1
   batDistance: 2.5
   isDrawingRectangle: 0
+  canDrawRectangle: 1
   batPrefab: {fileID: 6930754229455431999, guid: 7af7c547d996c5f4c8fe168c2486ef30, type: 3}
-  batSound: {fileID: 8300000, guid: 50c36d8cf0cfd7f4c9c8052d45dba4fc, type: 3}
   dashKey: 32
   dashCooldown: 0.1
   dashDuration: 0.15
@@ -5434,8 +5439,8 @@ MonoBehaviour:
   capePushDuration: 0.36
   capePrefab: {fileID: 6334495684338012574, guid: 47d5ce90fb41ecc4e925422adb5a9ea0, type: 3}
   canCape: 1
-  capeAudio: {fileID: 8300000, guid: 86a0f46c5035b4142bd6cd56f9f4e67b, type: 3}
   isHypnotizing: 0
+  canHypnotize: 1
 --- !u!114 &6844953783898590544
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -5603,6 +5608,102 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!82 &9186137740362317770
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6364868091912172025}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 1268658952232906004, guid: e7a9e2ce18ef4374c9a5c2edafc1555f, type: 2}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &6393485372174694666
 GameObject:
   m_ObjectHideFlags: 0

@@ -33,7 +33,10 @@ public class GameManager : MonoBehaviour
     public bool isGameOver = false;
     bool coroutineStartedDeath = false;
 
-    private AudioSource audioSource;
+    private AudioSource audioSourceGong;
+    private AudioSource audioSourceGameOver;
+    private AudioSource audioSourceBlood;
+
     private GameObject player;
     [SerializeField] private AudioClip audioGong;
     [SerializeField] private AudioClip audioGameOver;
@@ -47,9 +50,20 @@ public class GameManager : MonoBehaviour
     {
         // Singleton
         CreateSingleton();
-        audioSource = GetComponent<AudioSource>();
-
-
+        AudioSource[] audioSources = GetComponents<AudioSource>();
+        if (audioSources.Length >= 3)
+        {
+            audioSourceGameOver = audioSources[0];
+            audioSourceGong = audioSources[1];
+            audioSourceBlood = audioSources[2];
+        }
+        else
+        {
+            Debug.LogError("Pas assez de composants AudioSource attachés au GameObject.");
+        }
+        audioSourceBlood.clip = bloodPickup;
+        audioSourceGameOver.clip = audioGameOver;
+        audioSourceGong.clip = audioGong;
         paths = new List<Path>();
         spawningPaths = new List<Path>();
 
@@ -92,8 +106,7 @@ public class GameManager : MonoBehaviour
             {
                 if (time==720)
                 {
-                    audioSource.clip = audioGong;
-                    audioSource.Play();
+                    audioSourceGong.Play();
                 }
                 if (enemyCooldownLeft <= 0)
                 {
@@ -107,8 +120,7 @@ public class GameManager : MonoBehaviour
                     enemyWaveCooldownLeft = enemyWaveCooldown;
                     enemyCooldownLeft = 0;
                     wave++;
-                    audioSource.clip = audioGong;
-                    audioSource.Play();
+                    audioSourceGong.Play();
                     enemyCooldown -= enemyCooldownDecrease;
                     wavePathIndex = Random.Range(0, spawningPaths.Count);
                 }
@@ -124,9 +136,7 @@ public class GameManager : MonoBehaviour
     public void AddBlood(float amount)
     {
         blood += amount;
-        if (!audioSource.isPlaying)
-        audioSource.clip = bloodPickup;
-        audioSource.Play();
+        audioSourceBlood.Play();
     }
     public void BloodCost(float amount)
     {
@@ -134,13 +144,6 @@ public class GameManager : MonoBehaviour
     }
     public void TakeDamage(float damage, bool playerIsDamaged = false)
     {
-        Debug.Log("TakeDamage appelé");
-
-        if (isInvincible)
-        {
-            Debug.Log("Le joueur est invincible !");
-            return;
-        }
 
         if (shake == null)
         {
@@ -155,6 +158,11 @@ public class GameManager : MonoBehaviour
             Debug.Log("Nouveau niveau de sang: " + blood);
             GameOver();
             StartCoroutine(InvincibilityCoroutine());
+        }
+        else
+        {
+            Debug.Log("Le joueur est invincible !");
+            return;
         }
     }
 
@@ -273,10 +281,9 @@ public class GameManager : MonoBehaviour
     // -------------------------------------------------------------- Game Func --------------------------------------------------------------
     private void GameOver()
     {
-        if (blood <= 0 && audioSource != null)
+        if (blood <= 0 && audioSourceGameOver != null)
         {
-            audioSource.clip = audioGameOver;
-            audioSource.Play();
+            audioSourceGameOver.Play();
         }
         if (blood <= 0)
         {
