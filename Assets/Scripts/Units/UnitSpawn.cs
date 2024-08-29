@@ -1,6 +1,6 @@
 using UnityEngine.UI;
 using UnityEngine;
-
+using TMPro;
 public class UnitSpawn : MonoBehaviour
 {
     [SerializeField] GameObject CanvaPrefab;
@@ -24,6 +24,32 @@ public class UnitSpawn : MonoBehaviour
         for (int i = 0; i < childCount; i++)
         {
             panels[i] = panelsTransform.GetChild(i).gameObject;
+
+            if (panels[i].transform.childCount > 2)
+            {
+                GameObject child2 = panels[i].transform.GetChild(2).gameObject;
+                TextMeshProUGUI textComponent = child2.GetComponent<TextMeshProUGUI>();
+                if (textComponent != null)
+                {
+                    textComponent.text = "Cost: " + unitCosts[i].ToString();
+                }
+                else
+                {
+                    Text textComponentLegacy = child2.GetComponent<Text>();
+                    if (textComponentLegacy != null)
+                    {
+                        textComponentLegacy.text = "Cost: " + unitCosts[i].ToString();
+                    }
+                }
+            }
+        }
+    }
+    private void SetPanelChildrenActive(GameObject panel, bool isActive)
+    {
+        if (panel.transform.childCount > 2)
+        {
+            panel.transform.GetChild(1).gameObject.SetActive(isActive);
+            panel.transform.GetChild(2).gameObject.SetActive(isActive);
         }
     }
 
@@ -39,14 +65,18 @@ public class UnitSpawn : MonoBehaviour
             if (selectedIndex >= unitPrefabs.Length) selectedIndex = 0;
         }
 
-        // Mettez toutes les bordures en noir
-        foreach (GameObject panel in panels)
+        for (int i = 0; i < panels.Length; i++)
         {
-            panel.GetComponent<Outline>().effectColor = Color.black;
-        }
+            GameObject panel = panels[i];
+            Outline outline = panel.GetComponent<Outline>();
+            if (outline != null)
+            {
+                outline.effectColor = (i == selectedIndex) ? Color.red : Color.black;
+            }
 
-        // Mettez la bordure de l'unité sélectionnée en blanc
-        panels[selectedIndex].GetComponent<Outline>().effectColor = Color.white;
+            // Activer ou désactiver les enfants 1 et 2
+            SetPanelChildrenActive(panel, i == selectedIndex);
+        }
 
         if (Input.GetButtonDown("UnitSpawn"))
         {
@@ -59,4 +89,5 @@ public class UnitSpawn : MonoBehaviour
             }
         }
     }
+
 }

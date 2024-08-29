@@ -69,7 +69,13 @@ public class Enemy : MonoBehaviour
     [SerializeField] public float capeKnockback;
     [SerializeField] public bool isHypnotized;
 
-
+    [Header("Sounds")]
+    private AudioSource audioSource;
+    private AudioClip deathSound;
+    private AudioClip deathSound2;
+    private AudioClip deathSound3;
+    private AudioClip deathSound4;
+    private AudioClip[] deathSounds;
 
     private bool onPath = true;
 
@@ -129,7 +135,30 @@ public class Enemy : MonoBehaviour
         {
             Debug.LogError("L'enfant 'ice' n'est pas trouvé.");
         }
-       
+
+        audioSource = GetComponent<AudioSource>();
+        deathSound = Resources.Load<AudioClip>("DeathSound");
+        if (deathSound == null)
+            Debug.LogError("Le son de mort n'a pas été trouvé.");
+        deathSound2 = Resources.Load<AudioClip>("DeathSound2");
+        if ( deathSound2 == null)
+        {
+            Debug.LogError("Le son de mort2 n'a pas été trouvé.");
+        }
+        deathSound3 = Resources.Load<AudioClip>("DeathSound3");
+        if (deathSound3 == null)
+        {
+            Debug.LogError("Le son de mort3 n'a pas été trouvé.");
+        }
+        deathSound4 = Resources.Load<AudioClip>("DeathSound4");
+        if (deathSound4 == null)
+        {
+            Debug.LogError("Le son de mort4 n'a pas été trouvé.");
+        }
+        Debug.Log("deathSound4" + deathSound4);
+        deathSounds = new AudioClip[] { deathSound, deathSound2, deathSound3, deathSound4 };
+
+
     }
 
 
@@ -367,8 +396,16 @@ public class Enemy : MonoBehaviour
         float numberBloodF = bloodCount * percentDamage;
         int numberBlood = Mathf.RoundToInt(numberBloodF);
 
+        AudioClip selectedDeathSound = deathSounds[Random.Range(0, deathSounds.Length)];
 
-        if(animator != null)
+        // Jouer le clip audio sélectionné
+        if (audioSource != null && selectedDeathSound != null)
+        {
+            audioSource.clip = selectedDeathSound;
+            audioSource.Play();
+        }
+
+        if (animator != null)
         {
             animator.SetBool("isDead", true);
         }
@@ -378,9 +415,6 @@ public class Enemy : MonoBehaviour
         }
 
         StartCoroutine(SpawnBlood(numberBlood));
-
-
-
     }
 
     IEnumerator SpawnBlood(int amount)

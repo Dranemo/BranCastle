@@ -1,11 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
-using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
-    public float blood /*{ get; private set; }*/ = 10000;
+    public float blood /*{ get; private set; }*/ = 1000;
     public static GameManager Instance { get; private set; }
     public bool isPlayerInLight = false;
 
@@ -44,6 +42,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private ScreenShake shake;
     private bool isInvincible = false;
     [SerializeField] private float invincibilityDuration = 0.5f;
+    private bool kingSpawned = false;
 
     // -------------------------------------------------------------- Unity Func -------------------------------------------------------------- 
     private void Awake()
@@ -104,10 +103,7 @@ public class GameManager : MonoBehaviour
 
             if(time >= 720) // 12h
             {
-                if (time==720)
-                {
-                    audioSourceGong.Play();
-                }
+              audioSourceGong.Play();
                 if (enemyCooldownLeft <= 0)
                 {
                     enemyCooldownLeft = enemyCooldown;
@@ -136,6 +132,10 @@ public class GameManager : MonoBehaviour
     public void AddBlood(float amount)
     {
         blood += amount;
+        if(blood > 5000)
+        {
+            blood = 5000;
+        }
         audioSourceBlood.Play();
     }
     public void BloodCost(float amount)
@@ -203,25 +203,67 @@ public class GameManager : MonoBehaviour
     // -------------------------------------------------------------- Enemy Func --------------------------------------------------------------
     private void SpawnEnemy()
     {
-        Path path = spawningPaths[wavePathIndex];
-        Vector3 spawnPosition = path.waypoints[0].gameObject.transform.position;
+        List<Path> spawnPaths = GetSpawnPathsForWave((int)wave);
+
+        foreach (Path path in spawnPaths)
+        {
+            Vector3 spawnPosition = path.waypoints[0].gameObject.transform.position;
+
+            int enemyIndex = GetEnemyIndexForWave((int)wave);
+
+            GameObject enemyObj = Instantiate(enemies[enemyIndex].gameObject, spawnPosition, Quaternion.identity);
+            Enemy enemy = enemyObj.GetComponent<Enemy>();
+
+            enemyObj.transform.localScale = new Vector3(2f, 2f, 0f);
+
+            //Debug.Log("Spawn Enemy : " + enemy.name + " at " + path.name);
+            enemy.currentPathIndex = paths.IndexOf(path);
+            enemy.paths = this.paths;
+
+            enemy.transform.SetParent(enemyFolder.transform);
+        }
+    }
+
+    private int GetEnemyIndexForWave(int wave)
+    {
+        if (wave == 9 && !kingSpawned)
+        {
+            kingSpawned = true;
+            return enemies.Length - 1;
+        }
+        else 
+        {       
+        int maxEnemyIndex = Mathf.Min(3 + (wave - 1) / 2, enemies.Length - 2);
+        return Random.Range(0, maxEnemyIndex + 1);
+        }
+    }
 
 
-        int enemyIndex = Random.Range(0, enemies.Length);
+    private List<Path> GetSpawnPathsForWave(int wave)
+    {
+        List<Path> selectedPaths = new List<Path>();
+        int numberOfPaths = 0;
 
-        GameObject enemyObj = Instantiate(enemies[enemyIndex].gameObject, spawnPosition, Quaternion.identity);
-        Enemy enemy = enemyObj.GetComponent<Enemy>();
+        if (wave >= 8)
+        {
+            numberOfPaths = 4;
+        }
+        else if (wave >= 5)
+        {
+            numberOfPaths = 3;
+        }
+        else
+        {
+            numberOfPaths = 2;
+        }
 
-        enemyObj.transform.localScale = new Vector3(2f, 2f, 0f);
+        for (int i = 0; i < numberOfPaths; i++)
+        {
+            int pathIndex = (wavePathIndex + i) % spawningPaths.Count;
+            selectedPaths.Add(spawningPaths[pathIndex]);
+        }
 
-
-
-        //Debug.Log("Spawn Enemy : " + enemy.name + " at " + path.name);
-        enemy.currentPathIndex = paths.IndexOf(path);
-        enemy.paths = this.paths;
-
-        enemy.transform.SetParent(enemyFolder.transform);
-        
+        return selectedPaths;
     }
 
 
@@ -314,19 +356,6 @@ public class GameManager : MonoBehaviour
 
     public void Reset()
     {
-        blood = 10000;
-        time = 690;
-        wave = 1;
-        isGameOver = false;
-        coroutineStartedDeath = false;
-        isPlayerInLight = false;
-        isInvincible = false;
-        enemyCooldown = 10;
-        enemyCooldownLeft = 0;
-        enemyWaveCooldown = 30;
-        enemyWaveCooldownLeft = 30;
-        enemyCooldownDecrease = 0.2f;
-        wavePathIndex = Random.Range(0, spawningPaths.Count);
         Destroy(gameObject);
         Instance = null;
     }

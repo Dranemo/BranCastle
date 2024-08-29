@@ -1,14 +1,24 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CanvaInGame : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private TextMeshProUGUI waveText;
-
+    public GameObject dog;
+    public GameObject ghoul;
+    public GameObject imp;
+    public GameObject gargoyle;
     float time;
     float wave;
-
+    private void Start()
+    {
+        dog = GameObject.Find("Panel_dog");
+        ghoul = GameObject.Find("Panel_ghoul");
+        imp = GameObject.Find("Panel_imp");
+        gargoyle = GameObject.Find("Panel_gargoyle");
+    }
     // Update is called once per frame
     void Update()
     {
