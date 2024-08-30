@@ -312,10 +312,12 @@ public class Enemy : MonoBehaviour
             if (angle >= -90 && angle <= 90)
             {
                 animator.SetBool("isFacingLeft", false);
+                this.GetComponent<SpriteRenderer>().flipX = false;
             }
             else
             {
                 animator.SetBool("isFacingLeft", true);
+                this.GetComponent<SpriteRenderer>().flipX = true;
             }
         }
     }

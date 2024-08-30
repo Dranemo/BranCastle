@@ -20,7 +20,7 @@ public class OptionMenu : MonoBehaviour
     private void Start()
     {
         float currentVolume;
-        audioManager.audioMixer.GetFloat("MusicVolume", out currentVolume);
+        audioManager.mixer.GetFloat("MusicVolume", out currentVolume);
         musicVolumeSlider.value = Mathf.Pow(10, currentVolume / 20);
     }
     public void OnMusicVolumeChange(float volume)

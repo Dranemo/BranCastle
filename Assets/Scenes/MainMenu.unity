@@ -603,7 +603,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d1c765d9a7a7a3f488a597186503f285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  audioMixer: {fileID: 24100000, guid: e7a9e2ce18ef4374c9a5c2edafc1555f, type: 2}
+  mixer: {fileID: 24100000, guid: e7a9e2ce18ef4374c9a5c2edafc1555f, type: 2}
+  musicVolume: 0
+  sfxVolume: 0
 --- !u!223 &754305845 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 5002174886360224801, guid: 61a3a44b0041fef4fabdb63beb9bf3e1, type: 3}
