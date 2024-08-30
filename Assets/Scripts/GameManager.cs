@@ -34,11 +34,15 @@ public class GameManager : MonoBehaviour
     private AudioSource audioSourceGong;
     private AudioSource audioSourceGameOver;
     private AudioSource audioSourceBlood;
-
+    private AudioSource audioSourceKing;
+    private AudioSource audioSourceMusic;
     private GameObject player;
     [SerializeField] private AudioClip audioGong;
     [SerializeField] private AudioClip audioGameOver;
     [SerializeField] private AudioClip bloodPickup;
+    [SerializeField] private AudioClip audioKing;
+    [SerializeField] private AudioClip audioMusic;
+
     [SerializeField] private ScreenShake shake;
     private bool isInvincible = false;
     [SerializeField] private float invincibilityDuration = 0.5f;
@@ -55,6 +59,8 @@ public class GameManager : MonoBehaviour
             audioSourceGameOver = audioSources[0];
             audioSourceGong = audioSources[1];
             audioSourceBlood = audioSources[2];
+            audioSourceKing = audioSources[3];
+            audioSourceMusic = audioSources[4];
         }
         else
         {
@@ -63,6 +69,8 @@ public class GameManager : MonoBehaviour
         audioSourceBlood.clip = bloodPickup;
         audioSourceGameOver.clip = audioGameOver;
         audioSourceGong.clip = audioGong;
+        audioSourceKing.clip = audioKing;
+        audioSourceMusic.clip = audioMusic;
         paths = new List<Path>();
         spawningPaths = new List<Path>();
 
@@ -92,7 +100,10 @@ public class GameManager : MonoBehaviour
         shake = player.transform.Find("Main Camera").GetComponent<ScreenShake>();
     }
 
-
+    void Start()
+    {
+        audioSourceMusic.Play();
+    }
 
 
     private void Update()
@@ -228,14 +239,23 @@ public class GameManager : MonoBehaviour
     {
         if (wave == 9 && !kingSpawned)
         {
+            StartCoroutine(PlayKingAudioAndPauseMusic());
             kingSpawned = true;
             return enemies.Length - 1;
         }
-        else 
-        {       
-        int maxEnemyIndex = Mathf.Min(3 + (wave - 1) / 2, enemies.Length - 2);
-        return Random.Range(0, maxEnemyIndex + 1);
+        else
+        {
+            int maxEnemyIndex = Mathf.Min(3 + (wave - 1) / 2, enemies.Length - 2);
+            return Random.Range(0, maxEnemyIndex + 1);
         }
+    }
+
+    private IEnumerator PlayKingAudioAndPauseMusic()
+    {
+        audioSourceMusic.Pause();
+        audioSourceKing.Play();
+        yield return new WaitForSeconds(audioSourceKing.clip.length);
+        audioSourceMusic.UnPause();
     }
 
 
