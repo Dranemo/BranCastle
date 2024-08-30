@@ -14,7 +14,7 @@ public class TeleportationManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Aucun objet avec le tag 'Player' trouvé.");
+            //Debug.LogError("Aucun objet avec le tag 'Player' trouvé.");
         }
 
         GameObject cameraObject = GameObject.Find("Main Camera");
@@ -23,7 +23,7 @@ public class TeleportationManager : MonoBehaviour
             playerCamera = cameraObject.GetComponent<Camera>();
             if (playerCamera == null)
             {
-                Debug.LogError("L'objet 'Main Camera' n'a pas de composant Camera.");
+                //Debug.LogError("L'objet 'Main Camera' n'a pas de composant Camera.");
             }
         }
     }
@@ -36,7 +36,7 @@ public class TeleportationManager : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Référence manquante pour le joueur ou le cercueil.");
+            //Debug.LogError("Référence manquante pour le joueur ou le cercueil.");
         }
     }
 

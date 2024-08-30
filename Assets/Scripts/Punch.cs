@@ -17,7 +17,7 @@ public class Punch : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-            Debug.Log("Hit Enemy");
+            //Debug.Log("Hit Enemy");
             Enemy enemy = collision.GetComponent<Enemy>();
             enemy.TakeDamage(10);
         }

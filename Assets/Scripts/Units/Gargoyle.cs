@@ -71,21 +71,22 @@ public class Gargoyle : Unit
         player = FindObjectOfType<PlayerMovement>();
     }
 
-    private void Start()
+    protected override void Start()
     {
+        base.Start();
         if (audioSource != null)
         {
             audioSource.Play();
         }
         else
         {
-            Debug.LogWarning("AudioSource n'est pas attaché au GameObject.");
+            //Debug.LogWarning("AudioSource n'est pas attaché au GameObject.");
         }
         healthWall = health * 2;
-        Debug.Log("Gargoyle health is " + health);
-        Debug.Log("Gargoyle healthwall is " + healthWall);
+        //Debug.Log("Gargoyle health is " + health);
+        //Debug.Log("Gargoyle healthwall is " + healthWall);
         TakeDamage(100);
-        Debug.Log("Gargoyle health is " + health);
+        //Debug.Log("Gargoyle health is " + health);
         unitCircleScript = GetComponentInChildren<UnitCircle>();
 
         if (unitCircleScript != null)
@@ -94,7 +95,7 @@ public class Gargoyle : Unit
         }
         else
         {
-            Debug.LogWarning("UnitCircle script not found on any children of Gargoyle.");
+            //Debug.LogWarning("UnitCircle script not found on any children of Gargoyle.");
         }
     } 
     override protected void Die()
@@ -128,12 +129,12 @@ public class Gargoyle : Unit
                 if (IsIdle)
                 {
                     IsWall = true;
-                    Debug.Log("Gargoyle is wall.");
+                    //Debug.Log("Gargoyle is wall.");
                 }
                 else if (IsWall)
                 {
                     IsIdle = true;
-                    Debug.Log("Gargoyle is now idle.");
+                    //Debug.Log("Gargoyle is now idle.");
                 }
             }
         }

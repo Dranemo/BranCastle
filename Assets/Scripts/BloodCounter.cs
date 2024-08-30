@@ -16,7 +16,7 @@ public class BloodCounter : MonoBehaviour
         }
         else
         {
-            Debug.LogError("GameObject 'BloodCounter' non trouvé");
+            //Debug.LogError("GameObject 'BloodCounter' non trouvé");
         }
     }
 

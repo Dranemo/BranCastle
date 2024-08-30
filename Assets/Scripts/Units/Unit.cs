@@ -14,7 +14,7 @@ public class Unit : MonoBehaviour
 
     private SpriteRenderer spriteRenderer;
 
-    void Start()
+    protected virtual void Start()
     {
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer == null)
@@ -98,20 +98,30 @@ public class Unit : MonoBehaviour
 
     private void FlipSprite()
     {
-        if (spriteRenderer == null) return; 
-
         GameObject closestEnemy = GetClosestEnemy();
+        Debug.Log("Closest enemy: " + (closestEnemy != null ? closestEnemy.name : "None"));
+
         if (closestEnemy != null)
         {
+            Debug.Log("Closest enemy position: " + closestEnemy.transform.position);
+            Debug.Log("Unit position: " + transform.position);
+
             if (closestEnemy.transform.position.x < transform.position.x)
             {
                 spriteRenderer.flipX = true;
+                Debug.Log("Flipping sprite to face left.");
             }
             else
             {
                 spriteRenderer.flipX = false;
+                Debug.Log("Flipping sprite to face right.");
             }
         }
+        else
+        {
+            Debug.Log("No closest enemy found.");
+        }
     }
+
 }
 

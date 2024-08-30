@@ -112,7 +112,7 @@ public class PlayerMovement : MonoBehaviour
         }
         else
         {
-            Debug.LogError("Pas assez de composants AudioSource attachés au GameObject.");
+            //Debug.LogError("Pas assez de composants AudioSource attachés au GameObject.");
         }
         audioSourceBat.clip = batSound;
         audioSourceCape.clip = capeAudio;
@@ -273,7 +273,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (closestEnemy != null && canHypnotize)
         {
-            Debug.Log("Closest enemy to cursor: " + closestEnemy.name);
+            //Debug.Log("Closest enemy to cursor: " + closestEnemy.name);
             closestEnemy.GetComponent<Enemy>().Hypnotize();
             StartCoroutine(AttackCooldown(cooldownHypnosisImage, hypnosisDuration, isHypnotizing));
         }
@@ -286,7 +286,7 @@ public class PlayerMovement : MonoBehaviour
     {
         if (animator == null)
         {
-            Debug.LogError("Animator n'est pas assigné !");
+            //Debug.LogError("Animator n'est pas assigné !");
             return;
         }
 
@@ -442,7 +442,7 @@ public class PlayerMovement : MonoBehaviour
     {
         canMove = false;
         animator.SetBool("Dead", true);
-        Debug.Log("Player is dead");
+        //Debug.Log("Player is dead");
 
         float timeout = 5.0f; // Timeout de 5 secondes
         float elapsedTime = 0f;
@@ -451,9 +451,9 @@ public class PlayerMovement : MonoBehaviour
         while ((!animator.GetCurrentAnimatorStateInfo(0).IsName("death") || animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1.0f) && elapsedTime < timeout)
         {
             // Ajouter des logs pour vérifier les conditions
-            Debug.Log("Checking animation state...");
-            Debug.Log("Is 'death' animation playing: " + animator.GetCurrentAnimatorStateInfo(0).IsName("death"));
-            Debug.Log("Normalized time of 'death' animation: " + animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            //Debug.Log("Checking animation state...");
+            //Debug.Log("Is 'death' animation playing: " + animator.GetCurrentAnimatorStateInfo(0).IsName("death"));
+            //Debug.Log("Normalized time of 'death' animation: " + animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
 
             elapsedTime += Time.deltaTime;
             yield return null;
@@ -461,10 +461,10 @@ public class PlayerMovement : MonoBehaviour
 
         if (elapsedTime >= timeout)
         {
-            Debug.LogError("Timeout reached while waiting for death animation to finish.");
+            //Debug.LogError("Timeout reached while waiting for death animation to finish.");
         }
 
-        Debug.Log("Game Over");
+        //Debug.Log("Game Over");
         ScenesManager.Instance.LoadScene("GameOver");
     }
 
@@ -474,8 +474,8 @@ public class PlayerMovement : MonoBehaviour
         audioSourceCape.Play();
         Vector2 coupCapePosition = rb.position;
         currentCape = Instantiate(capePrefab, coupCapePosition, Quaternion.Euler(0, 0, 0));
-        Debug.Log("Cape attack");
-        Debug.Log(currentCape.transform);
+        //Debug.Log("Cape attack");
+        //Debug.Log(currentCape.transform);
         StartCoroutine(HandleCapeAttack(currentCape));
     }
 

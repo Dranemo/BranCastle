@@ -82,7 +82,7 @@ public class ProjectileEnemy : MonoBehaviour
         if (collision.gameObject == target && (target.tag == "Player" || target.tag == "Ritual"))
         {
             GameManager.Instance.TakeDamage(damage);
-            Debug.Log("Player hit by projectile");
+            //Debug.Log("Player hit by projectile");
             Deactivate();
         }
         else if (collision.gameObject == target && target.tag == "Unit")
@@ -96,7 +96,7 @@ public class ProjectileEnemy : MonoBehaviour
                 collision.gameObject.GetComponent<Enemy>().TakeDamage(damage);
             }
 
-            Debug.Log("Unit hit by projectile");
+            //Debug.Log("Unit hit by projectile");
             Deactivate();
         }
         else if (collision.gameObject.layer == 11)

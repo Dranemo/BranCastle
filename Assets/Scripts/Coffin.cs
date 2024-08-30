@@ -9,7 +9,7 @@ public class Coffin : MonoBehaviour
     {
         if (other.CompareTag("Player")) 
         {
-            Debug.Log("Player is near");
+            //Debug.Log("Player is near");
             playerIsNear = true;
         }
     }

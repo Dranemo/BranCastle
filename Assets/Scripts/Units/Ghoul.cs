@@ -7,8 +7,9 @@ public class Ghoul : Unit
     [SerializeField] private AudioClip deathSound;
     private AudioSource audioSource;
     // Start is called before the first frame update
-    void Start()
+    protected override void Start()
     {
+        base.Start();
         animator = GetComponent<Animator>();
         audioSource = GetComponent<AudioSource>();
     }
@@ -22,11 +23,11 @@ public class Ghoul : Unit
     private IEnumerator HandleDeath()
     {
         isDeadCoroutineStarted = true;
-        Debug.Log("isDeadCoroutineStarted = " + isDeadCoroutineStarted);
+        //Debug.Log("isDeadCoroutineStarted = " + isDeadCoroutineStarted);
         animator.SetBool("dead", true);
-        Debug.Log("dead :"+animator.GetBool("dead"));
+        //Debug.Log("dead :"+animator.GetBool("dead"));
         audioSource.clip = deathSound;
-        Debug.Log("deathSound :"+audioSource.clip);
+        //Debug.Log("deathSound :"+audioSource.clip);
         audioSource.Play();
         yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
         Destroy(gameObject);

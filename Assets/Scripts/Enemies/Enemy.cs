@@ -114,12 +114,12 @@ public class Enemy : MonoBehaviour
             spriteHypno.enabled = false;
             if (spriteHypno == null)
             {
-                Debug.LogError("Le SpriteRenderer n'est pas trouvé sur l'enfant 'hypno'.");
+                //Debug.LogError("Le SpriteRenderer n'est pas trouvé sur l'enfant 'hypno'.");
             }
         }
         else
         {
-            Debug.LogError("L'enfant 'hypno' n'est pas trouvé.");
+            //Debug.LogError("L'enfant 'hypno' n'est pas trouvé.");
         }
     Transform iceTransform = transform.Find("ice");
         if (iceTransform != null)
@@ -128,34 +128,34 @@ public class Enemy : MonoBehaviour
             spriteIce.enabled = false;
             if (spriteIce == null)
             {
-                Debug.LogError("Le SpriteRenderer n'est pas trouvé sur l'enfant 'ice'.");
+                //Debug.LogError("Le SpriteRenderer n'est pas trouvé sur l'enfant 'ice'.");
             }
         }
         else
         {
-            Debug.LogError("L'enfant 'ice' n'est pas trouvé.");
+            //Debug.LogError("L'enfant 'ice' n'est pas trouvé.");
         }
 
         audioSource = GetComponent<AudioSource>();
         deathSound = Resources.Load<AudioClip>("DeathSound");
         if (deathSound == null)
-            Debug.LogError("Le son de mort n'a pas été trouvé.");
+            //Debug.LogError("Le son de mort n'a pas été trouvé.");
         deathSound2 = Resources.Load<AudioClip>("DeathSound2");
         if ( deathSound2 == null)
         {
-            Debug.LogError("Le son de mort2 n'a pas été trouvé.");
+            //Debug.LogError("Le son de mort2 n'a pas été trouvé.");
         }
         deathSound3 = Resources.Load<AudioClip>("DeathSound3");
         if (deathSound3 == null)
         {
-            Debug.LogError("Le son de mort3 n'a pas été trouvé.");
+            //Debug.LogError("Le son de mort3 n'a pas été trouvé.");
         }
         deathSound4 = Resources.Load<AudioClip>("DeathSound4");
         if (deathSound4 == null)
         {
-            Debug.LogError("Le son de mort4 n'a pas été trouvé.");
+            //Debug.LogError("Le son de mort4 n'a pas été trouvé.");
         }
-        Debug.Log("deathSound4" + deathSound4);
+        //Debug.Log("deathSound4" + deathSound4);
         deathSounds = new AudioClip[] { deathSound, deathSound2, deathSound3, deathSound4 };
 
 
@@ -226,7 +226,7 @@ public class Enemy : MonoBehaviour
 
                 else
                 {
-                    //Debug.Log("Player Not Detected");
+                    ////Debug.Log("Player Not Detected");
                     MovingToTheNextCheckpoint();
 
                 }
@@ -390,7 +390,7 @@ public class Enemy : MonoBehaviour
     protected void Die()
     {
         spawnBlood = true;
-        Debug.Log("Damage by player: " + damageByPlayer);
+        //Debug.Log("Damage by player: " + damageByPlayer);
 
         float percentDamageF = damageByPlayer / maxHealth;
         int percentDamage = Mathf.RoundToInt(percentDamageF);
@@ -492,7 +492,7 @@ public class Enemy : MonoBehaviour
                 }
             }
 
-            Debug.Log("direction : " + direction);
+            //Debug.Log("direction : " + direction);
             lastDirection = direction;
 
             // Plus de place dans le cercle de base, envoie le sang dans le trou le plus gros du cercle
@@ -588,7 +588,7 @@ public class Enemy : MonoBehaviour
             {
                 stopFlashingCoroutine = true;
 
-                Debug.Log("Die");
+                //Debug.Log("Die");
                 if(playerDealtDamage)
                     damageByPlayer += (health);
 
@@ -633,7 +633,7 @@ public class Enemy : MonoBehaviour
 
     IEnumerator Flashing()
     {
-        Debug.Log("flashing");
+        //Debug.Log("flashing");
 
         flashingSprite = true;
         SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -690,7 +690,7 @@ public class Enemy : MonoBehaviour
     IEnumerator Shrinking()
     {
         shrinkingSprite = true;
-        Debug.Log("shrinking");
+        //Debug.Log("shrinking");
 
         float time = 0;
         while (time <= 0.5f)
@@ -861,7 +861,7 @@ public class Enemy : MonoBehaviour
     {
         gameObject.tag = "Unit";
         gameObject.layer = LayerMask.NameToLayer("Unit");
-        Debug.Log("Enemy hypnotized: " + gameObject.name);
+        //Debug.Log("Enemy hypnotized: " + gameObject.name);
         isHypnotized = true;
 
         state = State.Moving;

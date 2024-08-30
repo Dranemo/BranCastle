@@ -14,7 +14,7 @@ public class Paladin : Physical
 
         if (closestUnit != null)
         {
-            Debug.Log("Disctance dog : " + Vector3.Distance(transform.position, closestUnit.transform.position));
+            //Debug.Log("Disctance dog : " + Vector3.Distance(transform.position, closestUnit.transform.position));
 
             if (coolDownAttSpeTimer <= 0)
             {
