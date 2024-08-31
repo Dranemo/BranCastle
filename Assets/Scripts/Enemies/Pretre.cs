@@ -6,7 +6,6 @@ using UnityEngine.Rendering.UI;
 
 public class Pretre : Enemy
 {
-    [SerializeField] List<GameObject> enemies = new List<GameObject>();
     [SerializeField] private GameObject enemyToHeal;
 
 
@@ -23,7 +22,6 @@ public class Pretre : Enemy
     // Update is called once per frame
     new void Update()
     {
-        UpdateEnemyList();
 
 
 
@@ -34,8 +32,10 @@ public class Pretre : Enemy
 
 
 
-
-        enemyToHeal = GetClosestEnemyToHeal();
+        if(GetClosestEnemy() != null && GetClosestEnemy().GetComponent<Enemy>().health < GetClosestEnemy().GetComponent<Enemy>().maxHealth)
+        {
+            enemyToHeal = GetClosestEnemy();
+        }
 
 
         if ((animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Hit")) || animator == null)
@@ -128,67 +128,7 @@ public class Pretre : Enemy
 
 
 
-    void UpdateEnemyList()
-    {
-        // Réinitialiser la liste des ennemis
-        enemies.Clear();
-
-        // Trouver tous les GameObjects avec le tag "Enemy" et les ajouter à la liste
-        List<GameObject> enemiesTemp = new List<GameObject>();
-        enemiesTemp.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
-
-        foreach (GameObject enemy in enemiesTemp)
-        {
-            if(enemy.GetComponent<Enemy>())
-                enemies.Add(enemy);
-        }
-    }
-
-    GameObject GetClosestEnemyToHeal()
-    {
-        List<GameObject> enemiesToHeal = new List<GameObject>();
-
-        // Trouver l'ennemi le plus proche
-        GameObject closestEnemy = null;
-        float closestDistance = Mathf.Infinity;
-
-        foreach (GameObject enemy in enemies)
-        {
-            float distance = Vector3.Distance(transform.position, enemy.transform.position);
-
-            if (distance < closestDistance && CheckEnemyWall(enemy) && enemy.GetComponent<Enemy>().health != enemy.GetComponent<Enemy>().maxHealth)
-            {
-                closestDistance = distance;
-                closestEnemy = enemy;
-            }
-        }
-
-        return closestEnemy;
-    }
-
-    bool CheckEnemyWall(GameObject enemyChecking)
-    {
-        Vector3 pos = transform.position;
-        Vector3 posNext = enemyChecking.transform.position;
-
-        Vector2 size = new Vector2(0.5f, Vector2.Distance(pos, posNext));
-        float angle = Mathf.Atan2(posNext.y - pos.y, posNext.x - pos.x) * Mathf.Rad2Deg;
-
-
-        RaycastHit2D hit = Physics2D.Linecast(pos, posNext, layerMaskRaycast);
-        //RaycastHit2D hit = Physics2D.BoxCast(pos, size, angle, posNext);
-
-        if (hit.collider != null && hit.collider.gameObject.GetComponent<Enemy>() == null)
-        {
-            //Debug.DrawLine(pos, posNext, Color.red);
-            return false;
-        }
-        else
-        {
-            Debug.DrawLine(pos, posNext, Color.green);
-            return true;
-        }
-    }
+    
 
     void Heal()
     {

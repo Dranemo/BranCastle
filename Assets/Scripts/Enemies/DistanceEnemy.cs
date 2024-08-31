@@ -72,10 +72,7 @@ public class DistanceEnemy : Enemy
         else
         {
             Debug.Log("Enemy");
-            if (projectile.GetComponent<ProjectileEnemy>().target!=null)
-            {
-                projectile.GetComponent<ProjectileEnemy>().target = targetEnemy;
-            }
+            projectile.GetComponent<ProjectileEnemy>().target = targetEnemy;
         }
 
         Debug.Log(projectile.GetComponent<ProjectileEnemy>().target.name);

@@ -220,7 +220,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 1791
+    m_Bits: 5885
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -5407,6 +5407,7 @@ MonoBehaviour:
   coupDistance: 0.5
   coupPrefab: {fileID: 7379560963317096358, guid: 0df40ff72d36f9144a40654d7962bbd5, type: 3}
   punchForce: 0.5
+  canPunch: 1
   gameManager: {fileID: 0}
   spriteTransform: {fileID: 2806417236730911550}
   coffin_input: {fileID: 0}
@@ -5416,8 +5417,10 @@ MonoBehaviour:
   drainKey: 51
   biteKey: 52
   batAttackCooldown: 5
+  canBatAttack: 1
   batDistance: 2.5
   isDrawingRectangle: 0
+  canDrawRectangle: 1
   batPrefab: {fileID: 6930754229455431999, guid: 7af7c547d996c5f4c8fe168c2486ef30, type: 3}
   batSound: {fileID: 8300000, guid: 50c36d8cf0cfd7f4c9c8052d45dba4fc, type: 3}
   dashKey: 32
@@ -5436,6 +5439,7 @@ MonoBehaviour:
   canCape: 1
   capeAudio: {fileID: 8300000, guid: 86a0f46c5035b4142bd6cd56f9f4e67b, type: 3}
   isHypnotizing: 0
+  canHypnotize: 1
 --- !u!114 &6844953783898590544
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -30,15 +30,18 @@
         {
             GameManager.Instance.TakeDamage(damage);
         }
-        else if (state == State.AttackingUnit && gameObject.layer != 7)
+        else if (state == State.AttackingUnit)
         {
-            if (closestUnit.gameObject.GetComponent<Unit>() != null)
+            if (closestUnit != null)
             {
-                closestUnit.gameObject.GetComponent<Unit>().TakeDamage(damage);
+                if(closestUnit.gameObject.GetComponent<Unit>() != null)
+                    closestUnit.gameObject.GetComponent<Unit>().TakeDamage(damage);
+                else if (closestUnit.gameObject.GetComponent<Enemy>() != null)
+                    closestUnit.gameObject.GetComponent<Enemy>().TakeDamage(damage, false);
             }
-            else
+            else if(targetEnemy != null)
             {
-                closestUnit.gameObject.GetComponent<Enemy>().TakeDamage(damage);
+                targetEnemy.gameObject.GetComponent<Enemy>().TakeDamage(damage, false);
             }
     }
     }

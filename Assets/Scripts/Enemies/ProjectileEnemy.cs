@@ -28,7 +28,10 @@ public class ProjectileEnemy : MonoBehaviour
         targetPos = target.transform.position;
         normalizedPos = (targetPos - startPos).normalized;
 
-        gameObject.layer = 10;
+        if(target.tag == "Enemy")
+            gameObject.layer = 12;
+        else
+            gameObject.layer = 10;
 
     }
 
@@ -37,7 +40,7 @@ public class ProjectileEnemy : MonoBehaviour
     {
         gameObject.SetActive(false);
 
-        gameObject.layer = 12;
+        gameObject.layer = 1;
     }
 
 
@@ -79,6 +82,13 @@ public class ProjectileEnemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("triggered");
+
+        if(collision.gameObject == target)
+        {
+            Debug.Log("target hit");
+        }
+
         if (collision.gameObject == target && (target.tag == "Player" || target.tag == "Ritual"))
         {
             GameManager.Instance.TakeDamage(damage);
@@ -87,18 +97,25 @@ public class ProjectileEnemy : MonoBehaviour
         }
         else if (collision.gameObject == target && target.tag == "Unit")
         {
-            if(collision.gameObject.GetComponent<Unit>() != null)
+            Debug.Log("Unit hit by projectile");
+            if (collision.gameObject.GetComponent<Unit>() != null)
             {
                 collision.gameObject.GetComponent<Unit>().TakeDamage(damage);
             }
             else
             {
-                collision.gameObject.GetComponent<Enemy>().TakeDamage(damage);
+                collision.gameObject.GetComponent<Enemy>().TakeDamage(damage, false);
             }
 
-            Debug.Log("Unit hit by projectile");
             Deactivate();
         }
+        else if(collision.gameObject == target && target.tag == "Enemy")
+        {
+            Debug.Log("Enemy hit by projectile");
+            collision.gameObject.GetComponent<Enemy>().TakeDamage(damage, false);
+            Deactivate();
+        }
+
         else if (collision.gameObject.layer == 11)
         {
             Deactivate();
