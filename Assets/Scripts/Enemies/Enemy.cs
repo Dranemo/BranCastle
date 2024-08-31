@@ -11,7 +11,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Path")]
     public List<Path> paths;
-    [SerializeField] LayerMask layerMaskRaycast;
+    [SerializeField] protected LayerMask layerMaskRaycast;
     public int currentPathIndex = 0;
     private int currentWaypointIndex = 0;
 
@@ -36,9 +36,9 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected GameObject bloodPrefab;
 
     [Header ("Variables")]
-    [SerializeField] protected float health = 50;
+    [SerializeField] public  float health = 50;
     protected float damageByPlayer = 0;
-    [SerializeField] protected float maxHealth = 50;
+    [SerializeField] public float maxHealth = 50;
     [SerializeField] protected float bloodCount = 10;
     [SerializeField] protected float detectionRadius = 5f;
     [SerializeField] protected float attackRadius = 1.5f;
@@ -46,7 +46,7 @@ public class Enemy : MonoBehaviour
     public float attackRange = 1.0f;
     [SerializeField] protected float damage = 0;
     [SerializeField] protected float speed = 2;
-    float attackCooldown = 1;
+    protected float attackCooldown = 1;
 
     [Header("Units")]
     [SerializeField] protected List<GameObject> units;
@@ -59,8 +59,8 @@ public class Enemy : MonoBehaviour
     bool stopFlashingCoroutine = false;
 
     [Header("Animator")]
-    Animator animator;
-    Vector3 positionFrameBefore;
+    protected Animator animator;
+    protected Vector3 positionFrameBefore;
 
     [Header("Status")]
     [SerializeField] public bool isStunned;
@@ -70,7 +70,7 @@ public class Enemy : MonoBehaviour
 
 
 
-    private bool onPath = true;
+    protected bool onPath = true;
 
 
     public float GetHealthEnemy()
@@ -239,7 +239,7 @@ public class Enemy : MonoBehaviour
 
 
     // ----------------------------------------- Sprite Related -----------------------------------------
-    void TurningSprite(Vector3 pos)
+    protected void TurningSprite(Vector3 pos)
     {
         Vector3 direction = pos - transform.position;
 
@@ -545,7 +545,7 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    IEnumerator Stunned()
+    protected IEnumerator Stunned()
     {
         float pushDuration = player.GetComponent<PlayerMovement>().capePushDuration;
         // Calculate direction from enemy to player
@@ -738,7 +738,7 @@ public class Enemy : MonoBehaviour
     }
 
 
-    void MovingToTheNextCheckpoint()
+    protected void MovingToTheNextCheckpoint()
     {
         state = State.Moving;
 
