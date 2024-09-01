@@ -271,11 +271,11 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 3326792788442967916, guid: 2f4b27a16472a73468057d242e774e8c, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.05
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3326792788442967916, guid: 2f4b27a16472a73468057d242e774e8c, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.05
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 3326792788442967916, guid: 2f4b27a16472a73468057d242e774e8c, type: 3}
       propertyPath: m_LocalPosition.x
@@ -283,7 +283,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3326792788442967916, guid: 2f4b27a16472a73468057d242e774e8c, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 0.292
+      value: 0.354
       objectReference: {fileID: 0}
     - target: {fileID: 3326792788442967916, guid: 2f4b27a16472a73468057d242e774e8c, type: 3}
       propertyPath: m_LocalPosition.z
@@ -466,7 +466,6 @@ MonoBehaviour:
   detectionRadius: 3
   attackRadius: 1
   attackSpeed: 1
-  attackRange: 1
   damage: 500
   speed: 0.5
   units: []
@@ -475,6 +474,7 @@ MonoBehaviour:
   stunDuration: 2
   capeKnockback: 1
   isHypnotized: 0
+  enemies: []
 --- !u!70 &1374022314163639180
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

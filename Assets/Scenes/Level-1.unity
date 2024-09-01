@@ -6873,6 +6873,7 @@ MonoBehaviour:
   - {fileID: 1404599894497797865, guid: c406a35946bd75643acd2b25fdf6c40c, type: 3}
   - {fileID: 6625454495336831251, guid: 087b3671a27a4834c9f33a46d0dac7b4, type: 3}
   - {fileID: 4548028440668926184, guid: 1487f770fb8c96b4a9093bab9ff97898, type: 3}
+  - {fileID: 4234256210671643889, guid: f61725cd0a7366142afbc0a1055ee99a, type: 3}
   - {fileID: 4548028440668926184, guid: 7473fab41dfda154e9b15ea9bd8952eb, type: 3}
   enemyCooldown: 5
   enemyCooldownLeft: 0

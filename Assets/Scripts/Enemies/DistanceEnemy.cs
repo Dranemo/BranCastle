@@ -71,14 +71,14 @@ public class DistanceEnemy : Enemy
         }
         else
         {
-            //Debug.Log("Enemy");
             if (projectile.GetComponent<ProjectileEnemy>().target!=null)
             {
                 projectile.GetComponent<ProjectileEnemy>().target = targetEnemy;
             }
+            Debug.Log("Enemy");
+            projectile.GetComponent<ProjectileEnemy>().target = targetEnemy;
         }
 
-        //Debug.Log(projectile.GetComponent<ProjectileEnemy>().target.name);
 
         projectile.transform.position = transform.position;
         projectile.GetComponent<ProjectileEnemy>().searchingTarget = searchingTarget;

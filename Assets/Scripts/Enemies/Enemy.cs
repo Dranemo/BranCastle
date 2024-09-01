@@ -10,7 +10,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Path")]
     public List<Path> paths;
-    [SerializeField] LayerMask layerMaskRaycast;
+    [SerializeField] protected LayerMask layerMaskRaycast;
     public int currentPathIndex = 0;
     private int currentWaypointIndex = 0;
 
@@ -35,17 +35,16 @@ public class Enemy : MonoBehaviour
     [SerializeField] protected GameObject bloodPrefab;
 
     [Header ("Variables")]
-    [SerializeField] protected float health = 50;
+    [SerializeField] public  float health = 50;
     protected float damageByPlayer = 0;
-    [SerializeField] protected float maxHealth = 50;
+    [SerializeField] public float maxHealth = 50;
     [SerializeField] protected float bloodCount = 10;
     [SerializeField] protected float detectionRadius = 5f;
     [SerializeField] protected float attackRadius = 1.5f;
     [SerializeField] protected float attackSpeed = 1;
-    public float attackRange = 1.0f;
     [SerializeField] protected float damage = 0;
     [SerializeField] protected float speed = 2;
-    float attackCooldown = 1;
+    protected float attackCooldown = 1;
 
     [Header("Units")]
     [SerializeField] protected List<GameObject> units;
@@ -60,8 +59,8 @@ public class Enemy : MonoBehaviour
     private SpriteRenderer spriteIce;
 
     [Header("Animator")]
-    Animator animator;
-    Vector3 positionFrameBefore;
+    protected Animator animator;
+    protected Vector3 positionFrameBefore;
 
     [Header("Status")]
     [SerializeField] public bool isStunned;
@@ -78,7 +77,8 @@ public class Enemy : MonoBehaviour
     private AudioClip deathSound4;
     private AudioClip[] deathSounds;
 
-    private bool onPath = true;
+    [SerializeField] List<GameObject> enemies = new List<GameObject>();
+    protected bool onPath = true;
 
 
     public float GetHealthEnemy()
@@ -168,18 +168,23 @@ public class Enemy : MonoBehaviour
 
     protected void Update()
     {
-        if(animator != null)
+        IsDead();
+        if (animator != null)
             animator.SetBool("Idle", Vector3.Distance(transform.position, positionFrameBefore) == 0);
 
         positionFrameBefore = transform.position;
 
         UpdateUnitList();
+        UpdateEnemyList();
+
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         bool isUnitClose = IsUnitClose();
 
+        targetEnemy = GetClosestEnemy();
 
 
-        if((animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Hit")) || animator == null)
+
+        if ((animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Hit")) || animator == null)
         {
 
 
@@ -187,7 +192,7 @@ public class Enemy : MonoBehaviour
             if (isHypnotized)
             {
                 spriteHypno.enabled = true;
-                FindClosestEnemy();
+                GetClosestEnemy();
                 if (targetEnemy != null)
                 {
                     FollowAndAttack(targetEnemy);
@@ -303,7 +308,7 @@ public class Enemy : MonoBehaviour
 
 
     // ----------------------------------------- Sprite Related -----------------------------------------
-    void TurningSprite(Vector3 pos)
+    protected void TurningSprite(Vector3 pos)
     {
         Vector3 direction = pos - transform.position;
 
@@ -334,6 +339,23 @@ public class Enemy : MonoBehaviour
         // Trouver tous les GameObjects avec le tag "Unit" et les ajouter à la liste
         units.AddRange(GameObject.FindGameObjectsWithTag("Unit"));
     }
+
+    void UpdateEnemyList()
+    {
+        // Réinitialiser la liste des ennemis
+        enemies.Clear();
+
+        // Trouver tous les GameObjects avec le tag "Enemy" et les ajouter à la liste
+        List<GameObject> enemiesTemp = new List<GameObject>();
+        enemiesTemp.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
+
+        foreach (GameObject enemy in enemiesTemp)
+        {
+            if (enemy.GetComponent<Enemy>())
+                enemies.Add(enemy);
+        }
+    }
+
     protected bool IsUnitClose()
     {
         foreach (GameObject unit in units)
@@ -394,6 +416,12 @@ public class Enemy : MonoBehaviour
         spawnBlood = true;
         //Debug.Log("Damage by player: " + damageByPlayer);
 
+        tag = "Untagged";
+        foreach (Transform child in transform)
+        {
+            child.gameObject.tag = "Untagged";
+        }
+
         float percentDamageF = damageByPlayer / maxHealth;
         int percentDamage = Mathf.RoundToInt(percentDamageF);
 
@@ -446,10 +474,20 @@ public class Enemy : MonoBehaviour
             while (shrinkingSprite)
                 yield return null;
         }
-        
+
+        gameObject.layer = 1;
+        foreach (Transform child in transform)
+        {
+            child.gameObject.layer = 1;
+            foreach (Transform child2 in child)
+            {
+                child2.gameObject.layer = 1;
+            }
+        }
+
 
         // Directions de base (séparées de minimum 30°
-        for(int i = 0; i < numberOfBlood + bloodAmountNotRound; i++)
+        for (int i = 0; i < numberOfBlood + bloodAmountNotRound; i++)
         {
             int direction = -1;
 
@@ -619,7 +657,15 @@ public class Enemy : MonoBehaviour
         }
     }
 
-    IEnumerator Stunned()
+    void IsDead()
+    {
+        if (health <= 0 && !spawnBlood)
+        {
+            Die();
+        }
+    }
+
+    protected IEnumerator Stunned()
     {
         float pushDuration = player.GetComponent<PlayerMovement>().capePushDuration;
         // Calculate direction from enemy to player
@@ -813,7 +859,7 @@ public class Enemy : MonoBehaviour
     }
 
 
-    void MovingToTheNextCheckpoint()
+    protected void MovingToTheNextCheckpoint()
     {
         state = State.Moving;
 
@@ -866,42 +912,90 @@ public class Enemy : MonoBehaviour
     {
         gameObject.tag = "Unit";
         gameObject.layer = LayerMask.NameToLayer("Unit");
-        //Debug.Log("Enemy hypnotized: " + gameObject.name);
-        isHypnotized = true;
 
-        state = State.Moving;
-
-        //Debug.Break();
-    }
-
-
-    void FindClosestEnemy()
-    {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        float closestDistance = Mathf.Infinity;
-        GameObject closestEnemy = null;
-
-        foreach (GameObject enemy in enemies)
+        foreach (Transform child in transform)
         {
-            if (enemy != gameObject) // Ne pas se cibler soi-même
+            Debug.Log("Child: " + child.gameObject.name);
+            if (child.gameObject.name == "Projectiles")
             {
-                float distanceToEnemy = Vector2.Distance(transform.position, enemy.transform.position);
-                if (distanceToEnemy < closestDistance)
+                Debug.Log("hypnotized projectiles");
+                foreach (Transform proj in child)
                 {
-                    closestDistance = distanceToEnemy;
-                    closestEnemy = enemy;
+                    proj.gameObject.layer = 12;
                 }
             }
         }
 
-        targetEnemy = closestEnemy;
+
+        Debug.Log("Enemy hypnotized: " + gameObject.name);
+        isHypnotized = true;
+
+        state = State.Moving;
     }
+
+
+
+
+
+    protected GameObject GetClosestEnemy()
+    {
+        List<GameObject> enemiesToHeal = new List<GameObject>();
+
+        // Trouver l'ennemi le plus proche
+        GameObject closestEnemy = null;
+        float closestDistance = Mathf.Infinity;
+
+
+        for(int i = 0; i < enemies.Count; i++)
+        {
+            float distance = Vector3.Distance(transform.position, enemies[i].transform.position);
+
+            if (distance < closestDistance && CheckEnemyWall(enemies[i]))
+            {
+                closestDistance = distance;
+                closestEnemy = enemies[i];
+            }
+        }
+
+        foreach (GameObject enemy in enemies)
+        {
+            
+        }
+
+        return closestEnemy;
+    }
+
+    bool CheckEnemyWall(GameObject enemyChecking)
+    {
+        Vector3 pos = transform.position;
+        Vector3 posNext = enemyChecking.transform.position;
+
+        Vector2 size = new Vector2(0.5f, Vector2.Distance(pos, posNext));
+        float angle = Mathf.Atan2(posNext.y - pos.y, posNext.x - pos.x) * Mathf.Rad2Deg;
+
+
+        RaycastHit2D hit = Physics2D.Linecast(pos, posNext, layerMaskRaycast);
+        //RaycastHit2D hit = Physics2D.BoxCast(pos, size, angle, posNext);
+
+        if (hit.collider != null && hit.collider.gameObject.GetComponent<Enemy>() == null)
+        {
+            //Debug.DrawLine(pos, posNext, Color.red);
+            return false;
+        }
+        else
+        {
+            Debug.DrawLine(pos, posNext, Color.green);
+            return true;
+        }
+    }
+
+
 
     void FollowAndAttack(GameObject enemy)
     {
         float distanceToEnemy = Vector2.Distance(transform.position, enemy.transform.position);
 
-        if (distanceToEnemy > attackRange)
+        if (distanceToEnemy > attackRadius)
         {
             state = State.Moving;
             // Suivre l'ennemi
@@ -910,8 +1004,13 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            state = State.AttackingUnit;
-            Attack();
+            state = State.AttackingUnit; 
+            
+            if (attackCooldown <= 0 && health > 0)
+            {
+                Attack();
+                attackCooldown = attackSpeed;
+            }
         }
     }
 }

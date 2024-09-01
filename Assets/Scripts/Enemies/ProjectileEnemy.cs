@@ -26,7 +26,10 @@ public class ProjectileEnemy : MonoBehaviour
         targetPos = target.transform.position;
         normalizedPos = (targetPos - startPos).normalized;
 
-        gameObject.layer = 10;
+        if(target.tag == "Enemy")
+            gameObject.layer = 12;
+        else
+            gameObject.layer = 10;
 
         // Initial rotation towards the target
         RotateTowardsTarget();
@@ -36,7 +39,7 @@ public class ProjectileEnemy : MonoBehaviour
     {
         gameObject.SetActive(false);
 
-        gameObject.layer = 12;
+        gameObject.layer = 1;
     }
 
     // Update is called once per frame
@@ -81,6 +84,13 @@ public class ProjectileEnemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        Debug.Log("triggered");
+
+        if(collision.gameObject == target)
+        {
+            Debug.Log("target hit");
+        }
+
         if (collision.gameObject == target && (target.tag == "Player" || target.tag == "Ritual"))
         {
             GameManager.Instance.TakeDamage(damage);
@@ -95,12 +105,18 @@ public class ProjectileEnemy : MonoBehaviour
             }
             else
             {
-                collision.gameObject.GetComponent<Enemy>().TakeDamage(damage);
+                collision.gameObject.GetComponent<Enemy>().TakeDamage(damage, false);
             }
 
-            //Debug.Log("Unit hit by projectile");
             Deactivate();
         }
+        else if(collision.gameObject == target && target.tag == "Enemy")
+        {
+            Debug.Log("Enemy hit by projectile");
+            collision.gameObject.GetComponent<Enemy>().TakeDamage(damage, false);
+            Deactivate();
+        }
+
         else if (collision.gameObject.layer == 11)
         {
             Deactivate();
