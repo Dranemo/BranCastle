@@ -180,7 +180,6 @@ MonoBehaviour:
   detectionRadius: 5
   attackRadius: 3
   attackSpeed: 2
-  attackRange: 1
   damage: 200
   speed: 1
   units: []
@@ -189,6 +188,7 @@ MonoBehaviour:
   stunDuration: 2
   capeKnockback: 1
   isHypnotized: 0
+  enemies: []
   searchingTarget: 0
   projectiles: []
 --- !u!82 &1247729098465604921
@@ -297,7 +297,7 @@ Animator:
   m_GameObject: {fileID: 176586383936999315}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 3810905080853025619, guid: faa85595b5ee005459f38e14dde22097, type: 3}
+  m_Controller: {fileID: 9100000, guid: 65bba02462c0f064cb394a0b8c135b31, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
