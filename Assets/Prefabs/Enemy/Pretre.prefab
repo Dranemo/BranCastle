@@ -152,7 +152,7 @@ MonoBehaviour:
   detectionRadius: 5
   attackRadius: 1.5
   attackSpeed: 1
-  damage: 10
+  damage: 2
   speed: 2
   units: []
   closestUnit: {fileID: 0}

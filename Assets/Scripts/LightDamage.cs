@@ -43,7 +43,7 @@ public class LightDamage : MonoBehaviour
         while (gameManager.isPlayerInLight)
         {
             audioSource.Play();
-            gameManager.TakeDamage(5);
+            gameManager.TakeDamage(10);
             yield return wait; 
         }
 

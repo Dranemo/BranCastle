@@ -104,10 +104,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f239d90019532d34ca13717b1329ede0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 50
-  damage: 50
+  health: 100
+  damage: 15
   attackSpeed: 0.7
-  bloodCost: 50
+  bloodCost: 20
   enemiesInRange: []
   projectilePrefab: {fileID: 6285388318475031793, guid: 4c7e5cb89ea28944f80a2d2034675885, type: 3}
 --- !u!70 &8944362452835413066
