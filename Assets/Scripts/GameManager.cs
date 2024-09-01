@@ -106,15 +106,23 @@ public class GameManager : MonoBehaviour
     }
 
 
+    bool initialGong = false;
+
     private void Update()
     {
         if (!isGameOver)
         {
             GameOver();
 
-            if(time >= 720) // 12h
+
+            if (time >= 720) // 12h
             {
-              audioSourceGong.Play();
+                if (!initialGong)
+                {
+                    initialGong = true;
+                    audioSourceGong.Play();
+                }
+
                 if (enemyCooldownLeft <= 0)
                 {
                     enemyCooldownLeft = enemyCooldown;
