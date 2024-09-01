@@ -18,6 +18,10 @@ public class MainMenu : MonoBehaviour
         buttons[3].onClick.AddListener(Quit);
         buttons[4].onClick.AddListener(Language);
 
+        if(GameManager.Instance != null)
+        {
+            Destroy(GameManager.Instance.gameObject);
+        }
     }
 
     // Update is called once per frame
