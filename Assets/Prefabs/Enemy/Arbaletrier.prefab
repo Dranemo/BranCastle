@@ -174,14 +174,14 @@ MonoBehaviour:
   currentPathIndex: 0
   targetEnemy: {fileID: 0}
   bloodPrefab: {fileID: 3594142108930714808, guid: 898715a92e4fe754d87e9b89c09018d7, type: 3}
-  health: 50
-  maxHealth: 50
-  bloodCount: 200
+  health: 60
+  maxHealth: 60
+  bloodCount: 50
   detectionRadius: 5
   attackRadius: 3
   attackSpeed: 2
-  damage: 200
-  speed: 1
+  damage: 25
+  speed: 3
   units: []
   closestUnit: {fileID: 0}
   isStunned: 0

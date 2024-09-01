@@ -273,10 +273,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6d133fb60049d3d4c8de52e7a7f5174a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 786.3
-  damage: 16.89
-  attackSpeed: 35.18
-  bloodCost: 19.44
+  health: 250
+  damage: 15
+  attackSpeed: 0.5
+  bloodCost: 25
   enemiesInRange: []
   deathSound: {fileID: 8300000, guid: 4795d33396c686149a5f99b98dd76207, type: 3}
 --- !u!82 &1727681776462200360
@@ -289,7 +289,7 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 1268658952232906004, guid: e7a9e2ce18ef4374c9a5c2edafc1555f, type: 2}
-  m_audioClip: {fileID: 8300000, guid: cd6e4287ea35d1347947753fc5cd4266, type: 3}
+  m_audioClip: {fileID: 8300000, guid: 55080fc1fde47e24b99f546b852617dc, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 1
   m_Pitch: 1

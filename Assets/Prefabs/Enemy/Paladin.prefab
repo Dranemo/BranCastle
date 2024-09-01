@@ -462,11 +462,11 @@ MonoBehaviour:
   bloodPrefab: {fileID: 3594142108930714808, guid: 898715a92e4fe754d87e9b89c09018d7, type: 3}
   health: 100
   maxHealth: 100
-  bloodCount: 500
+  bloodCount: 150
   detectionRadius: 5
   attackRadius: 1.5
   attackSpeed: 3
-  damage: 500
+  damage: 100
   speed: 0.5
   units: []
   closestUnit: {fileID: 0}

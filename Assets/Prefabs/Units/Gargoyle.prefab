@@ -104,10 +104,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b78ff09b2adc74141b60fe7231e5da2b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 1000
+  health: 500
   damage: 20
-  attackSpeed: 10
-  bloodCost: 60
+  attackSpeed: 0.5
+  bloodCost: 100
   enemiesInRange: []
   deathSound: {fileID: 8300000, guid: f648809ffc34cd54c8d85ae77dae7b5e, type: 3}
 --- !u!70 &8944362452835413066

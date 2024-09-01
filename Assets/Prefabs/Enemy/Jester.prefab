@@ -466,8 +466,8 @@ MonoBehaviour:
   detectionRadius: 3
   attackRadius: 1
   attackSpeed: 1
-  damage: 500
-  speed: 0.5
+  damage: 100
+  speed: 4
   units: []
   closestUnit: {fileID: 0}
   isStunned: 0
