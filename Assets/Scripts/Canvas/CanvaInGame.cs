@@ -6,6 +6,7 @@ public class CanvaInGame : MonoBehaviour
 {
     [SerializeField] private TextMeshProUGUI timeText;
     [SerializeField] private TextMeshProUGUI waveText;
+    [SerializeField] private TextMeshProUGUI ritualText;
     public GameObject dog;
     public GameObject ghoul;
     public GameObject imp;
@@ -18,6 +19,7 @@ public class CanvaInGame : MonoBehaviour
         ghoul = GameObject.Find("Panel_ghoul");
         imp = GameObject.Find("Panel_imp");
         gargoyle = GameObject.Find("Panel_gargoyle");
+        ritualText.enabled = false;
     }
     // Update is called once per frame
     void Update()

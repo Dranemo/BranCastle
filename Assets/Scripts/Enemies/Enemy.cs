@@ -2,8 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
-
-
+using UnityEngine.UI;
+using TMPro;
 
 public class Enemy : MonoBehaviour
 {
@@ -20,6 +20,8 @@ public class Enemy : MonoBehaviour
     protected GameObject ritual;
     [SerializeField] protected GameObject targetEnemy;
 
+    protected Canvas canvasinGame;
+    protected TextMeshProUGUI ritualText;
 
     protected State state;
     protected enum State
@@ -102,6 +104,11 @@ public class Enemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         capeKnockback = player.GetComponent<PlayerMovement>().capePushForce;
         ritual = GameObject.FindGameObjectWithTag("Ritual");
+        canvasinGame = GameObject.Find("CanvasInGame(Clone)").GetComponent<Canvas>();
+        Debug.Log("CanvasInGame: " + canvasinGame);
+        ritualText = canvasinGame.transform.Find("RitualText").GetComponent<TextMeshProUGUI>();
+        Debug.Log("RitualText: " + ritualText);
+        ritualText.enabled = false;
         layerMaskRaycast = LayerMask.GetMask("Wall");
 
         animator = GetComponent<Animator>();
@@ -284,10 +291,12 @@ public class Enemy : MonoBehaviour
             {
                 Attack();
                 attackCooldown = attackSpeed;
+                ritualText.enabled = true;
             }
         }
         else
         {
+            ritualText.enabled = false;
             state = State.Moving;
             transform.position = Vector3.MoveTowards(transform.position, paths[currentPathIndex].waypoints[currentWaypointIndex].transform.position, speed * Time.deltaTime);
         }
