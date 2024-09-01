@@ -661,7 +661,7 @@ public class Enemy : MonoBehaviour
 
     void IsDead()
     {
-        if (health <= 0 && !spawnBlood)
+        if (health <= 0 && !animator.GetCurrentAnimatorStateInfo(0).IsName("BloodAnim") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Death"))
         {
             Die();
         }
