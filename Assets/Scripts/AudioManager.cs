@@ -15,38 +15,38 @@ public class AudioManager : MonoBehaviour
     void Start()
     {
         // Initialiser les volumes à partir des valeurs actuelles du mixer
-        mixer.GetFloat("MusicVolume", out musicVolume);
-        mixer.GetFloat("SFXVolume", out sfxVolume);
+        mixer.GetFloat("Music", out musicVolume);
+        mixer.GetFloat("SFX", out sfxVolume);
     }
 
     void Update()
     {
         // Mettre à jour les volumes si nécessaire
-        mixer.SetFloat("MusicVolume", musicVolume);
-        mixer.SetFloat("SFXVolume", sfxVolume);
+        mixer.SetFloat("Music", musicVolume);
+        mixer.SetFloat("SFX", sfxVolume);
     }
 
     public void SetMusicVolume(float volume)
     {
         musicVolume = Mathf.Clamp(volume, minVolume, maxVolume);
-        mixer.SetFloat("MusicVolume", musicVolume);
+        mixer.SetFloat("Music", musicVolume);
     }
 
     public void SetSFXVolume(float volume)
     {
         sfxVolume = Mathf.Clamp(volume, minVolume, maxVolume);
-        mixer.SetFloat("SFXVolume", sfxVolume);
+        mixer.SetFloat("SFX", sfxVolume);
     }
 
     public float GetMusicVolume()
     {
-        mixer.GetFloat("MusicVolume", out float volume);
+        mixer.GetFloat("Music", out float volume);
         return volume;
     }
 
     public float GetSFXVolume()
     {
-        mixer.GetFloat("SFXVolume", out float volume);
+        mixer.GetFloat("SFX", out float volume);
         return volume;
     }
 }

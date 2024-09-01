@@ -7,6 +7,7 @@ public class OptionMenu : MonoBehaviour
     [SerializeField] Button[] buttons;
     public AudioManager audioManager;
     public Slider musicVolumeSlider;
+    public Slider SFXVolumeSlider;
 
 
     // Start is called before the first frame update
@@ -20,8 +21,11 @@ public class OptionMenu : MonoBehaviour
     private void Start()
     {
         float currentVolume;
-        audioManager.mixer.GetFloat("MusicVolume", out currentVolume);
-        musicVolumeSlider.value = Mathf.Pow(10, currentVolume / 20);
+        audioManager.mixer.GetFloat("Music", out currentVolume);
+        musicVolumeSlider.value = currentVolume;
+
+        audioManager.mixer.GetFloat("SFX", out currentVolume);
+        SFXVolumeSlider.value = currentVolume;
     }
     public void OnMusicVolumeChange(float volume)
     {
@@ -31,7 +35,7 @@ public class OptionMenu : MonoBehaviour
         }
         else
         {
-            //Debug.LogError("AudioManager n'est pas assigné dans OptionsMenu.");
+            Debug.LogError("AudioManager n'est pas assigné dans OptionsMenu.");
         }
     }
 

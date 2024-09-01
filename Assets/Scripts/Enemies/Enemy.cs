@@ -630,10 +630,12 @@ public class Enemy : MonoBehaviour
 
                 //Debug.Log("Die");
                 if(playerDealtDamage)
+                {
                     Debug.Log("Damage by player: " + damageByPlayer);
                     audioSource.clip=hitSound;
-                audioSource.Play();
+                    audioSource.Play();
                     damageByPlayer += (health);
+                }
 
                 health = 0;
 
