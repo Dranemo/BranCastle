@@ -71,6 +71,7 @@ public class Enemy : MonoBehaviour
 
     [Header("Sounds")]
     private AudioSource audioSource;
+    private AudioClip hitSound;
     private AudioClip deathSound;
     private AudioClip deathSound2;
     private AudioClip deathSound3;
@@ -137,6 +138,7 @@ public class Enemy : MonoBehaviour
         }
 
         audioSource = GetComponent<AudioSource>();
+        hitSound = Resources.Load<AudioClip>("HitSound");
         deathSound = Resources.Load<AudioClip>("DeathSound");
         if (deathSound == null)
             //Debug.LogError("Le son de mort n'a pas été trouvé.");
@@ -590,6 +592,9 @@ public class Enemy : MonoBehaviour
 
                 //Debug.Log("Die");
                 if(playerDealtDamage)
+                    Debug.Log("Damage by player: " + damageByPlayer);
+                    audioSource.clip=hitSound;
+                audioSource.Play();
                     damageByPlayer += (health);
 
                 health = 0;

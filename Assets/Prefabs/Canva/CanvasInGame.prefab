@@ -2142,7 +2142,7 @@ MonoBehaviour:
   fillSpeed: 1
   maxFillSpeedWhite: 2
   minFillSpeedWhite: 0.5
-  delay: 6
+  delay: 1
 --- !u!1 &5430722400650219227
 GameObject:
   m_ObjectHideFlags: 0

@@ -19,7 +19,7 @@ public class Punch : MonoBehaviour
         {
             //Debug.Log("Hit Enemy");
             Enemy enemy = collision.GetComponent<Enemy>();
-            enemy.TakeDamage(10);
+            enemy.TakeDamage(10, true);
         }
     }
 }   
