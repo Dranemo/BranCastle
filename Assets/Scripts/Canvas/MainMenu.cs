@@ -34,12 +34,12 @@ public class MainMenu : MonoBehaviour
     void Options() {
         canvaOption.gameObject.SetActive(true);
         gameObject.SetActive(false);
-        //Debug.Log("Options");
+        ////Debug.Log("Options");
     }
 
     void AchievementButton() {
         canvaAchievement.GetComponent<AchievementMenu>().Activate();
-        //Debug.Log("Achievement");
+        ////Debug.Log("Achievement");
     }
 
     void Quit() {
@@ -49,6 +49,6 @@ public class MainMenu : MonoBehaviour
     void Language() {
         canvaLanguage.gameObject.SetActive(true);
         gameObject.SetActive(false);
-        //Debug.Log("Language");
+        ////Debug.Log("Language");
     }
 }

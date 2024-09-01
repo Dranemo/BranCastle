@@ -1,6 +1,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
+using System.Collections.Generic;
 
 public class BloodSlider : MonoBehaviour
 {
@@ -19,6 +20,11 @@ public class BloodSlider : MonoBehaviour
     private float targetFillAmountWhite;
     private bool isCoroutineRunning = false;
 
+
+
+
+     [SerializeField] private List<float> bloodValues = new List<float>();
+
     void Start()
     {
         manager = GameManager.Instance;
@@ -27,57 +33,70 @@ public class BloodSlider : MonoBehaviour
         slider.maxValue = 5000;
         if (bloodGaugeSlider != null && bloodGaugeFill != null)
         {
-            bloodGaugeSlider.onValueChanged.AddListener(UpdateBloodGauge);
+            bloodValues.Add(bloodGaugeFill.fillAmount);
         }
+
+        Debug.Log(bloodValues.Count);
     }
 
     void Update()
     {
         slider.value = manager.blood;
-        UpdateBloodGauge(manager.blood);
-        Debug.Log("Update: slider.value = " + slider.value);
+        targetFillAmount = manager.blood / 5000;
+        ////Debug.Log("Update: slider.value = " + slider.value);
     }
 
-    private void UpdateBloodGauge(float value)
-    {
-        float fillValue = Mathf.Clamp01(value / bloodGaugeSlider.maxValue);
-        targetFillAmount = fillValue;
-        if (!isCoroutineRunning)
-        {
-            StartCoroutine(UpdateWhiteFillWithDelay(fillValue));
-        }
-        Debug.Log("UpdateBloodGauge: targetFillAmount = " + targetFillAmount);
-    }
-
-    private IEnumerator UpdateWhiteFillWithDelay(float fillValue)
-    {
-        isCoroutineRunning = true;
-        yield return new WaitForSeconds(delay);
-        targetFillAmountWhite = fillValue;
-        isCoroutineRunning = false;
-        Debug.Log("UpdateWhiteFillWithDelay: targetFillAmountWhite = " + targetFillAmountWhite);
-    }
 
     void FixedUpdate()
     {
+        ResetBloodValue();
+
         if (bloodGaugeFill != null)
         {
             bloodGaugeFill.fillAmount = Mathf.Lerp(bloodGaugeFill.fillAmount, targetFillAmount, fillSpeed * Time.deltaTime);
-            Debug.Log("FixedUpdate: bloodGaugeFill.fillAmount = " + bloodGaugeFill.fillAmount);
+            //Debug.Log("FixedUpdate: bloodGaugeFill.fillAmount = " + bloodGaugeFill.fillAmount);
         }
 
         if (bloodGaugeFillWhite != null)
         {
-            // Calculer la différence entre les deux valeurs de remplissage
-            float difference = Mathf.Abs(bloodGaugeFill.fillAmount - bloodGaugeFillWhite.fillAmount);
+             bloodGaugeFillWhite.fillAmount = bloodValues[0];
+        }
+    }
 
-            // Ajuster dynamiquement fillSpeedWhite en fonction de la différence
-            float dynamicFillSpeedWhite = Mathf.Lerp(minFillSpeedWhite, maxFillSpeedWhite, difference);
 
-            float whiteFillAmount = Mathf.Lerp(bloodGaugeFillWhite.fillAmount, targetFillAmountWhite, dynamicFillSpeedWhite * Time.deltaTime);
-            bloodGaugeFillWhite.fillAmount = Mathf.Max(whiteFillAmount, bloodGaugeFill.fillAmount);
-            Debug.Log("FixedUpdate: bloodGaugeFillWhite.fillAmount = " + bloodGaugeFillWhite.fillAmount);
-            Debug.Log("FixedUpdate: dynamicFillSpeedWhite = " + dynamicFillSpeedWhite);
+
+    private void ResetBloodValue()
+    {
+        if (bloodValues.Count < 5)
+        {
+            bloodValues.Add(bloodGaugeFill.fillAmount);
+        }
+        else
+        {
+            
+            
+            List<float> tempValues = new List<float>();
+
+            for (int i = 1; i < bloodValues.Count; i++)
+            {
+                tempValues.Add(bloodValues[i]);
+            }
+
+            if (Mathf.Round(bloodGaugeFill.fillAmount * 100) / 100 == targetFillAmount)
+            {
+                tempValues.Add(targetFillAmount);
+            }
+            else
+            {
+                tempValues.Add(bloodGaugeFill.fillAmount);
+            }
+
+            //bloodValues = tempValues;
+
+            for (int i = 0; i < bloodValues.Count; i++)
+            {
+                bloodValues[i] = tempValues[i];
+            }
         }
     }
 }

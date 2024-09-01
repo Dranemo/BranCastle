@@ -78,7 +78,7 @@ public class Pretre : Enemy
 
                 else
                 {
-                    //Debug.Log("Player Not Detected");
+                    ////Debug.Log("Player Not Detected");
                     MovingToTheNextCheckpoint();
 
                 }

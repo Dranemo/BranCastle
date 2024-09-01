@@ -84,17 +84,17 @@ public class ProjectileEnemy : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
-        Debug.Log("triggered");
+        //Debug.Log("triggered");
 
         if(collision.gameObject == target)
         {
-            Debug.Log("target hit");
+            //Debug.Log("target hit");
         }
 
         if (collision.gameObject == target && (target.tag == "Player" || target.tag == "Ritual"))
         {
             GameManager.Instance.TakeDamage(damage);
-            //Debug.Log("Player hit by projectile");
+            ////Debug.Log("Player hit by projectile");
             Deactivate();
         }
         else if (collision.gameObject == target && target.tag == "Unit")
@@ -112,7 +112,7 @@ public class ProjectileEnemy : MonoBehaviour
         }
         else if(collision.gameObject == target && target.tag == "Enemy")
         {
-            Debug.Log("Enemy hit by projectile");
+            //Debug.Log("Enemy hit by projectile");
             collision.gameObject.GetComponent<Enemy>().TakeDamage(damage, false);
             Deactivate();
         }

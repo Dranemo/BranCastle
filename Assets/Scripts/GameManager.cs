@@ -64,7 +64,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            //Debug.LogError("Pas assez de composants AudioSource attachés au GameObject.");
+            ////Debug.LogError("Pas assez de composants AudioSource attachés au GameObject.");
         }
         audioSourceBlood.clip = bloodPickup;
         audioSourceGameOver.clip = audioGameOver;
@@ -166,7 +166,7 @@ public class GameManager : MonoBehaviour
 
         if (shake == null)
         {
-            //Debug.LogError("shake est null !");
+            ////Debug.LogError("shake est null !");
             return;
         }
 
@@ -174,13 +174,13 @@ public class GameManager : MonoBehaviour
         {
             shake.StartShake();
             blood -= damage;
-            //Debug.Log("Nouveau niveau de sang: " + blood);
+            ////Debug.Log("Nouveau niveau de sang: " + blood);
             GameOver();
             StartCoroutine(InvincibilityCoroutine());
         }
         else
         {
-            //Debug.Log("Le joueur est invincible !");
+            ////Debug.Log("Le joueur est invincible !");
             return;
         }
     }
@@ -235,7 +235,7 @@ public class GameManager : MonoBehaviour
 
             enemyObj.transform.localScale = new Vector3(2f, 2f, 0f);
 
-            ////Debug.Log("Spawn Enemy : " + enemy.name + " at " + path.name);
+            //////Debug.Log("Spawn Enemy : " + enemy.name + " at " + path.name);
             enemy.currentPathIndex = paths.IndexOf(path);
             enemy.paths = this.paths;
 
@@ -319,7 +319,7 @@ public class GameManager : MonoBehaviour
         List<Path> pathsToLoad = new List<Path>();
         List<Path> pathsLoaded = new List<Path>();
 
-        ////Debug.Log("Paths : " + paths.Count);
+        //////Debug.Log("Paths : " + paths.Count);
         foreach (Path path in paths) 
             pathsToLoad.Add(path);
 
@@ -333,7 +333,7 @@ public class GameManager : MonoBehaviour
                     paths[paths.IndexOf(path)].SetDistancePath();
                     pathsLoaded.Add(path);
 
-                    ////Debug.Log(path.name + " : " + path.distancePath + "m");
+                    //////Debug.Log(path.name + " : " + path.distancePath + "m");
                 }
             }
 
@@ -358,9 +358,9 @@ public class GameManager : MonoBehaviour
         if (blood <= 0)
         {
             isGameOver = true;
-            //Debug.Log("Game Over: Loading GameOver Scene");
+            ////Debug.Log("Game Over: Loading GameOver Scene");
             PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
-            //Debug.Log(playerMovement);
+            ////Debug.Log(playerMovement);
             if (playerMovement != null && !coroutineStartedDeath)
             {
                 coroutineStartedDeath = true;
@@ -370,7 +370,7 @@ public class GameManager : MonoBehaviour
         else if (wave >= 10)
         {
             isGameOver = true;
-            //Debug.Log("Victory: Loading Victory Scene");
+            ////Debug.Log("Victory: Loading Victory Scene");
             ScenesManager.Instance.LoadScene("GameOver");
         }
     }

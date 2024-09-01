@@ -56,17 +56,17 @@ public class DistanceEnemy : Enemy
 
         if (state == State.AttackingPlayer)
         {
-        //Debug.Log("Player");
+        ////Debug.Log("Player");
             projectile.GetComponent<ProjectileEnemy>().target = player;
         }
         else if (state == State.AttackingRitual)
         {
-        //Debug.Log("Ritual");
+        ////Debug.Log("Ritual");
             projectile.GetComponent<ProjectileEnemy>().target = ritual;
         }
         else if (state == State.AttackingUnit && gameObject.layer != 7)
         {
-            //Debug.Log("Unit");
+            ////Debug.Log("Unit");
             projectile.GetComponent<ProjectileEnemy>().target = closestUnit;
         }
         else
@@ -75,7 +75,7 @@ public class DistanceEnemy : Enemy
             {
                 projectile.GetComponent<ProjectileEnemy>().target = targetEnemy;
             }
-            Debug.Log("Enemy");
+            //Debug.Log("Enemy");
             projectile.GetComponent<ProjectileEnemy>().target = targetEnemy;
         }
 

@@ -35,7 +35,7 @@ public class AchievementMenu : MonoBehaviour
             go.name = ach.id;
             go.transform.SetParent(folderAch.transform);
 
-            //Debug.Log(go.transform.position);
+            ////Debug.Log(go.transform.position);
 
             go.AddComponent<TextMeshProUGUI>().text = ach.description;
             go.GetComponent<TextMeshProUGUI>().fontSize = 20;
