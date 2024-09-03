@@ -462,7 +462,7 @@ MonoBehaviour:
   bloodPrefab: {fileID: 3594142108930714808, guid: 898715a92e4fe754d87e9b89c09018d7, type: 3}
   health: 50
   maxHealth: 50
-  bloodCount: 300
+  bloodCount: 100
   detectionRadius: 3
   attackRadius: 1
   attackSpeed: 1
@@ -475,6 +475,7 @@ MonoBehaviour:
   capeKnockback: 1
   isHypnotized: 0
   enemies: []
+  spawnBlood: 0
 --- !u!70 &1374022314163639180
 CapsuleCollider2D:
   m_ObjectHideFlags: 0

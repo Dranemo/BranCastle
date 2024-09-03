@@ -426,7 +426,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 150
   damage: 30
-  attackSpeed: 1
+  attackSpeed: 2
   bloodCost: 30
   enemiesInRange: []
   deathSound: {fileID: 8300000, guid: 516acf1486781954dbb2e6cc3af698e3, type: 3}
