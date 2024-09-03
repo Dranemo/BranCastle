@@ -4,7 +4,6 @@ using UnityEngine.Rendering;
 public class Gargoyle : Unit
 {
     private UnitCircle unitCircleScript;
-    private float healthWall;
     private GameObject unitCircle;
     private enum GargoyleState
     {
@@ -82,11 +81,6 @@ public class Gargoyle : Unit
         {
             //////Debug.LogWarning("AudioSource n'est pas attaché au GameObject.");
         }
-        healthWall = health * 2;
-        //////Debug.Log("Gargoyle health is " + health);
-        //////Debug.Log("Gargoyle healthwall is " + healthWall);
-        TakeDamage(100);
-        //////Debug.Log("Gargoyle health is " + health);
         unitCircleScript = GetComponentInChildren<UnitCircle>();
 
         if (unitCircleScript != null)
@@ -129,11 +123,13 @@ public class Gargoyle : Unit
                 if (IsIdle)
                 {
                     IsWall = true;
+                    health *= 1.5f;
                     //////Debug.Log("Gargoyle is wall.");
                 }
                 else if (IsWall)
                 {
                     IsIdle = true;
+                    health /= 1.5f;
                     //////Debug.Log("Gargoyle is now idle.");
                 }
             }
