@@ -1,6 +1,8 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
-using UnityEngine.UIElements;
+//using UnityEngine.UIElements;
+using UnityEngine.UI;
 
 public class CanvaInGame : MonoBehaviour
 {
@@ -11,6 +13,18 @@ public class CanvaInGame : MonoBehaviour
     public GameObject ghoul;
     public GameObject imp;
     public GameObject gargoyle;
+    [SerializeField] private GameObject bloodOnCanvaGO;
+    private Image bloodOnCanva;
+
+
+
+    private Coroutine currentCoroutine;
+    bool isTintingUp = false;
+    bool isTintingDown = false;
+
+
+    float tintMax = 0.4f;
+
     float time;
     float wave;
     private void Start()
@@ -20,6 +34,11 @@ public class CanvaInGame : MonoBehaviour
         imp = GameObject.Find("Panel_imp");
         gargoyle = GameObject.Find("Panel_gargoyle");
         ritualText.enabled = false;
+
+        bloodOnCanva = bloodOnCanvaGO.GetComponent<Image>();
+
+        bloodOnCanva.color = new Color(bloodOnCanva.color.r, bloodOnCanva.color.g, bloodOnCanva.color.b, 0);
+
     }
     // Update is called once per frame
     void Update()
@@ -33,5 +52,47 @@ public class CanvaInGame : MonoBehaviour
 
         waveText.text = "Vague : " + wave;
 
+
+
+        if (GameManager.Instance.blood < 200 && bloodOnCanva.color.a != tintMax && !isTintingUp)
+        {
+            if (currentCoroutine != null)
+            {
+                StopCoroutine(currentCoroutine);
+                isTintingDown = false;
+            }
+            currentCoroutine = StartCoroutine(TintUp());
+        }
+        else if (GameManager.Instance.blood >= 200 && bloodOnCanva.color.a != 0 && !isTintingDown)
+        {
+            if (currentCoroutine != null)
+            {
+                StopCoroutine(currentCoroutine);
+                isTintingUp = false;
+            }
+            currentCoroutine = StartCoroutine(TintDown());
+        }
+    }
+
+    IEnumerator TintUp()
+    {
+        Debug.Log("TintUp");
+        isTintingUp = true;
+        while (bloodOnCanva.color.a < tintMax)
+        {
+            bloodOnCanva.color = new Color(bloodOnCanva.color.r, bloodOnCanva.color.g, bloodOnCanva.color.b, bloodOnCanva.color.a + 0.01f);
+            yield return new WaitForSeconds(0.01f);
+        }
+    }
+
+    IEnumerator TintDown()
+    {
+        Debug.Log("TintDown");
+        isTintingDown = true;
+        while (bloodOnCanva.color.a > 0)
+        {
+            bloodOnCanva.color = new Color(bloodOnCanva.color.r, bloodOnCanva.color.g, bloodOnCanva.color.b, bloodOnCanva.color.a - 0.01f);
+            yield return new WaitForSeconds(0.01f);
+        }
     }
 }

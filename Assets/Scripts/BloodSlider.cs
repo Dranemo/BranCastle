@@ -60,7 +60,7 @@ public class BloodSlider : MonoBehaviour
 
     private void ResetBloodValue()
     {
-        if (bloodValues.Count < 5)
+        if (bloodValues.Count < 25)
         {
             bloodValues.Add(bloodGaugeFill.fillAmount);
         }
