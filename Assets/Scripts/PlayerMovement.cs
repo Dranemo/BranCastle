@@ -77,7 +77,8 @@ public class PlayerMovement : MonoBehaviour
     public bool isDashing = false;
 
     [Header("CapeHit")]
-    public float capeCooldown;
+    public float capeDMG;
+    private float capeCooldown = 5f;
     public float capeDuration;
     public float capeRange;
     public float capePushForce;
@@ -87,7 +88,7 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Hypnosis")]
     public bool isHypnotizing = false;
-    private float hypnosisDuration = 5f;
+    private float hypnosisDuration = 30f;
     public bool canHypnotize = true;
 
     private PauseMenu pause;
@@ -101,6 +102,7 @@ public class PlayerMovement : MonoBehaviour
     {
         canPunch = true;
     }
+
     void Awake()
     {
         AudioSource[] audioSources = GetComponents<AudioSource>();
@@ -126,6 +128,7 @@ public class PlayerMovement : MonoBehaviour
 
 
     }
+
     void Start()
     {
         canDash = true;
@@ -165,8 +168,9 @@ public class PlayerMovement : MonoBehaviour
 
         // Dash
         if (Input.GetKeyDown(dashKey) && canDash)
+        { 
             StartCoroutine(Dash());
-
+        }
         //Cape Attack
         if (canPunch && Input.GetKeyDown(KeyCode.Alpha2) && currentCape == null && !isDrawingRectangle && canCape)
         {
@@ -253,6 +257,7 @@ public class PlayerMovement : MonoBehaviour
             FindClosestEnemyToCursor();
         }
     }
+
     void FindClosestEnemyToCursor()
     {
         isHypnotizing = true;
@@ -274,13 +279,14 @@ public class PlayerMovement : MonoBehaviour
         {
             //////Debug.Log("Closest enemy to cursor: " + closestEnemy.name);
             closestEnemy.GetComponent<Enemy>().Hypnotize();
-            StartCoroutine(AttackCooldown(cooldownHypnosisImage, hypnosisDuration, isHypnotizing));
+            StartCoroutine(AttackCooldown(cooldownHypnosisImage, hypnosisDuration, "hypnotize"));
         }
         else
         {
             isHypnotizing = false;
         }
     }
+
     void HandleCombo()
     {
         if (animator == null)
@@ -343,6 +349,7 @@ public class PlayerMovement : MonoBehaviour
         animator.SetBool("isAttacking2", isAttacking2);
         animator.SetBool("isAttacking3", isAttacking3);
     }
+
     void BatAttack()
     {
         if (!canBatAttack) return;
@@ -355,7 +362,7 @@ public class PlayerMovement : MonoBehaviour
         Vector2 direction = (mousePosition - playerPosition).normalized;
 
         StartCoroutine(SpawnBats(playerPosition, direction));
-        StartCoroutine(AttackCooldown(cooldownBatImage, batAttackCooldown, canBatAttack));
+        StartCoroutine(AttackCooldown(cooldownBatImage, batAttackCooldown, "bat"));
     }
 
     IEnumerator SpawnBats(Vector2 playerPosition, Vector2 direction)
@@ -381,28 +388,51 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
-    IEnumerator AttackCooldown(Image cooldownImage, float attackCooldown, bool canAttack)
+    IEnumerator AttackCooldown(Image cooldownImage, float attackCooldown, string attackType)
     {
-        canAttack = false;
+        switch (attackType)
+        {
+            case "cape":
+                canCape = false;
+                break;
+            case "bat":
+                canBatAttack = false;
+                break;
+            case "hypnotize":
+                canHypnotize = false;
+                break;
+        }
+
         float cooldownTime = 0f;
 
         while (cooldownTime < attackCooldown)
         {
             cooldownTime += Time.deltaTime;
-            cooldownImage.fillAmount = cooldownTime / attackCooldown; 
+            cooldownImage.fillAmount = cooldownTime / attackCooldown;
             yield return null;
         }
 
-        cooldownImage.fillAmount = 1f; 
-        canAttack = true; 
-    }
+        cooldownImage.fillAmount = 1f;
 
+        switch (attackType)
+        {
+            case "cape":
+                canCape = true;
+                break;
+            case "bat":
+                canBatAttack = true;
+                break;
+            case "hypnotize":
+                canHypnotize = true;
+                break;
+        }
+    }
 
     public void EnableMovement()
     {
         canMove = true;
     }
+
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.GetComponent<Coffin>() != null)
@@ -419,7 +449,6 @@ public class PlayerMovement : MonoBehaviour
         }
     }
 
-
     private void FlipSpriteBasedOnCursor(float angle)
     {
 
@@ -432,10 +461,6 @@ public class PlayerMovement : MonoBehaviour
             animator.SetBool("isFacingLeft", isFacingLeft);
         }
     }
-
-
-
-
 
     public IEnumerator WaitForDeathAnimation()
     {
@@ -467,7 +492,6 @@ public class PlayerMovement : MonoBehaviour
         ScenesManager.Instance.LoadScene("GameOver");
     }
 
-
     void CapeAttack()
     {
         audioSourceCape.Play();
@@ -481,7 +505,7 @@ public class PlayerMovement : MonoBehaviour
     IEnumerator HandleCapeAttack(GameObject cape)
     {
         yield return StartCoroutine(ScaleOverTime(cape, Vector3.zero, new Vector3(5, 5, 1), 0.2f));
-        StartCoroutine(AttackCooldown(cooldownIceImage, capeCooldown, canCape));
+        StartCoroutine(AttackCooldown(cooldownIceImage, capeCooldown, "cape"));
         yield return StartCoroutine(FadeOutOverTime(cape, capeDuration));
         Destroy(cape);
         currentCape = null;
@@ -571,9 +595,6 @@ public class PlayerMovement : MonoBehaviour
             }
         }
     }
-
-
-
 
     IEnumerator ResetVelocityAfterDash()
     {
