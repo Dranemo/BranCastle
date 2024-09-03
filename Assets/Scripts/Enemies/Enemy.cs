@@ -175,7 +175,7 @@ public class Enemy : MonoBehaviour
 
     protected void Update()
     {
-        //IsDead();
+        IsDead();
         if (animator != null)
             animator.SetBool("Idle", Vector3.Distance(transform.position, positionFrameBefore) == 0);
 
@@ -680,10 +680,8 @@ public class Enemy : MonoBehaviour
 
     void IsDead()
     {
-        if (health <= 0 && !animator.GetCurrentAnimatorStateInfo(0).IsName("BloodAnim") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Death"))
-        {
+        if (gameObject.tag == "Untagged" && animator.GetBool("isDead")  && !animator.GetCurrentAnimatorStateInfo(0).IsName("BloodAnim") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Death") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
             Die();
-        }
     }
 
     protected IEnumerator Stunned()
