@@ -413,6 +413,7 @@ public class GameManager : MonoBehaviour
         if (blood <= 0 && audioSourceGameOver != null)
         {
             audioSourceGameOver.Play();
+            audioSourceMusic.Stop();
         }
         if (blood <= 0)
         {
@@ -428,10 +429,10 @@ public class GameManager : MonoBehaviour
         }
         else if (wave >= 10 )
         {
+                audioSourceMusic.Stop();
             if(King != null && King.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Death"))
             {
                 isGameOver = true;
-
                 
                 //Time.timeScale = 0;
                 enemyCooldown = 100000;
