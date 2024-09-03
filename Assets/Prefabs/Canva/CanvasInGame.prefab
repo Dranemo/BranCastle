@@ -150,7 +150,7 @@ MonoBehaviour:
   - {fileID: 606369980038303244, guid: a8dbfe0da96d5a14cad91a7bc1972cd3, type: 3}
   - {fileID: 606369980038303244, guid: 07ee5d4f7560cf246bcb79b8747c41ce, type: 3}
   - {fileID: 606369980038303244, guid: bd31a7626cddbf84c90e3096505a0b6f, type: 3}
-  unitCosts: 0a000000140000001400000032000000
+  unitCosts: 190000001e0000001400000064000000
   spawnDistance: 1
   panels:
   - {fileID: 3439108228026374984}
