@@ -536,8 +536,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 8.137695, y: 0}
-  m_SizeDelta: {x: 2149.476, y: 1000}
+  m_AnchoredPosition: {x: 8.137695, y: -25.3726}
+  m_SizeDelta: {x: 2149.476, y: 1414.419}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!1 &577942094
 GameObject:
@@ -608,8 +608,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 5.8312, y: -1.9438}
-  m_SizeDelta: {x: 1250, y: 1250}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 1350, y: 1350}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!4 &605485377 stripped
 Transform:
@@ -8090,6 +8090,10 @@ PrefabInstance:
       propertyPath: m_LocalPosition.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2018237850376729958, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 1268658952232906004, guid: e7a9e2ce18ef4374c9a5c2edafc1555f, type: 2}
     - target: {fileID: 2028167512360219604, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: m_TileAssetArray.Array.size
       value: 25
@@ -8346,6 +8350,10 @@ PrefabInstance:
       propertyPath: m_Tiles.Array.data[9789].second.m_TileSpriteIndex
       value: 23
       objectReference: {fileID: 0}
+    - target: {fileID: 2463762607992453070, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 1268658952232906004, guid: e7a9e2ce18ef4374c9a5c2edafc1555f, type: 2}
     - target: {fileID: 3677918009227447452, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
       propertyPath: gameManager
       value: 
@@ -8406,6 +8414,10 @@ PrefabInstance:
       propertyPath: gameManager
       value: 
       objectReference: {fileID: 1540615495}
+    - target: {fileID: 8137051205053839787, guid: d84c8e1e3ff48e243861cf3c24af3380, type: 3}
+      propertyPath: OutputAudioMixerGroup
+      value: 
+      objectReference: {fileID: 1268658952232906004, guid: e7a9e2ce18ef4374c9a5c2edafc1555f, type: 2}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []

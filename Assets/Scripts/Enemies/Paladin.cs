@@ -2,7 +2,6 @@ using UnityEngine;
 
 public class Paladin : Physical
 {
-    [SerializeField] private float distanceUnit = 1.5f;
     [SerializeField] private float coolDownAttSpe = 30;
     private float coolDownAttSpeTimer = 0;
 

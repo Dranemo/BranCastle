@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.UI;
-using System.Collections;
 using System.Collections.Generic;
 
 public class BloodSlider : MonoBehaviour
@@ -12,13 +11,7 @@ public class BloodSlider : MonoBehaviour
     [SerializeField] private Image bloodGaugeFill;
     [SerializeField] private Image bloodGaugeFillWhite;
     [SerializeField] private float fillSpeed = 1f;
-    [SerializeField] private float maxFillSpeedWhite = 2f;
-    [SerializeField] private float minFillSpeedWhite = 1f; // Adjusted to 1 for testing
-    [SerializeField] private float delay = 10f; // Adjusted to 10 for testing
-
     private float targetFillAmount;
-    private float targetFillAmountWhite;
-    private bool isCoroutineRunning = false;
 
 
 

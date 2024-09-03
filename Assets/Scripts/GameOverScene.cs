@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class GameOverScene : MonoBehaviour
@@ -17,7 +15,7 @@ public class GameOverScene : MonoBehaviour
         }
         catch (Exception e)
         {
-            //////Debug.LogError("Erreur lors de la destruction du GameManager : " + e.Message);
+            Debug.LogError("Erreur lors de la destruction du GameManager : " + e.Message);
 
         }
 
