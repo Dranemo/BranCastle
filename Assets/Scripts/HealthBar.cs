@@ -27,7 +27,7 @@ public class HealthBar : MonoBehaviour
             }
             else
             {
-                ////Debug.LogError("Le parent n'a pas de composant Unit ou Enemy.");
+                //////Debug.LogError("Le parent n'a pas de composant Unit ou Enemy.");
                 return;
             }
         }

@@ -36,7 +36,7 @@ public class Blood : MonoBehaviour
         directionVector = transform.position + directionVector;
 
 
-        ////Debug.Log(bloodAmount);
+        //////Debug.Log(bloodAmount);
     }
 
     void Update()
@@ -60,7 +60,7 @@ public class Blood : MonoBehaviour
         if (other.gameObject == player)
         {
             // Add the blood to the player
-            ////Debug.Log("Blood collected");
+            //////Debug.Log("Blood collected");
 
             manager.AddBlood(bloodAmount);
             Destroy(gameObject);

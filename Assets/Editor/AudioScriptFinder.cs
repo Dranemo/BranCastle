@@ -56,10 +56,10 @@ public class AudioScriptFinder : EditorWindow
         }
 
         // Log the results
-        ////Debug.Log($"Found {audioSources.Count} AudioSources in the project.");
+        //////Debug.Log($"Found {audioSources.Count} AudioSources in the project.");
         foreach (var audioSource in audioSources)
         {
-            ////Debug.Log($"AudioSource found in: {audioSource.gameObject.name}", audioSource.gameObject);
+            //////Debug.Log($"AudioSource found in: {audioSource.gameObject.name}", audioSource.gameObject);
         }
     }
 }
