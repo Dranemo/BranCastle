@@ -166,9 +166,9 @@ public class GameManager : MonoBehaviour
     public void AddBlood(float amount)
     {
         blood += amount;
-        if(blood > 5000)
+        if(blood > 1000)
         {
-            blood = 5000;
+            blood = 1000;
         }
         audioSourceBlood.Play();
     }
