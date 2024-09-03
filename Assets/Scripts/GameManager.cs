@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour
     public float wave { get; private set; }  = 1;
     int wavePathIndex  = 0;
 
-    [SerializeField] public float time /*{ get; private set; }*/ = 690; // 11h30
+    [SerializeField] public float time /*{ get; private set; }*/ = 1170; // 11h30
 
     public bool isGameOver = false;
     bool coroutineStartedDeath = false;
@@ -125,7 +125,7 @@ public class GameManager : MonoBehaviour
             GameOver();
 
 
-            if (time >= 720) // 12h
+            if (time >= 1200) // 20h
             {
                 if (!initialGong)
                 {
@@ -427,7 +427,7 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(playerMovement.WaitForDeathAnimation());
             }
         }
-        else if (wave >= 10 )
+        else if (wave >= 9)
         {
                 audioSourceMusic.Stop();
             if(King != null && King.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Death"))
