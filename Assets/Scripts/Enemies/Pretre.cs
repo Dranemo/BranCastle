@@ -25,6 +25,9 @@ public class Pretre : Enemy
 
 
 
+        UpdateEnemyList();
+
+
         if (animator != null)
             animator.SetBool("Idle", Vector3.Distance(transform.position, positionFrameBefore) == 0);
 
@@ -32,10 +35,7 @@ public class Pretre : Enemy
 
 
 
-        if(GetClosestEnemy() != null && GetClosestEnemy().GetComponent<Enemy>().health < GetClosestEnemy().GetComponent<Enemy>().maxHealth)
-        {
-            enemyToHeal = GetClosestEnemy();
-        }
+        enemyToHeal = GetClosestEnemyToHeal();
 
 
         if ((animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Hit")) || animator == null)
@@ -134,14 +134,45 @@ public class Pretre : Enemy
     {
         if(enemyToHeal != null)
         {
-            animator.SetBool("isHealing", true);
+            animator.Play("Attack1");
             if(enemyToHeal.GetComponent<Enemy>().health + damage < enemyToHeal.GetComponent<Enemy>().maxHealth)
                 enemyToHeal.GetComponent<Enemy>().health += damage;
             else
             {
                 enemyToHeal.GetComponent<Enemy>().health = enemyToHeal.GetComponent<Enemy>().maxHealth;
             }
-            animator.SetBool("isHealing", false);
         }
+    }
+
+
+
+
+    private GameObject GetClosestEnemyToHeal()
+    {
+        List<GameObject> enemiesToHeal = new List<GameObject>();
+
+        // Trouver l'ennemi le plus proche
+        GameObject closestEnemy = null;
+        float closestDistance = Mathf.Infinity;
+
+
+        for (int i = 0; i < enemies.Count; i++)
+        {
+            if (enemies[i] != null)
+            {
+
+                float distance = Vector3.Distance(transform.position, enemies[i].transform.position);
+
+                if (distance < closestDistance && CheckEnemyWall(enemies[i]) && enemies[i].GetComponent<Enemy>().health < enemies[i].GetComponent<Enemy>().maxHealth && enemies[i] != gameObject)
+                {
+                    closestDistance = distance;
+                    closestEnemy = enemies[i];
+                }
+            }
+        }
+
+        Debug.Log("Closest enemy to heal: " + closestEnemy);
+
+        return closestEnemy;
     }
 }

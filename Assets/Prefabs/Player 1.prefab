@@ -5416,8 +5416,8 @@ MonoBehaviour:
   capeAudio: {fileID: 8300000, guid: 86a0f46c5035b4142bd6cd56f9f4e67b, type: 3}
   comboResetTime: 1
   batKey: 49
-  hypnosisKey: 50
-  drainKey: 51
+  hypnosisKey: 51
+  drainKey: 293
   biteKey: 52
   batAttackCooldown: 5
   canBatAttack: 1

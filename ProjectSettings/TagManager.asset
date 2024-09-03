@@ -12,6 +12,7 @@ TagManager:
   - Unit
   - MinimapCamera
   - SpawningPath
+  - SecretPath
   layers:
   - Default
   - TransparentFX

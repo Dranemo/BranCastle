@@ -79,7 +79,7 @@ public class Enemy : MonoBehaviour
     private AudioClip deathSound4;
     private AudioClip[] deathSounds;
 
-    [SerializeField] List<GameObject> enemies = new List<GameObject>();
+    [SerializeField] protected List<GameObject> enemies = new List<GameObject>();
     protected bool onPath = true;
 
 
@@ -349,7 +349,7 @@ public class Enemy : MonoBehaviour
         units.AddRange(GameObject.FindGameObjectsWithTag("Unit"));
     }
 
-    void UpdateEnemyList()
+    protected void UpdateEnemyList()
     {
         // Réinitialiser la liste des ennemis
         enemies.Clear();
@@ -358,10 +358,14 @@ public class Enemy : MonoBehaviour
         List<GameObject> enemiesTemp = new List<GameObject>();
         enemiesTemp.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
 
-        foreach (GameObject enemy in enemiesTemp)
+
+        for(int i = 0; i < enemiesTemp.Count; i++)
         {
-            if (enemy.GetComponent<Enemy>())
-                enemies.Add(enemy);
+            if (enemiesTemp[i] != null)
+            {
+                if (enemiesTemp[i].GetComponent<Enemy>())
+                    enemies.Add(enemiesTemp[i]);
+            }
         }
     }
 
@@ -448,11 +452,7 @@ public class Enemy : MonoBehaviour
             audioSource.Play();
         }
 
-        if (animator != null)
-        {
-            animator.SetBool("isDead", true);
-        }
-        else
+        if(animator == null)
         {
             StartCoroutine(Shrinking());
         }
@@ -624,7 +624,8 @@ public class Enemy : MonoBehaviour
     public void TakeDamage(float damage, bool playerDealtDamage = true)
     {
         
-        if (health > 0) {
+        if (gameObject != null && !spawnBlood && health > 0 && !animator.GetBool("isDead")) 
+        {
             float tempHealth = health;
             tempHealth -= damage;
 
@@ -637,6 +638,11 @@ public class Enemy : MonoBehaviour
             // Mort ou dégâts
             if (tempHealth <= 0 && !spawnBlood)
             {
+                if (animator != null)
+                {
+                    animator.SetBool("isDead", true);
+                }
+
                 stopFlashingCoroutine = true;
 
                 //////Debug.Log("Die");
@@ -647,6 +653,8 @@ public class Enemy : MonoBehaviour
                     audioSource.Play();
                     damageByPlayer += (health);
                 }
+
+                
 
                 health = 0;
 
@@ -961,24 +969,24 @@ public class Enemy : MonoBehaviour
 
         for(int i = 0; i < enemies.Count; i++)
         {
-            float distance = Vector3.Distance(transform.position, enemies[i].transform.position);
-
-            if (distance < closestDistance && CheckEnemyWall(enemies[i]))
+            if (enemies[i] != null)
             {
-                closestDistance = distance;
-                closestEnemy = enemies[i];
+
+                float distance = Vector3.Distance(transform.position, enemies[i].transform.position);
+
+                if (distance < closestDistance && CheckEnemyWall(enemies[i]))
+                {
+                    closestDistance = distance;
+                    closestEnemy = enemies[i];
+                }
             }
         }
 
-        foreach (GameObject enemy in enemies)
-        {
-            
-        }
 
         return closestEnemy;
     }
 
-    bool CheckEnemyWall(GameObject enemyChecking)
+    protected bool CheckEnemyWall(GameObject enemyChecking)
     {
         Vector3 pos = transform.position;
         Vector3 posNext = enemyChecking.transform.position;

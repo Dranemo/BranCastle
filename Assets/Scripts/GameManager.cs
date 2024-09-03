@@ -10,12 +10,17 @@ public class GameManager : MonoBehaviour
     [SerializeField] private GameObject CanvaPrefab;
     [SerializeField] private GameObject MapPrefab;
     [SerializeField] private List<Path> paths;
-    private List<Path> spawningPaths;
+    [SerializeField] private List<Path> spawningPaths;
     [SerializeField] private GameObject playerPrefab;
+
+    [SerializeField] private GameObject ritual;
+    [SerializeField] private GameObject demonRitual;
+    [SerializeField] private GameObject fireAnim;
 
 
     [Header("Enemy & Wave")]
     [SerializeField] private Enemy[] enemies;
+    [SerializeField] private GameObject King;
     GameObject enemyFolder;
 
     [SerializeField] float enemyCooldown = 10;
@@ -84,6 +89,9 @@ public class GameManager : MonoBehaviour
         SetDistancePaths();
 
 
+        // Ritual
+        ritual = MapPrefab.transform.Find("Center").Find("Ritual").gameObject;
+
 
 
         // Player
@@ -138,6 +146,11 @@ public class GameManager : MonoBehaviour
                     wave++;
                     audioSourceGong.Play();
                     enemyCooldown -= enemyCooldownDecrease;
+
+
+                    if (wave == 4)
+                        AddPaths(true);
+
                     wavePathIndex = Random.Range(0, spawningPaths.Count);
                 }
                 enemyWaveCooldownLeft -= Time.deltaTime;
@@ -234,6 +247,13 @@ public class GameManager : MonoBehaviour
             int enemyIndex = GetEnemyIndexForWave((int)wave);
 
             GameObject enemyObj = Instantiate(enemies[enemyIndex].gameObject, spawnPosition, Quaternion.identity);
+
+            if(enemyIndex == enemies.Length - 1)
+            {
+                King = enemyObj;
+            }
+            
+            
             Enemy enemy = enemyObj.GetComponent<Enemy>();
 
             enemyObj.transform.localScale = new Vector3(2f, 2f, 0f);
@@ -300,8 +320,11 @@ public class GameManager : MonoBehaviour
 
 
     // -------------------------------------------------------------- Path Func --------------------------------------------------------------
-    private void AddPaths()
+    private void AddPaths(bool secret = false)
     {
+        paths.Clear();
+        spawningPaths.Clear();
+
         GameObject pathsGO = MapPrefab.transform.Find("Paths").gameObject;
         foreach (Transform child in pathsGO.transform)
         {
@@ -311,6 +334,11 @@ public class GameManager : MonoBehaviour
                 child.GetComponent<Path>().distancePath = 0;
 
                 if(child.CompareTag("SpawningPath"))
+                {
+                    spawningPaths.Add(child.GetComponent<Path>());
+                }
+
+                if (secret && child.CompareTag("SecretPath"))
                 {
                     spawningPaths.Add(child.GetComponent<Path>());
                 }
@@ -371,12 +399,84 @@ public class GameManager : MonoBehaviour
                 StartCoroutine(playerMovement.WaitForDeathAnimation());
             }
         }
-        else if (wave >= 10)
+        else if (wave >= 10 )
         {
-            isGameOver = true;
-            //////Debug.Log("Victory: Loading Victory Scene");
-            ScenesManager.Instance.LoadScene("GameOver");
+            if(King != null && King.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Death"))
+            {
+                isGameOver = true;
+
+                
+                //Time.timeScale = 0;
+                enemyCooldown = 100000;
+                enemyWaveCooldown = 100000;
+
+
+                
+
+                //disable player
+                player.GetComponent<PlayerMovement>().enabled = false;
+                player.GetComponent<PlayerAttack>().enabled = false;
+
+                //disable camera
+                player.transform.Find("Main Camera").GetComponent<CameraFollow>().enabled = false;
+                player.transform.Find("Main Camera").position = new Vector3(King.transform.position.x, King.transform.position.y, -10);
+
+                foreach (Transform child in GameObject.Find("EnemyFolder").transform)
+                {
+                    if (child != King)
+                    {
+                        child.GetComponent<AudioSource>().mute = true;
+                        child.GetComponent<Enemy>().TakeDamage(1000, false);
+                    }
+                }
+
+                GameObject[] units = GameObject.FindGameObjectsWithTag("Unit");
+                for (int i = 0; i < units.Length; i++)
+                {
+                    units[i].GetComponent<AudioSource>().mute = true;
+                    units[i].GetComponent<Unit>().TakeDamage(1000);
+                }
+
+
+
+                //////Debug.Log("Victory: Loading Victory Scene");
+
+
+                StartCoroutine(WaitForKingDeath());
+
+                //ScenesManager.Instance.LoadScene("GameOver");
+            }
         }
+    }
+
+    IEnumerator WaitForKingDeath()
+    {
+        while (King != null)
+            yield return null;
+
+
+        StartCoroutine(GameOverRitualAnim());
+    }
+
+    IEnumerator GameOverRitualAnim()
+    {
+        player.transform.Find("Main Camera").position = new Vector3(ritual.transform.position.x, ritual.transform.position.y, -10);
+        yield return new WaitForSeconds(1);
+
+        ritual.GetComponent<Animator>().SetBool("theEnd", true);
+        yield return new WaitForSeconds(ritual.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
+
+        GameObject invoc = GameObject.Instantiate(fireAnim, ritual.transform.position, Quaternion.identity);
+        invoc.transform.position = new Vector3(invoc.transform.position.x, invoc.transform.position.y, 1);
+        yield return new WaitForSeconds(invoc.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
+
+        GameObject demon = GameObject.Instantiate(demonRitual, ritual.transform.position, Quaternion.identity);
+        demon.transform.position = new Vector3(demon.transform.position.x, demon.transform.position.y + 2, 2);
+        yield return new WaitForSeconds(demon.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length * 3);
+
+
+        ScenesManager.Instance.LoadScene("GameOver");
+
     }
 
     public void RestartGame()

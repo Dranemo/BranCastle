@@ -38,7 +38,7 @@ public class Dog : Unit
             {
                 animator.SetBool("isAttacking", true);
                 Enemy enemy = closestEnemy.GetComponent<Enemy>();
-                enemy.TakeDamage(damage);
+                enemy.TakeDamage(damage, false);
                 yield return new WaitForSeconds(attackSpeed);
             }
             else

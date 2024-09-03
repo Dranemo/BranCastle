@@ -77,7 +77,6 @@ public class PlayerMovement : MonoBehaviour
     public bool isDashing = false;
 
     [Header("CapeHit")]
-    public float capeDMG;
     public float capeCooldown;
     public float capeDuration;
     public float capeRange;
@@ -169,7 +168,7 @@ public class PlayerMovement : MonoBehaviour
             StartCoroutine(Dash());
 
         //Cape Attack
-        if (canPunch && Input.GetMouseButtonDown(1) && currentCape == null && !isDrawingRectangle && canCape)
+        if (canPunch && Input.GetKeyDown(KeyCode.Alpha2) && currentCape == null && !isDrawingRectangle && canCape)
         {
             CapeAttack();
         }

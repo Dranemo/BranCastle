@@ -45,7 +45,7 @@ public class BatAttack : MonoBehaviour
             if (enemy != null)
             {
                 // Apply damage to the enemy
-                enemy.TakeDamage(5);
+                enemy.TakeDamage(5, true);
 
                 // Get the direction from the bat to the enemy
                 Vector2 knockbackDirection = enemy.transform.position - transform.position;
