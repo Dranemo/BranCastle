@@ -1,4 +1,5 @@
 using UnityEngine;
+using System.Collections;
 
 public class Blood : MonoBehaviour
 {
@@ -7,7 +8,6 @@ public class Blood : MonoBehaviour
     [SerializeField] GameObject player;
     //[SerializeField] float pickupRange = 0.5f;
     GameManager manager;
-
 
     public static float bloodAmountBase = 10;
     public float bloodAmount = 10;
@@ -34,12 +34,31 @@ public class Blood : MonoBehaviour
         directionVector.Normalize();
 
         directionVector = transform.position + directionVector;
-
+        StartCoroutine(Despawn());
 
         //////Debug.Log(bloodAmount);
     }
 
-    void Update()
+    IEnumerator Despawn()
+    {
+        yield return new WaitForSeconds(5);
+        // Lancer l'animation de despawn
+        Animator animator = GetComponent<Animator>();
+        if (animator != null && animator.runtimeAnimatorController != null)
+        {
+            animator.SetBool("despawn", true);
+            // Attendre la fin de l'animation
+            yield return new WaitForSeconds(3.5f);
+        }
+        else
+        {
+            Debug.LogWarning("Animator ou AnimatorController manquant sur l'objet " + gameObject.name);
+        }
+        // Détruire le GameObject
+        Destroy(gameObject);
+    }
+
+void Update()
     {
         if (timeMoving < 2)
         {

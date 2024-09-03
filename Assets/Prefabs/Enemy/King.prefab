@@ -302,7 +302,7 @@ MonoBehaviour:
   health: 1000
   maxHealth: 1000
   bloodCount: 1000
-  detectionRadius: 5
+  detectionRadius: 3
   attackRadius: 1.5
   attackSpeed: 3
   damage: 200
@@ -314,7 +314,7 @@ MonoBehaviour:
   capeKnockback: 1
   isHypnotized: 0
   enemies: []
-  distanceUnit: 1.5
+  spawnBlood: 0
   coolDownAttSpe: 30
 --- !u!114 &6466731470857877306
 MonoBehaviour:
@@ -350,6 +350,7 @@ MonoBehaviour:
   capeKnockback: 0
   isHypnotized: 0
   enemies: []
+  spawnBlood: 0
   jester: {fileID: 943412472502756549, guid: 087b3671a27a4834c9f33a46d0dac7b4, type: 3}
 --- !u!70 &1374022314163639180
 CapsuleCollider2D:

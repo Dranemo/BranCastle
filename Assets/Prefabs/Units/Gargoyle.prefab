@@ -105,7 +105,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   health: 500
-  damage: 20
+  damage: 40
   attackSpeed: 2
   bloodCost: 100
   enemiesInRange: []
