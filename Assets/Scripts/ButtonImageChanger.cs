@@ -12,12 +12,14 @@ public class ButtonImageChanger : MonoBehaviour, IPointerEnterHandler, IPointerE
 
     void Awake()
     {
+
         buttonImage = GetComponent<Image>();
         if (buttonImage == null)
         {
             //////Debug.LogError("Aucun composant Image trouvé sur le bouton.");
         }
     }
+
 
     public void OnPointerEnter(PointerEventData eventData)
     {

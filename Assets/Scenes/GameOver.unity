@@ -244,8 +244,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonLevelOne: {fileID: 253672658}
+  buttonMainMenuo: {fileID: 629780937}
   VictoryText: {fileID: 1306753892}
   scoreText: {fileID: 334984437}
+  sceneManager: {fileID: 0}
 --- !u!225 &44057279
 CanvasGroup:
   m_ObjectHideFlags: 0

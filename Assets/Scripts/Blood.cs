@@ -9,8 +9,8 @@ public class Blood : MonoBehaviour
     GameManager manager;
 
 
-    public static float bloodAmountBase = 100;
-    public float bloodAmount = 100;
+    public static float bloodAmountBase = 5;
+    public float bloodAmount = 5;
     private float timeMoving = 0;
 
     // Direction angle
