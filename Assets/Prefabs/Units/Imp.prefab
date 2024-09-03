@@ -106,7 +106,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   health: 100
   damage: 15
-  attackSpeed: 0.7
+  attackSpeed: 1
   bloodCost: 20
   enemiesInRange: []
   projectilePrefab: {fileID: 6285388318475031793, guid: 4c7e5cb89ea28944f80a2d2034675885, type: 3}
