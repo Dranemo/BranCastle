@@ -175,7 +175,7 @@ public class Enemy : MonoBehaviour
 
     protected void Update()
     {
-        IsDead();
+        //IsDead();
         if (animator != null)
             animator.SetBool("Idle", Vector3.Distance(transform.position, positionFrameBefore) == 0);
 
@@ -191,7 +191,7 @@ public class Enemy : MonoBehaviour
 
 
 
-        if ((animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Hit")) || animator == null)
+        if ((animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Hit")) || animator == null && !spawnBlood)
         {
 
 

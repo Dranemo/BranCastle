@@ -23,7 +23,7 @@ public class BloodSlider : MonoBehaviour
         manager = GameManager.Instance;
         slider = GetComponent<Slider>();
         slider.minValue = 0;
-        slider.maxValue = 5000;
+        slider.maxValue = 1000;
         if (bloodGaugeSlider != null && bloodGaugeFill != null)
         {
             bloodValues.Add(bloodGaugeFill.fillAmount);
@@ -35,7 +35,7 @@ public class BloodSlider : MonoBehaviour
     void Update()
     {
         slider.value = manager.blood;
-        targetFillAmount = manager.blood / 5000;
+        targetFillAmount = manager.blood / 1000;
         //////Debug.Log("Update: slider.value = " + slider.value);
     }
 
