@@ -191,7 +191,7 @@ public class Enemy : MonoBehaviour
 
 
 
-        if ((animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Hit")) || animator == null && !animator.GetBool("isDead"))
+        if (((animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Hit")) && !animator.GetBool("isDead")) || animator == null)
         {
 
 
