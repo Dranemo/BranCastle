@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
 
 
     [Header("Enemy & Wave")]
+ private Dictionary<Path, List<int>> recentEnemiesByPath = new Dictionary<Path, List<int>>();
     [SerializeField] private Enemy[] enemies;
     [SerializeField] private GameObject King;
     GameObject enemyFolder;
@@ -234,6 +235,7 @@ public class GameManager : MonoBehaviour
 
 
     // -------------------------------------------------------------- Enemy Func --------------------------------------------------------------
+
     private void SpawnEnemy()
     {
         List<Path> spawnPaths = GetSpawnPathsForWave((int)wave);
@@ -244,16 +246,15 @@ public class GameManager : MonoBehaviour
 
             Vector3 spawnPosition = path.waypoints[0].gameObject.transform.position;
 
-            int enemyIndex = GetEnemyIndexForWave((int)wave);
+            int enemyIndex = GetEnemyIndexForWave((int)wave, path);
 
             GameObject enemyObj = Instantiate(enemies[enemyIndex].gameObject, spawnPosition, Quaternion.identity);
 
-            if(enemyIndex == enemies.Length - 1)
+            if (enemyIndex == enemies.Length - 1)
             {
                 King = enemyObj;
             }
-            
-            
+
             Enemy enemy = enemyObj.GetComponent<Enemy>();
 
             enemyObj.transform.localScale = new Vector3(2f, 2f, 0f);
@@ -264,10 +265,28 @@ public class GameManager : MonoBehaviour
             enemy.name = enemyObj.name + " " + enemyCount;
 
             enemy.transform.SetParent(enemyFolder.transform);
+
+            if (!recentEnemiesByPath.ContainsKey(path))
+            {
+                recentEnemiesByPath[path] = new List<int>();
+            }
+
+            recentEnemiesByPath[path].Add(enemyIndex);
+            if (recentEnemiesByPath[path].Count > 2)
+            {
+                recentEnemiesByPath[path].RemoveAt(0);
+            }
+
+            // Debug logs for each value in the dictionary
+            foreach (var kvp in recentEnemiesByPath)
+            {
+                //Debug.Log($"Path: {kvp.Key.name}, Enemies: {string.Join(", ", kvp.Value)}");
+            }
         }
     }
 
-    private int GetEnemyIndexForWave(int wave)
+
+    private int GetEnemyIndexForWave(int wave, Path path)
     {
         if (wave == 9 && !kingSpawned)
         {
@@ -278,9 +297,17 @@ public class GameManager : MonoBehaviour
         else
         {
             int maxEnemyIndex = Mathf.Min(3 + (wave - 1) / 2, enemies.Length - 2);
-            return Random.Range(0, maxEnemyIndex + 1);
+            int enemyIndex;
+
+            do
+            {
+                enemyIndex = Random.Range(0, maxEnemyIndex + 1);
+            } while (recentEnemiesByPath.ContainsKey(path) && recentEnemiesByPath[path].Contains(enemyIndex));
+
+            return enemyIndex;
         }
     }
+
 
     private IEnumerator PlayKingAudioAndPauseMusic()
     {
