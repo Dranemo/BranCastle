@@ -46,8 +46,16 @@ public class CanvaInGame : MonoBehaviour
         time = GameManager.Instance.time;
         wave = GameManager.Instance.wave;
 
-        int minutes = Mathf.FloorToInt(time / 60F);
-        int seconds = Mathf.FloorToInt(time % 60F);
+        int totalSeconds = Mathf.FloorToInt(time);
+        int minutes = (totalSeconds / 60) % 24;
+        int seconds = totalSeconds % 60;
+
+        if (totalSeconds == 1440) // 1440 seconds = 24 minutes
+        {
+            minutes = 0;
+            seconds = 0;
+        }
+
         timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
 
         waveText.text = "Vague : " + wave;

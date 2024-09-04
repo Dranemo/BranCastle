@@ -26,9 +26,9 @@ public class CanvaGameOver : MonoBehaviour
 
         string text = "";
         string victoryText = "";
-        if(gameManager.time > 1439)
+        if(gameManager.kingKilled)
         {
-            text = "Vous avez survécu !";
+            text = "Le portail est ouvert !";
             victoryText = "Victoire !";
         }
         else

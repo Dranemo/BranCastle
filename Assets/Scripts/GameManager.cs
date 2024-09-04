@@ -54,6 +54,7 @@ public class GameManager : MonoBehaviour
     private bool isInvincible = false;
     [SerializeField] private float invincibilityDuration = 0.5f;
     private bool kingSpawned = false;
+    public bool kingKilled = false;
 
     // -------------------------------------------------------------- Unity Func -------------------------------------------------------------- 
     private void Awake()
@@ -488,6 +489,7 @@ public class GameManager : MonoBehaviour
 
     IEnumerator GameOverRitualAnim()
     {
+        kingKilled = true;
         player.transform.Find("Main Camera").position = new Vector3(ritual.transform.position.x, ritual.transform.position.y, -10);
         yield return new WaitForSeconds(1);
 
