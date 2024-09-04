@@ -25,12 +25,12 @@ public class ScenesManager : MonoBehaviour
             fadeCanvasGroup = fadeCanvas.GetComponentInChildren<CanvasGroup>();
             if (fadeCanvasGroup == null)
             {
-                //////Debug.LogError("Aucun CanvasGroup trouvé sur le Canvas.");
+                ////////Debug.LogError("Aucun CanvasGroup trouvé sur le Canvas.");
             }
         }
         else
         {
-            //////Debug.LogError("Canvas non assigné dans l'inspecteur.");
+            ////////Debug.LogError("Canvas non assigné dans l'inspecteur.");
         }
     }
 
@@ -76,7 +76,7 @@ public class ScenesManager : MonoBehaviour
     //    }
     //
     //    fadeCanvasGroup.alpha = 1f;
-    //    //////Debug.Log("Chargement de la scène: " + sceneName);
+    //    ////////Debug.Log("Chargement de la scène: " + sceneName);
     //    SceneManager.LoadScene(sceneName);
     //}
     private IEnumerator LoadSceneAsyncRoutine(string sceneName, Button button)

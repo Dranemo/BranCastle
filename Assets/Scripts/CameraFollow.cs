@@ -12,7 +12,7 @@ public class CameraFollow : MonoBehaviour
     {
         if (player == null)
         {
-            //////Debug.LogError("Player transform is not assigned!");
+            ////////Debug.LogError("Player transform is not assigned!");
             return;
         }
 

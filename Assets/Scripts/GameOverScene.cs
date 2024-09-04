@@ -15,7 +15,7 @@ public class GameOverScene : MonoBehaviour
         }
         catch (Exception e)
         {
-            Debug.LogError("Erreur lors de la destruction du GameManager : " + e.Message);
+            //Debug.LogError("Erreur lors de la destruction du GameManager : " + e.Message);
 
         }
 

@@ -14,7 +14,7 @@ public class MapOverview : MonoBehaviour
         canvasGroup = GetComponent<CanvasGroup>();
         if (canvasGroup == null)
         {
-            //////Debug.LogError("CanvasGroup n'est pas trouvé sur le GameObject.");
+            ////////Debug.LogError("CanvasGroup n'est pas trouvé sur le GameObject.");
         }
     }
 
@@ -64,7 +64,7 @@ public class MapOverview : MonoBehaviour
         }
         else
         {
-            //////Debug.LogError("Référence manquante pour le joueur ou le cercueil.");
+            ////////Debug.LogError("Référence manquante pour le joueur ou le cercueil.");
         }
         DeactivateOverview();
     }

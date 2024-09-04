@@ -19,7 +19,7 @@ public class Unit : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer == null)
         {
-            ////Debug.LogError("SpriteRenderer is not attached to the GameObject.");
+            //////Debug.LogError("SpriteRenderer is not attached to the GameObject.");
         }
     }
 
@@ -99,27 +99,27 @@ public class Unit : MonoBehaviour
     private void FlipSprite()
     {
         GameObject closestEnemy = GetClosestEnemy();
-        ////Debug.Log("Closest enemy: " + (closestEnemy != null ? closestEnemy.name : "None"));
+        //////Debug.Log("Closest enemy: " + (closestEnemy != null ? closestEnemy.name : "None"));
 
         if (closestEnemy != null)
         {
-            ////Debug.Log("Closest enemy position: " + closestEnemy.transform.position);
-            ////Debug.Log("Unit position: " + transform.position);
+            //////Debug.Log("Closest enemy position: " + closestEnemy.transform.position);
+            //////Debug.Log("Unit position: " + transform.position);
 
             if (closestEnemy.transform.position.x < transform.position.x)
             {
                 spriteRenderer.flipX = true;
-                ////Debug.Log("Flipping sprite to face left.");
+                //////Debug.Log("Flipping sprite to face left.");
             }
             else
             {
                 spriteRenderer.flipX = false;
-                ////Debug.Log("Flipping sprite to face right.");
+                //////Debug.Log("Flipping sprite to face right.");
             }
         }
         else
         {
-            ////Debug.Log("No closest enemy found.");
+            //////Debug.Log("No closest enemy found.");
         }
     }
 

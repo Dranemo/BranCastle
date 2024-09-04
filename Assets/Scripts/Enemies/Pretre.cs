@@ -78,7 +78,7 @@ public class Pretre : Enemy
 
                 else
                 {
-                    //////Debug.Log("Player Not Detected");
+                    ////////Debug.Log("Player Not Detected");
                     MovingToTheNextCheckpoint();
 
                 }
@@ -171,7 +171,7 @@ public class Pretre : Enemy
             }
         }
 
-        Debug.Log("Closest enemy to heal: " + closestEnemy);
+        //Debug.Log("Closest enemy to heal: " + closestEnemy);
 
         return closestEnemy;
     }
