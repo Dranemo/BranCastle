@@ -1,28 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
-
-
+using UnityEngine.UI;
+using TMPro;
 
 public class Enemy : MonoBehaviour
 {
+
+    [Header("Path")]
     public List<Path> paths;
-    [SerializeField] LayerMask layerMaskRaycast;
+    [SerializeField] protected LayerMask layerMaskRaycast;
     public int currentPathIndex = 0;
     private int currentWaypointIndex = 0;
-    protected float health = 50;
-    protected float damageByPlayer = 0;
+
+
 
     protected GameObject player;
     protected GameObject ritual;
+    [SerializeField] protected GameObject targetEnemy;
 
-    float attackCooldown = 1;
+    protected Canvas canvasinGame;
+    protected TextMeshProUGUI ritualText;
+
     protected State state;
-
     protected enum State
     {
         Moving,
@@ -30,40 +31,38 @@ public class Enemy : MonoBehaviour
         AttackingRitual,
         AttackingUnit
     }
-    private enum Direction
-    {
-        Up,
-        Down,
-        Left,
-        Right
-    }
 
-    [SerializeField] protected GameObject targetEnemy;
-    public float attackRange = 1.0f;
 
 
     [SerializeField] protected GameObject bloodPrefab;
 
-
-    [SerializeField] protected float maxHealth = 50;
+    [Header ("Variables")]
+    [SerializeField] public  float health = 50;
+    protected float damageByPlayer = 0;
+    [SerializeField] public float maxHealth = 50;
     [SerializeField] protected float bloodCount = 10;
     [SerializeField] protected float detectionRadius = 5f;
     [SerializeField] protected float attackRadius = 1.5f;
+    [SerializeField] protected float attackSpeed = 1;
     [SerializeField] protected float damage = 0;
     [SerializeField] protected float speed = 2;
-    [SerializeField] protected float attackSpeed = 1;
+    protected float attackCooldown = 1;
+
+    [Header("Units")]
     [SerializeField] protected List<GameObject> units;
     [SerializeField] protected GameObject closestUnit;
 
     [Header("Sprite")]
-    [SerializeField] Sprite upSprite;
-    [SerializeField] Sprite downSprite;
-    [SerializeField] Sprite leftSprite;
-    [SerializeField] Sprite rightSprite;
     bool flashingSprite;
     bool shrinkingSprite;
     bool resetFlashing = false;
     bool stopFlashingCoroutine = false;
+    private SpriteRenderer spriteHypno;
+    private SpriteRenderer spriteIce;
+
+    [Header("Animator")]
+    protected Animator animator;
+    protected Vector3 positionFrameBefore;
 
     [Header("Status")]
     [SerializeField] public bool isStunned;
@@ -71,9 +70,17 @@ public class Enemy : MonoBehaviour
     [SerializeField] public float capeKnockback;
     [SerializeField] public bool isHypnotized;
 
+    [Header("Sounds")]
+    private AudioSource audioSource;
+    private AudioClip hitSound;
+    private AudioClip deathSound;
+    private AudioClip deathSound2;
+    private AudioClip deathSound3;
+    private AudioClip deathSound4;
+    private AudioClip[] deathSounds;
 
-
-    private bool onPath = true;
+    [SerializeField] protected List<GameObject> enemies = new List<GameObject>();
+    protected bool onPath = true;
 
 
     public float GetHealthEnemy()
@@ -97,7 +104,70 @@ public class Enemy : MonoBehaviour
         player = GameObject.FindGameObjectWithTag("Player");
         capeKnockback = player.GetComponent<PlayerMovement>().capePushForce;
         ritual = GameObject.FindGameObjectWithTag("Ritual");
+        canvasinGame = GameObject.Find("CanvasInGame(Clone)").GetComponent<Canvas>();
+        ////Debug.Log("CanvasInGame: " + canvasinGame);
+        ritualText = canvasinGame.transform.Find("RitualText").GetComponent<TextMeshProUGUI>();
+        ////Debug.Log("RitualText: " + ritualText);
+        ritualText.enabled = false;
         layerMaskRaycast = LayerMask.GetMask("Wall");
+
+        animator = GetComponent<Animator>();
+
+        positionFrameBefore = transform.position;
+
+        Transform hypnoTransform = transform.Find("hypno");
+        if (hypnoTransform != null)
+        {
+            spriteHypno = hypnoTransform.GetComponent<SpriteRenderer>();
+            spriteHypno.enabled = false;
+            if (spriteHypno == null)
+            {
+                ////////Debug.LogError("Le SpriteRenderer n'est pas trouvé sur l'enfant 'hypno'.");
+            }
+        }
+        else
+        {
+            ////////Debug.LogError("L'enfant 'hypno' n'est pas trouvé.");
+        }
+    Transform iceTransform = transform.Find("ice");
+        if (iceTransform != null)
+        {
+            spriteIce = iceTransform.GetComponent<SpriteRenderer>();
+            spriteIce.enabled = false;
+            if (spriteIce == null)
+            {
+                ////////Debug.LogError("Le SpriteRenderer n'est pas trouvé sur l'enfant 'ice'.");
+            }
+        }
+        else
+        {
+            ////////Debug.LogError("L'enfant 'ice' n'est pas trouvé.");
+        }
+
+        audioSource = GetComponent<AudioSource>();
+        hitSound = Resources.Load<AudioClip>("HitSound");
+        deathSound = Resources.Load<AudioClip>("DeathSound");
+        if (deathSound == null)
+            ////////Debug.LogError("Le son de mort n'a pas été trouvé.");
+        deathSound2 = Resources.Load<AudioClip>("DeathSound2");
+        if ( deathSound2 == null)
+        {
+            ////////Debug.LogError("Le son de mort2 n'a pas été trouvé.");
+        }
+        deathSound3 = Resources.Load<AudioClip>("DeathSound3");
+        if (deathSound3 == null)
+        {
+            ////////Debug.LogError("Le son de mort3 n'a pas été trouvé.");
+        }
+        deathSound4 = Resources.Load<AudioClip>("DeathSound4");
+        if (deathSound4 == null)
+        {
+            ////////Debug.LogError("Le son de mort4 n'a pas été trouvé.");
+        }
+        ////////Debug.Log("deathSound4" + deathSound4);
+        deathSounds = new AudioClip[] { deathSound, deathSound2, deathSound3, deathSound4 };
+
+
     }
 
 
@@ -105,60 +175,82 @@ public class Enemy : MonoBehaviour
 
     protected void Update()
     {
+        if (player != null)
+        {
+        if (animator != null)
+            animator.SetBool("Idle", Vector3.Distance(transform.position, positionFrameBefore) == 0);
+
+        positionFrameBefore = transform.position;
+
         UpdateUnitList();
+        UpdateEnemyList();
+        
         float distanceToPlayer = Vector3.Distance(transform.position, player.transform.position);
         bool isUnitClose = IsUnitClose();
 
+        targetEnemy = GetClosestEnemy();
 
-        if (isHypnotized)
+
+
+        if (((animator != null && !animator.GetCurrentAnimatorStateInfo(0).IsName("Hit")) && !animator.GetBool("isDead")) || animator == null)
         {
-            FindClosestEnemy();
-            if (targetEnemy != null)
-            {
-                FollowAndAttack(targetEnemy);
-            }
-        }
 
-        else
-        {
-            if (isStunned)
+
+
+            if (isHypnotized)
             {
-                StartCoroutine(Stunned());
-            }
-            else if (isUnitClose || distanceToPlayer < detectionRadius)
-            {
-                if (isUnitClose)
+                spriteHypno.enabled = true;
+                GetClosestEnemy();
+                if (targetEnemy != null)
                 {
-                    DetectUnit();
-                }
-                if (distanceToPlayer < detectionRadius)
-                {
-                    RaycastHit2D hit = Physics2D.Linecast(transform.position, player.transform.position, layerMaskRaycast);
-
-
-                    if (hit.collider == null)
-                    {
-                        DetectPlayer();
-                        Debug.DrawLine(transform.position, player.transform.position, Color.green);
-                    }
-                    else
-                    {
-                        MovingToTheNextCheckpoint();
-                        Debug.DrawLine(transform.position, player.transform.position, Color.red);
-                    }
+                    FollowAndAttack(targetEnemy);
                 }
             }
-
 
             else
             {
-                //Debug.Log("Player Not Detected");
-                MovingToTheNextCheckpoint();
+                if (isStunned)
+                {
+                    spriteIce.enabled = true;
+                    StartCoroutine(Stunned());
+                }
+                else if (isUnitClose || distanceToPlayer < detectionRadius)
+                {
+                    if (isUnitClose)
+                    {
+                        DetectUnit();
+                    }
+                    if (distanceToPlayer < detectionRadius)
+                    {
+                        RaycastHit2D hit = Physics2D.Linecast(transform.position, player.transform.position, layerMaskRaycast);
 
+
+                        if (hit.collider == null)
+                        {
+                            DetectPlayer();
+                            Debug.DrawLine(transform.position, player.transform.position, Color.green);
+                        }
+                        else
+                        {
+                            MovingToTheNextCheckpoint();
+                            Debug.DrawLine(transform.position, player.transform.position, Color.red);
+                        }
+                    }
+                }
+
+
+                else
+                {
+                    //////////Debug.Log("Player Not Detected");
+                    MovingToTheNextCheckpoint();
+
+                }
             }
+
+            attackCooldown -= Time.deltaTime;
         }
 
-        attackCooldown -= Time.deltaTime;
+        }
     }
 
 
@@ -169,6 +261,8 @@ public class Enemy : MonoBehaviour
     // ----------------------------------------- Player & Ritual Related -----------------------------------------
     protected void DetectPlayer()
     {
+        if (player !=null)
+        { 
         onPath = false;
 
         TurningSprite(player.transform.position);
@@ -178,7 +272,7 @@ public class Enemy : MonoBehaviour
         {
             state = State.AttackingPlayer;
 
-            if (attackCooldown <= 0)
+            if (attackCooldown <= 0 && health > 0)
             {
                 Attack();
                 attackCooldown = attackSpeed;
@@ -189,6 +283,7 @@ public class Enemy : MonoBehaviour
             state = State.Moving;
             transform.position = Vector3.MoveTowards(transform.position, player.transform.position, speed * Time.deltaTime);
         }
+        }
     }
 
     protected void DetectRitual()
@@ -198,14 +293,16 @@ public class Enemy : MonoBehaviour
             state = State.AttackingRitual;
 
             attackCooldown -= Time.deltaTime;
-            if (attackCooldown <= 0)
+            if (attackCooldown <= 0 && health > 0)
             {
                 Attack();
                 attackCooldown = attackSpeed;
+                ritualText.enabled = true;
             }
         }
         else
         {
+            ritualText.enabled = false;
             state = State.Moving;
             transform.position = Vector3.MoveTowards(transform.position, paths[currentPathIndex].waypoints[currentWaypointIndex].transform.position, speed * Time.deltaTime);
         }
@@ -213,51 +310,37 @@ public class Enemy : MonoBehaviour
 
     protected virtual void Attack()
     {
-        Debug.Log("Attack");
+        if(animator != null)
+        {
+
+            
+            animator.Play("Attack1");
+            //animator.SetTrigger("Attack");
+        }
     }
 
 
 
 
     // ----------------------------------------- Sprite Related -----------------------------------------
-    void TurningSprite(Direction dir)
-    {
-        switch (dir)
-        {
-            case Direction.Up:
-                GetComponent<SpriteRenderer>().sprite = upSprite;
-                break;
-            case Direction.Down:
-                GetComponent<SpriteRenderer>().sprite = downSprite;
-                break;
-            case Direction.Left:
-                GetComponent<SpriteRenderer>().sprite = leftSprite;
-                break;
-            case Direction.Right:
-                GetComponent<SpriteRenderer>().sprite = rightSprite;
-                break;
-        }
-    }
-    void TurningSprite(Vector3 pos)
+    protected void TurningSprite(Vector3 pos)
     {
         Vector3 direction = pos - transform.position;
 
         float angle = Mathf.Atan2(direction.y, direction.x) * Mathf.Rad2Deg;
-        if (angle > -45 && angle <= 45)
+
+        if (animator != null)
         {
-            GetComponent<SpriteRenderer>().sprite = rightSprite;
-        }
-        else if (angle > 45 && angle <= 135)
-        {
-            GetComponent<SpriteRenderer>().sprite = upSprite;
-        }
-        else if (angle > 135 || angle <= -135)
-        {
-            GetComponent<SpriteRenderer>().sprite = leftSprite;
-        }
-        else if (angle > -135 && angle <= -45)
-        {
-            GetComponent<SpriteRenderer>().sprite = downSprite;
+            if (angle >= -90 && angle <= 90)
+            {
+                animator.SetBool("isFacingLeft", false);
+                this.GetComponent<SpriteRenderer>().flipX = false;
+            }
+            else
+            {
+                animator.SetBool("isFacingLeft", true);
+                this.GetComponent<SpriteRenderer>().flipX = true;
+            }
         }
     }
 
@@ -271,6 +354,27 @@ public class Enemy : MonoBehaviour
         // Trouver tous les GameObjects avec le tag "Unit" et les ajouter à la liste
         units.AddRange(GameObject.FindGameObjectsWithTag("Unit"));
     }
+
+    protected void UpdateEnemyList()
+    {
+        // Réinitialiser la liste des ennemis
+        enemies.Clear();
+
+        // Trouver tous les GameObjects avec le tag "Enemy" et les ajouter à la liste
+        List<GameObject> enemiesTemp = new List<GameObject>();
+        enemiesTemp.AddRange(GameObject.FindGameObjectsWithTag("Enemy"));
+
+
+        for(int i = 0; i < enemiesTemp.Count; i++)
+        {
+            if (enemiesTemp[i] != null)
+            {
+                if (enemiesTemp[i].GetComponent<Enemy>())
+                    enemies.Add(enemiesTemp[i]);
+            }
+        }
+    }
+
     protected bool IsUnitClose()
     {
         foreach (GameObject unit in units)
@@ -325,10 +429,19 @@ public class Enemy : MonoBehaviour
 
 
     // ----------------------------------------- State & Life Related -----------------------------------------
-    bool spawnBlood = false;
+    [SerializeField] bool spawnBlood = false;
     protected void Die()
     {
+        //Debug.Log(name + " is dead");
+
         spawnBlood = true;
+        ////////Debug.Log("Damage by player: " + damageByPlayer);
+
+        tag = "Untagged";
+        foreach (Transform child in transform)
+        {
+            child.gameObject.tag = "Untagged";
+        }
 
         float percentDamageF = damageByPlayer / maxHealth;
         int percentDamage = Mathf.RoundToInt(percentDamageF);
@@ -336,7 +449,20 @@ public class Enemy : MonoBehaviour
         float numberBloodF = bloodCount * percentDamage;
         int numberBlood = Mathf.RoundToInt(numberBloodF);
 
-        StartCoroutine(Shrinking());
+        AudioClip selectedDeathSound = deathSounds[Random.Range(0, deathSounds.Length)];
+
+        // Jouer le clip audio sélectionné
+        if (audioSource != null && selectedDeathSound != null)
+        {
+            audioSource.clip = selectedDeathSound;
+            audioSource.Play();
+        }
+
+        if(animator == null)
+        {
+            StartCoroutine(Shrinking());
+        }
+
         StartCoroutine(SpawnBlood(numberBlood));
     }
 
@@ -355,12 +481,30 @@ public class Enemy : MonoBehaviour
         if (numberOfBlood != numberOfBloodF)
             bloodAmountNotRound = 1;
 
+        if(animator != null)
+        {
+            while (!animator.GetCurrentAnimatorStateInfo(0).IsName("BloodAnim"))
+                yield return null;
+        }
+        else
+        {
+            while (shrinkingSprite)
+                yield return null;
+        }
 
-        while (shrinkingSprite)
-            yield return null;
+        gameObject.layer = 1;
+        foreach (Transform child in transform)
+        {
+            child.gameObject.layer = 1;
+            foreach (Transform child2 in child)
+            {
+                child2.gameObject.layer = 1;
+            }
+        }
+
 
         // Directions de base (séparées de minimum 30°
-        for(int i = 0; i < numberOfBlood + bloodAmountNotRound; i++)
+        for (int i = 0; i < numberOfBlood + bloodAmountNotRound; i++)
         {
             int direction = -1;
 
@@ -405,7 +549,7 @@ public class Enemy : MonoBehaviour
                 }
             }
 
-            Debug.Log("direction : " + direction);
+            ////////Debug.Log("direction : " + direction);
             lastDirection = direction;
 
             // Plus de place dans le cercle de base, envoie le sang dans le trou le plus gros du cercle
@@ -474,43 +618,79 @@ public class Enemy : MonoBehaviour
             }
         }
 
+        if (animator != null)
+        {
+            while (animator.GetCurrentAnimatorStateInfo(0).IsName("BloodAnim"))
+                yield return null;
+        }
+
         StartCoroutine(DestroyAfterFrame());
     }
 
     public void TakeDamage(float damage, bool playerDealtDamage = true)
     {
-        float tempHealth = health;
-        tempHealth -= damage;
-
-
-
-
-        // Mort ou dégâts
-        if (tempHealth <= 0 && !spawnBlood)
+        
+        if (gameObject != null && !spawnBlood && health > 0 && !animator.GetBool("isDead")) 
         {
-            stopFlashingCoroutine = true;
+            float tempHealth = health;
+            tempHealth -= damage;
 
-            Debug.Log("Die");
-            if(playerDealtDamage)
-                damageByPlayer += (health);
 
-            health = 0;
+            if (animator != null)
+                animator.Play("Hit");
 
-            Die();
-        }
-        else
-        {
-            // Cligotement
-            if (!flashingSprite)
-                StartCoroutine(Flashing());
 
-            if (playerDealtDamage)
-                damageByPlayer += damage;
-            health = tempHealth;
+
+            // Mort ou dégâts
+            if (tempHealth <= 0 && !spawnBlood)
+            {
+                if (animator != null)
+                {
+                    animator.SetBool("isDead", true);
+                }
+
+                stopFlashingCoroutine = true;
+
+                ////////Debug.Log("Die");
+                if(playerDealtDamage)
+                {
+                    //////Debug.Log("Damage by player: " + damageByPlayer);
+                    audioSource.clip=hitSound;
+                    audioSource.Play();
+                    damageByPlayer += (health);
+                }
+
+                
+
+                health = 0;
+
+                Die();
+            }
+            else
+            {
+            
+
+                if(animator == null)
+                {
+                    // Cligotement
+                    if (!flashingSprite)
+                        StartCoroutine(Flashing());
+                }
+
+                if (playerDealtDamage)
+                    damageByPlayer += damage;
+                health = tempHealth;
+            }
         }
     }
 
-    IEnumerator Stunned()
+    void IsDead()
+    {
+        if (gameObject.tag == "Untagged" && animator.GetBool("isDead")  && !animator.GetCurrentAnimatorStateInfo(0).IsName("BloodAnim") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Death") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Hit"))
+            Die();
+    }
+
+    protected IEnumerator Stunned()
     {
         float pushDuration = player.GetComponent<PlayerMovement>().capePushDuration;
         // Calculate direction from enemy to player
@@ -523,12 +703,13 @@ public class Enemy : MonoBehaviour
         kbRb.velocity = Vector2.zero;
         yield return new WaitForSeconds(stunDuration - pushDuration);
         isStunned = false;
+        spriteIce.enabled = false;
     }
 
 
     IEnumerator Flashing()
     {
-        Debug.Log("flashing");
+        ////////Debug.Log("flashing");
 
         flashingSprite = true;
         SpriteRenderer spriteRenderer = gameObject.GetComponent<SpriteRenderer>();
@@ -585,7 +766,7 @@ public class Enemy : MonoBehaviour
     IEnumerator Shrinking()
     {
         shrinkingSprite = true;
-        Debug.Log("shrinking");
+        ////////Debug.Log("shrinking");
 
         float time = 0;
         while (time <= 0.5f)
@@ -611,6 +792,9 @@ public class Enemy : MonoBehaviour
 
     IEnumerator DestroyAfterFrame()
     {
+        gameObject.GetComponent<SpriteRenderer>().enabled = false;
+
+
         // Attendez la fin de la frame
         yield return new WaitForEndOfFrame();
 
@@ -700,7 +884,7 @@ public class Enemy : MonoBehaviour
     }
 
 
-    void MovingToTheNextCheckpoint()
+    protected void MovingToTheNextCheckpoint()
     {
         state = State.Moving;
 
@@ -753,42 +937,90 @@ public class Enemy : MonoBehaviour
     {
         gameObject.tag = "Unit";
         gameObject.layer = LayerMask.NameToLayer("Unit");
-        Debug.Log("Enemy hypnotized: " + gameObject.name);
-        isHypnotized = true;
 
-        state = State.Moving;
-
-        //Debug.Break();
-    }
-
-
-    void FindClosestEnemy()
-    {
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-        float closestDistance = Mathf.Infinity;
-        GameObject closestEnemy = null;
-
-        foreach (GameObject enemy in enemies)
+        foreach (Transform child in transform)
         {
-            if (enemy != gameObject) // Ne pas se cibler soi-même
+            //////Debug.Log("Child: " + child.gameObject.name);
+            if (child.gameObject.name == "Projectiles")
             {
-                float distanceToEnemy = Vector2.Distance(transform.position, enemy.transform.position);
-                if (distanceToEnemy < closestDistance)
+                //////Debug.Log("hypnotized projectiles");
+                foreach (Transform proj in child)
                 {
-                    closestDistance = distanceToEnemy;
-                    closestEnemy = enemy;
+                    proj.gameObject.layer = 12;
                 }
             }
         }
 
-        targetEnemy = closestEnemy;
+
+        //////Debug.Log("Enemy hypnotized: " + gameObject.name);
+        isHypnotized = true;
+
+        state = State.Moving;
     }
+
+
+
+
+
+    protected GameObject GetClosestEnemy()
+    {
+        List<GameObject> enemiesToHeal = new List<GameObject>();
+
+        // Trouver l'ennemi le plus proche
+        GameObject closestEnemy = null;
+        float closestDistance = Mathf.Infinity;
+
+
+        for(int i = 0; i < enemies.Count; i++)
+        {
+            if (enemies[i] != null)
+            {
+
+                float distance = Vector3.Distance(transform.position, enemies[i].transform.position);
+
+                if (distance < closestDistance && CheckEnemyWall(enemies[i]))
+                {
+                    closestDistance = distance;
+                    closestEnemy = enemies[i];
+                }
+            }
+        }
+
+
+        return closestEnemy;
+    }
+
+    protected bool CheckEnemyWall(GameObject enemyChecking)
+    {
+        Vector3 pos = transform.position;
+        Vector3 posNext = enemyChecking.transform.position;
+
+        Vector2 size = new Vector2(0.5f, Vector2.Distance(pos, posNext));
+        float angle = Mathf.Atan2(posNext.y - pos.y, posNext.x - pos.x) * Mathf.Rad2Deg;
+
+
+        RaycastHit2D hit = Physics2D.Linecast(pos, posNext, layerMaskRaycast);
+        //RaycastHit2D hit = Physics2D.BoxCast(pos, size, angle, posNext);
+
+        if (hit.collider != null && hit.collider.gameObject.GetComponent<Enemy>() == null)
+        {
+            //Debug.DrawLine(pos, posNext, Color.red);
+            return false;
+        }
+        else
+        {
+            Debug.DrawLine(pos, posNext, Color.green);
+            return true;
+        }
+    }
+
+
 
     void FollowAndAttack(GameObject enemy)
     {
         float distanceToEnemy = Vector2.Distance(transform.position, enemy.transform.position);
 
-        if (distanceToEnemy > attackRange)
+        if (distanceToEnemy > attackRadius)
         {
             state = State.Moving;
             // Suivre l'ennemi
@@ -797,8 +1029,13 @@ public class Enemy : MonoBehaviour
         }
         else
         {
-            state = State.AttackingUnit;
-            Attack();
+            state = State.AttackingUnit; 
+            
+            if (attackCooldown <= 0 && health > 0)
+            {
+                Attack();
+                attackCooldown = attackSpeed;
+            }
         }
     }
 }

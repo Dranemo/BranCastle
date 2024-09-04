@@ -1,19 +1,13 @@
-using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
 using UnityEngine;
 
 public class Cape : MonoBehaviour
 {
     GameObject Player;
-    public float capeDPS;
-
 
     // Start is called before the first frame update
     void Start()
     {
         Player = GameObject.FindGameObjectWithTag("Player");
-        capeDPS = Player.GetComponent<PlayerMovement>().capeDMG;
     }
 
     // Update is called once per frame
@@ -29,7 +23,6 @@ public class Cape : MonoBehaviour
             if (enemy != null)
             {
                 enemy.isStunned = true;
-                enemy.TakeDamage(capeDPS);
             }
         }
 

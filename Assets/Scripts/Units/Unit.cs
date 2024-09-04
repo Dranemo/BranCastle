@@ -5,15 +5,24 @@ using System.Linq;
 
 public class Unit : MonoBehaviour
 {
-    [SerializeField] protected float health; 
-    [SerializeField] protected float damage; 
+    [SerializeField] protected float health;
+    [SerializeField] protected float damage;
     [SerializeField] protected float attackSpeed;
     [SerializeField] protected float bloodCost;
-    private Coroutine attackCoroutine;
+    protected Coroutine attackCoroutine;
     public List<GameObject> enemiesInRange = new List<GameObject>();
-    [SerializeField] private float delayBeforeAppearance = 2f; // Temps en secondes avant que l'unité apparaisse
 
     private SpriteRenderer spriteRenderer;
+
+    protected virtual void Start()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+        if (spriteRenderer == null)
+        {
+            //////Debug.LogError("SpriteRenderer is not attached to the GameObject.");
+        }
+    }
+
     public void TakeDamage(float damage)
     {
         health -= damage;
@@ -22,11 +31,13 @@ public class Unit : MonoBehaviour
             Die();
         }
     }
-    protected void Die()
+
+    protected virtual void Die()
     {
         StopAttack();
         Destroy(gameObject);
     }
+
     public void StartAttack(GameObject enemy)
     {
         if (attackCoroutine == null)
@@ -43,6 +54,7 @@ public class Unit : MonoBehaviour
             attackCoroutine = null;
         }
     }
+
     protected virtual IEnumerator AttackEnemy()
     {
         while (enemiesInRange.Count > 0)
@@ -51,12 +63,12 @@ public class Unit : MonoBehaviour
             if (closestEnemy != null)
             {
                 Enemy enemy = closestEnemy.GetComponent<Enemy>();
-                enemy.TakeDamage(damage);
+                enemy.TakeDamage(damage, false);
                 yield return new WaitForSeconds(attackSpeed);
             }
             else
             {
-                yield break; 
+                yield break;
             }
         }
 
@@ -65,21 +77,51 @@ public class Unit : MonoBehaviour
 
     protected GameObject GetClosestEnemy()
     {
-        enemiesInRange.RemoveAll(item => item == null); // Nettoyer la liste des ennemis nuls
+        enemiesInRange.RemoveAll(item => item == null);
         if (enemiesInRange.Count == 0) return null;
         return enemiesInRange.OrderBy(e => (e.transform.position - transform.position).sqrMagnitude).FirstOrDefault();
     }
+
     public float GetHealthUnit()
     {
         return health;
     }
-    void Start()
-    {
-    }
 
-    // Update is called once per frame
     protected virtual void Update()
     {
+        if (enemiesInRange.Count > 0)
+        {
+            FlipSprite();
+        }
         AttackEnemy();
     }
+
+    private void FlipSprite()
+    {
+        GameObject closestEnemy = GetClosestEnemy();
+        //////Debug.Log("Closest enemy: " + (closestEnemy != null ? closestEnemy.name : "None"));
+
+        if (closestEnemy != null)
+        {
+            //////Debug.Log("Closest enemy position: " + closestEnemy.transform.position);
+            //////Debug.Log("Unit position: " + transform.position);
+
+            if (closestEnemy.transform.position.x < transform.position.x)
+            {
+                spriteRenderer.flipX = true;
+                //////Debug.Log("Flipping sprite to face left.");
+            }
+            else
+            {
+                spriteRenderer.flipX = false;
+                //////Debug.Log("Flipping sprite to face right.");
+            }
+        }
+        else
+        {
+            //////Debug.Log("No closest enemy found.");
+        }
+    }
+
 }
+

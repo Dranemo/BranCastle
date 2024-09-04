@@ -1,6 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
-using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -8,6 +5,10 @@ public class OptionMenu : MonoBehaviour
 {
     [SerializeField] Canvas mainMenu;
     [SerializeField] Button[] buttons;
+    public AudioManager audioManager;
+    public Slider musicVolumeSlider;
+    public Slider SFXVolumeSlider;
+
 
     // Start is called before the first frame update
     void Awake()
@@ -17,13 +18,31 @@ public class OptionMenu : MonoBehaviour
 
         buttons[0].onClick.AddListener(Back);
     }
-
-    // Update is called once per frame
-    void Update()
+    private void Start()
     {
-        
+        float currentVolume;
+        audioManager.mixer.GetFloat("Music", out currentVolume);
+        musicVolumeSlider.value = currentVolume;
+
+        audioManager.mixer.GetFloat("SFX", out currentVolume);
+        SFXVolumeSlider.value = currentVolume;
+    }
+    public void OnMusicVolumeChange(float volume)
+    {
+        if (audioManager != null)
+        {
+            audioManager.SetMusicVolume(volume);
+        }
+        else
+        {
+            //////Debug.LogError("AudioManager n'est pas assigné dans OptionsMenu.");
+        }
     }
 
+    public void OnSFXVolumeChange(float volume)
+    {
+        audioManager.SetSFXVolume(volume);
+    }
 
     void Back()
     {

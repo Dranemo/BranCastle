@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using Unity.VisualScripting;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class DistanceEnemy : Enemy
@@ -58,26 +56,29 @@ public class DistanceEnemy : Enemy
 
         if (state == State.AttackingPlayer)
         {
-        Debug.Log("Player");
+        ////////Debug.Log("Player");
             projectile.GetComponent<ProjectileEnemy>().target = player;
         }
         else if (state == State.AttackingRitual)
         {
-        Debug.Log("Ritual");
+        ////////Debug.Log("Ritual");
             projectile.GetComponent<ProjectileEnemy>().target = ritual;
         }
         else if (state == State.AttackingUnit && gameObject.layer != 7)
         {
-            Debug.Log("Unit");
+            ////////Debug.Log("Unit");
             projectile.GetComponent<ProjectileEnemy>().target = closestUnit;
         }
         else
         {
-            Debug.Log("Enemy");
+            if (projectile.GetComponent<ProjectileEnemy>().target!=null)
+            {
+                projectile.GetComponent<ProjectileEnemy>().target = targetEnemy;
+            }
+            //////Debug.Log("Enemy");
             projectile.GetComponent<ProjectileEnemy>().target = targetEnemy;
         }
 
-        Debug.Log(projectile.GetComponent<ProjectileEnemy>().target.name);
 
         projectile.transform.position = transform.position;
         projectile.GetComponent<ProjectileEnemy>().searchingTarget = searchingTarget;

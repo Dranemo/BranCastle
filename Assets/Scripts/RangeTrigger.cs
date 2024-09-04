@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RangeTrigger : MonoBehaviour
@@ -16,7 +14,7 @@ public class RangeTrigger : MonoBehaviour
         GameManager gameManager = GameManager.Instance;
         if (gameManager == null)
         {
-            Debug.LogError("GameManager instance is null dans rangetrigger");
+            ////////Debug.LogError("GameManager instance is null dans rangetrigger");
             return;
         }
         CircleCollider2D collider = this.GetComponent<CircleCollider2D>();
@@ -36,7 +34,7 @@ public class RangeTrigger : MonoBehaviour
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            Debug.Log("Enemy detected");
+            ////////Debug.Log("Enemy detected");
             Shoot(collision);
         }
     }

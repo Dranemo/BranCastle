@@ -6,6 +6,12 @@ public class LightDamage : MonoBehaviour
     public GameManager gameManager;
     private WaitForSecondsRealtime wait = new WaitForSecondsRealtime(1);
     private Coroutine damageCoroutine;
+    private AudioSource audioSource;
+
+    private void Start()
+    {
+        audioSource = GetComponent<AudioSource>();
+    }
 
     private void OnTriggerEnter2D(Collider2D collision)
     {
@@ -34,15 +40,11 @@ public class LightDamage : MonoBehaviour
 
     private IEnumerator DamagePlayerOverTime()
     {
-        yield return wait;
-
-        if (gameManager.isPlayerInLight)
+        while (gameManager.isPlayerInLight)
         {
-            while (gameManager.isPlayerInLight)
-            {
-                gameManager.TakeDamage(5);
-                yield return null; 
-            }
+            audioSource.Play();
+            gameManager.TakeDamage(10);
+            yield return wait; 
         }
 
         damageCoroutine = null;

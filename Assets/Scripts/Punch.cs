@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class Punch : MonoBehaviour
@@ -19,9 +17,9 @@ public class Punch : MonoBehaviour
     {
         if (collision.CompareTag("Enemy"))
         {
-            Debug.Log("Hit Enemy");
+            ////////Debug.Log("Hit Enemy");
             Enemy enemy = collision.GetComponent<Enemy>();
-            enemy.TakeDamage(10);
+            enemy.TakeDamage(10, true);
         }
     }
 }   

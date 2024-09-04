@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 //détecte si le joueur se trouve à proximité du cercueil
@@ -11,7 +9,7 @@ public class Coffin : MonoBehaviour
     {
         if (other.CompareTag("Player")) 
         {
-            Debug.Log("Player is near");
+            ////////Debug.Log("Player is near");
             playerIsNear = true;
         }
     }

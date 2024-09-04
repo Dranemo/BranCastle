@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 6094762161501500578}
   - component: {fileID: 5095370123428744962}
   - component: {fileID: -1226765716199760523}
+  - component: {fileID: 8832812510444854680}
   m_Layer: 0
   m_Name: Blood
   m_TagString: Untagged
@@ -101,8 +102,7 @@ MonoBehaviour:
   attractionDistance: 2
   speed: 2
   player: {fileID: 6364868091912172025, guid: 19de3fa0c34643347a327facbbc216ab, type: 3}
-  pickupRange: 0.5
-  bloodAmount: 100
+  bloodAmount: 10
   directionAngleProjection: 0
 --- !u!70 &-1226765716199760523
 CapsuleCollider2D:
@@ -139,3 +139,24 @@ CapsuleCollider2D:
   m_Offset: {x: 0, y: 0}
   m_Size: {x: 1, y: 2}
   m_Direction: 0
+--- !u!95 &8832812510444854680
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3594142108930714808}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 39575887bf38e824b84bfae7f397e821, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0

@@ -1,7 +1,4 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
@@ -21,6 +18,10 @@ public class MainMenu : MonoBehaviour
         buttons[3].onClick.AddListener(Quit);
         buttons[4].onClick.AddListener(Language);
 
+        if(GameManager.Instance != null)
+        {
+            Destroy(GameManager.Instance.gameObject);
+        }
     }
 
     // Update is called once per frame
@@ -37,12 +38,12 @@ public class MainMenu : MonoBehaviour
     void Options() {
         canvaOption.gameObject.SetActive(true);
         gameObject.SetActive(false);
-        Debug.Log("Options");
+        ////////Debug.Log("Options");
     }
 
     void AchievementButton() {
         canvaAchievement.GetComponent<AchievementMenu>().Activate();
-        Debug.Log("Achievement");
+        ////////Debug.Log("Achievement");
     }
 
     void Quit() {
@@ -52,6 +53,6 @@ public class MainMenu : MonoBehaviour
     void Language() {
         canvaLanguage.gameObject.SetActive(true);
         gameObject.SetActive(false);
-        Debug.Log("Language");
+        ////////Debug.Log("Language");
     }
 }

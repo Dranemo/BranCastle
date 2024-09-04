@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class UnitCircle : MonoBehaviour
@@ -18,17 +16,17 @@ public class UnitCircle : MonoBehaviour
     {
         if (unitScript == null)
         {
-            Debug.LogError("Script Unit non trouvé sur le parent!");
+            ////////Debug.LogError("Script Unit non trouvé sur le parent!");
         }
     }
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        Debug.Log("triggerActive");
+        ////////Debug.Log("triggerActive");
 
         if (other.gameObject.CompareTag("Enemy") && triggerActive)
         {
-            Debug.Log("enemy added normalement");
+            ////////Debug.Log("enemy added normalement");
 
             unitScript.enemiesInRange.Add(other.gameObject);
             unitScript.StartAttack(other.gameObject);

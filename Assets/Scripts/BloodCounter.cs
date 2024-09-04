@@ -1,6 +1,5 @@
 using TMPro;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class BloodCounter : MonoBehaviour
 {
@@ -17,7 +16,7 @@ public class BloodCounter : MonoBehaviour
         }
         else
         {
-            Debug.LogError("GameObject 'BloodCounter' non trouvé");
+            ////////Debug.LogError("GameObject 'BloodCounter' non trouvé");
         }
     }
 

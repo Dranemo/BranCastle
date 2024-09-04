@@ -1,6 +1,4 @@
 using UnityEngine;
-using System.Collections;
-
 public class BatAttack : MonoBehaviour
 {
     public float minSpeed = 4f; // The minimum speed of the bat
@@ -47,7 +45,7 @@ public class BatAttack : MonoBehaviour
             if (enemy != null)
             {
                 // Apply damage to the enemy
-                enemy.TakeDamage(1);
+                enemy.TakeDamage(5, true);
 
                 // Get the direction from the bat to the enemy
                 Vector2 knockbackDirection = enemy.transform.position - transform.position;

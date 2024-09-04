@@ -29,7 +29,7 @@ Transform:
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: 0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 2, y: 2, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 484097502180651598}
@@ -76,7 +76,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 0.02745098}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -424,12 +424,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 36c7f005a319fed4bafa2effcc6652ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  health: 41.98
-  damage: 8.7
-  attackSpeed: 10.32
-  bloodCost: 8.01
+  health: 150
+  damage: 30
+  attackSpeed: 2
+  bloodCost: 30
   enemiesInRange: []
-  delayBeforeAppearance: 2
+  deathSound: {fileID: 8300000, guid: 516acf1486781954dbb2e6cc3af698e3, type: 3}
 --- !u!82 &430610242894339953
 AudioSource:
   m_ObjectHideFlags: 0
@@ -439,8 +439,8 @@ AudioSource:
   m_GameObject: {fileID: 606369980038303244}
   m_Enabled: 1
   serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: fd658f20efa73fd47b5e89d2b0cf54b1, type: 3}
+  OutputAudioMixerGroup: {fileID: 1268658952232906004, guid: e7a9e2ce18ef4374c9a5c2edafc1555f, type: 2}
+  m_audioClip: {fileID: 8300000, guid: 55080fc1fde47e24b99f546b852617dc, type: 3}
   m_PlayOnAwake: 1
   m_Volume: 0.521
   m_Pitch: 1
