@@ -288,6 +288,9 @@ public class Enemy : MonoBehaviour
 
     protected void DetectRitual()
     {
+        if(ritual != null)
+        {
+
         if (Vector3.Distance(transform.position, paths[currentPathIndex].waypoints[currentWaypointIndex].transform.position) < attackRadius)
         {
             state = State.AttackingRitual;
@@ -305,6 +308,7 @@ public class Enemy : MonoBehaviour
             ritualText.enabled = false;
             state = State.Moving;
             transform.position = Vector3.MoveTowards(transform.position, paths[currentPathIndex].waypoints[currentWaypointIndex].transform.position, speed * Time.deltaTime);
+        }
         }
     }
 

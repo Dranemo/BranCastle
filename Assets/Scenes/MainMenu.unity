@@ -554,8 +554,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d283fc237d0dac4da8f7e56c17043a2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  fadeCanvasGroup: {fileID: 150069469}
-  fadeCanvas: {fileID: 150069465}
+  fadeCanvasGroup: {fileID: 0}
+  fadeCanvas: {fileID: 0}
 --- !u!4 &541050186
 Transform:
   m_ObjectHideFlags: 0
@@ -640,7 +640,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -500}
+  m_AnchoredPosition: {x: 0, y: -450}
   m_SizeDelta: {x: 200, y: 50}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &697939726
@@ -1588,6 +1588,14 @@ PrefabInstance:
       propertyPath: m_AnchoredPosition.y
       value: -241
       objectReference: {fileID: 0}
+    - target: {fileID: 6024569115563263913, guid: 61a3a44b0041fef4fabdb63beb9bf3e1, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -3214049722050843561, guid: ad05efbb032b52949b5b14154331cd28, type: 2}
+    - target: {fileID: 6024569115563263913, guid: 61a3a44b0041fef4fabdb63beb9bf3e1, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6688451465323812207, guid: 61a3a44b0041fef4fabdb63beb9bf3e1, type: 3}
       propertyPath: m_Name
       value: CanvasMainMenu
@@ -1692,6 +1700,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 39584232530612977, guid: 6c3171474e9c5c74ab84501e7ff39694, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -3214049722050843561, guid: ad05efbb032b52949b5b14154331cd28, type: 2}
+    - target: {fileID: 39584232530612977, guid: 6c3171474e9c5c74ab84501e7ff39694, type: 3}
+      propertyPath: m_hasFontAssetChanged
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 368528794118711709, guid: 6c3171474e9c5c74ab84501e7ff39694, type: 3}
       propertyPath: m_UiScaleMode
       value: 1
@@ -1786,6 +1802,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 1457281200529247041, guid: 6c3171474e9c5c74ab84501e7ff39694, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 2776984425287171876, guid: 6c3171474e9c5c74ab84501e7ff39694, type: 3}
+      propertyPath: m_sharedMaterial
+      value: 
+      objectReference: {fileID: -3214049722050843561, guid: ad05efbb032b52949b5b14154331cd28, type: 2}
+    - target: {fileID: 2776984425287171876, guid: 6c3171474e9c5c74ab84501e7ff39694, type: 3}
+      propertyPath: m_hasFontAssetChanged
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4554390975846706556, guid: 6c3171474e9c5c74ab84501e7ff39694, type: 3}
