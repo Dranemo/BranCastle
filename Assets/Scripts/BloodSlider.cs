@@ -29,14 +29,14 @@ public class BloodSlider : MonoBehaviour
             bloodValues.Add(bloodGaugeFill.fillAmount);
         }
 
-        ////Debug.Log(bloodValues.Count);
+        //////Debug.Log(bloodValues.Count);
     }
 
     void Update()
     {
         slider.value = manager.blood;
         targetFillAmount = manager.blood / 1000;
-        ////////Debug.Log("Update: slider.value = " + slider.value);
+        //////////Debug.Log("Update: slider.value = " + slider.value);
     }
 
 
@@ -47,7 +47,7 @@ public class BloodSlider : MonoBehaviour
         if (bloodGaugeFill != null)
         {
             bloodGaugeFill.fillAmount = Mathf.Lerp(bloodGaugeFill.fillAmount, targetFillAmount, fillSpeed * Time.deltaTime);
-            //////Debug.Log("FixedUpdate: bloodGaugeFill.fillAmount = " + bloodGaugeFill.fillAmount);
+            ////////Debug.Log("FixedUpdate: bloodGaugeFill.fillAmount = " + bloodGaugeFill.fillAmount);
         }
 
         if (bloodGaugeFillWhite != null)

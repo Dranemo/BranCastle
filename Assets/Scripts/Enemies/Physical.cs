@@ -24,11 +24,11 @@
 
         if (state == State.AttackingPlayer)
         {
-            GameManager.Instance.TakeDamage(damage, true);
+            GameManager.Instance.TakeDamage(damage);
         }
         else if (state == State.AttackingRitual)
         {
-            GameManager.Instance.TakeDamage(damage);
+            GameManager.Instance.RitualTakeDamage(damage);
         }
         else if (state == State.AttackingUnit)
         {

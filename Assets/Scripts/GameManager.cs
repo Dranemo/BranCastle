@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 public class GameManager : MonoBehaviour
 {
-    public float blood /*{ get; private set; }*/ = 1000;
+    public float blood /*{ get; private set; }*/ = 500;
     public static GameManager Instance { get; private set; }
     public bool isPlayerInLight = false;
 
@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float invincibilityDuration = 0.5f;
     private bool kingSpawned = false;
     public bool kingKilled = false;
+    GameObject canvaInGame;
 
     // -------------------------------------------------------------- Unity Func -------------------------------------------------------------- 
     private void Awake()
@@ -72,7 +73,7 @@ public class GameManager : MonoBehaviour
         }
         else
         {
-            ////////Debug.LogError("Pas assez de composants AudioSource attachés au GameObject.");
+            //////////Debug.LogError("Pas assez de composants AudioSource attachés au GameObject.");
         }
         audioSourceBlood.clip = bloodPickup;
         audioSourceGameOver.clip = audioGameOver;
@@ -102,8 +103,8 @@ public class GameManager : MonoBehaviour
 
 
         // Canva
-        GameObject canva = Instantiate(CanvaPrefab);
-        canva.GetComponent<Canvas>().worldCamera = player.transform.Find("Main Camera").GetComponent<Camera>();
+        canvaInGame = Instantiate(CanvaPrefab);
+        canvaInGame.GetComponent<Canvas>().worldCamera = player.transform.Find("Main Camera").GetComponent<Camera>();
 
         wavePathIndex = Random.Range(0, spawningPaths.Count);
 
@@ -123,7 +124,7 @@ public class GameManager : MonoBehaviour
     {
         if (!isGameOver)
         {
-            GameOver();
+            //GameOver();
 
 
             if (time >= 1200) // 20h
@@ -176,56 +177,103 @@ public class GameManager : MonoBehaviour
     public void BloodCost(float amount)
     {
         blood -= amount;
+        if(player != null)
+            GameOver();
     }
-    public void TakeDamage(float damage, bool playerIsDamaged = false)
+    public void TakeDamage(float damage)
     {
+        //Debug.Log("TookDamage");
+        //Debug.Break();
 
         if (shake == null)
         {
-            ////////Debug.LogError("shake est null !");
+            //////////Debug.LogError("shake est null !");
             return;
         }
 
-        if (!isInvincible)
+        if (!isInvincible && player != null)
         {
+
+
+            //Debug.Log("tookDamage");
+
             shake.StartShake();
             blood -= damage;
-            ////////Debug.Log("Nouveau niveau de sang: " + blood);
-            GameOver();
+            //////////Debug.Log("Nouveau niveau de sang: " + blood);
             StartCoroutine(InvincibilityCoroutine());
+            
+            GameOver();
         }
         else
         {
-            ////////Debug.Log("Le joueur est invincible !");
+            //////////Debug.Log("Le joueur est invincible !");
+            return;
+        }
+    }
+    public void RitualTakeDamage(float damage)
+    {
+        //Debug.Log("TookDamage");
+        //Debug.Break();
+
+        if (shake == null)
+        {
+            //////////Debug.LogError("shake est null !");
+            return;
+        }
+
+        if (player != null)
+        {
+
+
+            //Debug.Log("tookDamage");
+
+            shake.StartShake();
+            blood -= damage;
+            //////////Debug.Log("Nouveau niveau de sang: " + blood);
+
+            GameOver();
+        }
+        else
+        {
+            //////////Debug.Log("Le joueur est invincible !");
             return;
         }
     }
 
+
+
+
+
     private IEnumerator InvincibilityCoroutine()
     {
+        //Debug.Log("Invincible");
+
         isInvincible = true;
         float elapsedTime = 0f;
 
         while (elapsedTime < invincibilityDuration)
         {
-            if (player)
+            if (player != null)
             {
-            SpriteRenderer spriteRenderer = player.GetComponent<SpriteRenderer>(); 
-            Color color = spriteRenderer.color;
-                color.a = 0.5f; 
-                spriteRenderer.color = color;
+                SpriteRenderer spriteRenderer = player.GetComponent<SpriteRenderer>(); 
+                Color color = spriteRenderer.color;
+                    color.a = 0.5f; 
+                    spriteRenderer.color = color;
 
-            elapsedTime += Time.deltaTime;
-            yield return null; 
+                elapsedTime += Time.deltaTime;
+                yield return null; 
             }
         }
 
-        SpriteRenderer finalSpriteRenderer = player.GetComponent<SpriteRenderer>();
-        if (finalSpriteRenderer != null)
+        if(player != null)
         {
-            Color finalColor = finalSpriteRenderer.color;
-            finalColor.a = 1f;
-            finalSpriteRenderer.color = finalColor;
+            SpriteRenderer finalSpriteRenderer = player.GetComponent<SpriteRenderer>();
+            if (finalSpriteRenderer != null)
+            {
+                Color finalColor = finalSpriteRenderer.color;
+                finalColor.a = 1f;
+                finalSpriteRenderer.color = finalColor;
+            }
         }
 
         isInvincible = false;
@@ -260,7 +308,7 @@ public class GameManager : MonoBehaviour
 
             enemyObj.transform.localScale = new Vector3(2f, 2f, 0f);
 
-            //////////Debug.Log("Spawn Enemy : " + enemy.name + " at " + path.name);
+            ////////////Debug.Log("Spawn Enemy : " + enemy.name + " at " + path.name);
             enemy.currentPathIndex = paths.IndexOf(path);
             enemy.paths = this.paths;
             enemy.name = enemyObj.name + " " + enemyCount;
@@ -281,7 +329,7 @@ public class GameManager : MonoBehaviour
             // Debug logs for each value in the dictionary
             foreach (var kvp in recentEnemiesByPath)
             {
-                ////Debug.Log($"Path: {kvp.Key.name}, Enemies: {string.Join(", ", kvp.Value)}");
+                //////Debug.Log($"Path: {kvp.Key.name}, Enemies: {string.Join(", ", kvp.Value)}");
             }
         }
     }
@@ -379,7 +427,7 @@ public class GameManager : MonoBehaviour
         List<Path> pathsToLoad = new List<Path>();
         List<Path> pathsLoaded = new List<Path>();
 
-        //////////Debug.Log("Paths : " + paths.Count);
+        ////////////Debug.Log("Paths : " + paths.Count);
         foreach (Path path in paths) 
             pathsToLoad.Add(path);
 
@@ -393,7 +441,7 @@ public class GameManager : MonoBehaviour
                     paths[paths.IndexOf(path)].SetDistancePath();
                     pathsLoaded.Add(path);
 
-                    //////////Debug.Log(path.name + " : " + path.distancePath + "m");
+                    ////////////Debug.Log(path.name + " : " + path.distancePath + "m");
                 }
             }
 
@@ -411,25 +459,35 @@ public class GameManager : MonoBehaviour
     // -------------------------------------------------------------- Game Func --------------------------------------------------------------
     private void GameOver()
     {
-        //Debug.Log("GameOver() called");
+        //Debug.Log("StartGameOver");
+
+        ////Debug.Log("GameOver() called");
 
         if (blood <= 0 && audioSourceGameOver != null)
         {
-            //Debug.Log("Blood is zero or less, playing game over audio");
+            //Debug.Log("StartSon");
+            ////Debug.Log("Blood is zero or less, playing game over audio");
             audioSourceGameOver.Play();
             audioSourceMusic.Stop();
         }
 
+        //Debug.Log(blood + " : blood");
         if (blood <= 0)
         {
-            //Debug.Log("Blood is zero or less, setting isGameOver to true");
+            //Debug.Log("blood < 0");
+
+            ////Debug.Log("Blood is zero or less, setting isGameOver to true");
             isGameOver = true;
             PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
-            //Debug.Log("PlayerMovement component: " + playerMovement);
+            ////Debug.Log("PlayerMovement component: " + playerMovement);
 
             if (playerMovement != null && !coroutineStartedDeath)
             {
-                //Debug.Log("Starting death animation coroutine");
+                StopAllCoroutines();
+                canvaInGame.GetComponent<CanvaInGame>().StopCoroutineCanva();
+
+
+                ////Debug.Log("Starting death animation coroutine");
                 coroutineStartedDeath = true;
                 Destroy(player);
                 ScenesManager.Instance.LoadScene("GameOver");
@@ -437,23 +495,23 @@ public class GameManager : MonoBehaviour
         }
         else if (wave >= 9)
         {
-            //Debug.Log("Wave is 9 or more, stopping music");
+            ////Debug.Log("Wave is 9 or more, stopping music");
             audioSourceMusic.Stop();
 
-            if (King != null && King.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Death"))
+            if (kingKilled)
             {
-                //Debug.Log("King is dead, setting isGameOver to true");
+                ////Debug.Log("King is dead, setting isGameOver to true");
                 isGameOver = true;
                 enemyCooldown = 100000;
                 enemyWaveCooldown = 100000;
 
                 // Disable player
-                ////Debug.Log("Disabling player components");
+                //////Debug.Log("Disabling player components");
                 player.GetComponent<PlayerMovement>().enabled = false;
                 player.GetComponent<PlayerAttack>().enabled = false;
 
                 // Disable camera
-                ////Debug.Log("Disabling camera follow");
+                //////Debug.Log("Disabling camera follow");
                 player.transform.Find("Main Camera").GetComponent<CameraFollow>().enabled = false;
                 player.transform.Find("Main Camera").position = new Vector3(King.transform.position.x, King.transform.position.y, -10);
 
@@ -461,21 +519,27 @@ public class GameManager : MonoBehaviour
                 {
                     if (child != King)
                     {
-                        ////Debug.Log("Muting and damaging enemy: " + child.name);
+                        //////Debug.Log("Muting and damaging enemy: " + child.name);
                         child.GetComponent<AudioSource>().mute = true;
                         child.GetComponent<Enemy>().TakeDamage(1000, false);
                     }
                 }
 
+                GameObject[] blood = GameObject.FindGameObjectsWithTag("Blood");
+                foreach (GameObject b in blood)
+                {
+                    Destroy(b);
+                }
+
                 GameObject[] units = GameObject.FindGameObjectsWithTag("Unit");
                 for (int i = 0; i < units.Length; i++)
                 {
-                    //Debug.Log("Muting and damaging unit: " + units[i].name);
+                    ////Debug.Log("Muting and damaging unit: " + units[i].name);
                     units[i].GetComponent<AudioSource>().mute = true;
                     units[i].GetComponent<Unit>().TakeDamage(1000);
                 }
 
-                //Debug.Log("Starting WaitForKingDeath coroutine");
+                ////Debug.Log("Starting WaitForKingDeath coroutine");
                 StartCoroutine(WaitForKingDeath());
 
                 //ScenesManager.Instance.LoadScene("GameOver");

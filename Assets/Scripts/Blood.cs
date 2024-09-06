@@ -36,7 +36,7 @@ public class Blood : MonoBehaviour
         directionVector = transform.position + directionVector;
         StartCoroutine(Despawn());
 
-        ////////Debug.Log(bloodAmount);
+        //////////Debug.Log(bloodAmount);
     }
 
     IEnumerator Despawn()
@@ -52,7 +52,7 @@ public class Blood : MonoBehaviour
         }
         else
         {
-            //Debug.LogWarning("Animator ou AnimatorController manquant sur l'objet " + gameObject.name);
+            ////Debug.LogWarning("Animator ou AnimatorController manquant sur l'objet " + gameObject.name);
         }
         // Détruire le GameObject
         Destroy(gameObject);
@@ -79,7 +79,7 @@ void Update()
         if (other.gameObject == player)
         {
             // Add the blood to the player
-            ////////Debug.Log("Blood collected");
+            //////////Debug.Log("Blood collected");
 
             manager.AddBlood(bloodAmount);
             Destroy(gameObject);

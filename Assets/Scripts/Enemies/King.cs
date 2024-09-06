@@ -11,15 +11,14 @@ public class King : Physical
 
     new private void Update()
     {
+        
+
         base.Update();
 
-        if (closestUnit != null)
+        if (coolDownAttSpeTimer <= 0 && !GameManager.Instance.kingKilled)
         {
-            if (coolDownAttSpeTimer <= 0)
-            {
-                SpecialAttack();
-                coolDownAttSpeTimer = coolDownAttSpe;
-            }
+            SpecialAttack();
+            coolDownAttSpeTimer = coolDownAttSpe;
         }
 
         coolDownAttSpeTimer -= Time.deltaTime;
@@ -33,4 +32,6 @@ public class King : Physical
             jesterO.transform.parent = transform;
         }
     }
+
+
 }

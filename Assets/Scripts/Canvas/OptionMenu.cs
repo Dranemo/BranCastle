@@ -17,6 +17,8 @@ public class OptionMenu : MonoBehaviour
 
 
         buttons[0].onClick.AddListener(Back);
+
+        audioManager = GameObject.Find("SceneManager").GetComponent<AudioManager>();
     }
     private void Start()
     {
@@ -35,7 +37,7 @@ public class OptionMenu : MonoBehaviour
         }
         else
         {
-            //////Debug.LogError("AudioManager n'est pas assigné dans OptionsMenu.");
+            ////////Debug.LogError("AudioManager n'est pas assigné dans OptionsMenu.");
         }
     }
 
