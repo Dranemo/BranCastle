@@ -10,6 +10,8 @@ public class MainMenu : MonoBehaviour
 
     void Awake()
     {
+        DontDestroyOnLoad(GameObject.Find("CanvasBackground"));
+       
         //buttons = transform.Find("Buttons").GetComponentsInChildren<Button>();
 
         buttons[0].onClick.AddListener(Play);
@@ -32,7 +34,7 @@ public class MainMenu : MonoBehaviour
 
     void Play()
     {
-        ScenesManager.Instance.LoadScene("Level-1");
+        ScenesManager.Instance.LoadScene("Tuto");
     }
 
     void Options() {

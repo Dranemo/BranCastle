@@ -1,0 +1,39 @@
+{
+    "achievements": [
+        {
+            "id": "firstFinish",
+            "description": "Ouvrez le portail !",
+            "isUnlocked": false
+        },
+        {
+            "id": "firstLose",
+            "description": "Perdez lamentablement !",
+            "isUnlocked": false
+        },
+      {
+        "id": "LoseUnit",
+        "description": "Mourir à cause de sa propre unité...",
+        "isUnlocked": false
+      },
+        {
+            "id": "WinBlood",
+            "description": "Gagner avec du style (et du sang) !",
+            "isUnlocked": false
+        },
+      {
+        "id": "Sun",
+        "description": "Coup de Soleil.",
+        "isUnlocked": false
+      },
+        {
+            "id": "LoseNine",
+            "description": "Si proche...",
+            "isUnlocked": false
+        },
+        {
+            "id": "Secret",
+            "description": "It's-a-me !",
+            "isUnlocked": false
+        }
+    ]
+}

@@ -1,30 +1,35 @@
 using System.Collections.Generic;
 using UnityEngine;
+using System.IO;
 
 public class AchievementManager : MonoBehaviour
 {
     public static AchievementManager instance;
     public List<Achievement> achievements = new List<Achievement>();
 
+    string fileName = "Achievements.json";
+
+
     private void Awake()
     {
         SetInstance();
-        SetAchievements();
+        LoadAchievements();
     }
 
 
     public enum AchievementID
     {
-        firstFinish
+        firstFinish,
+        firstLose,
+        LoseUnit,
+        WinBlood,
+        Sun,
+        LoseNine,
+        Secret
     }
 
 
 
-
-    private void SetAchievements()
-    {
-        achievements.Add(new Achievement("firstFinish", "Gagnez le jeu !"));
-    }
 
 
     void SetInstance()
@@ -51,7 +56,60 @@ public class AchievementManager : MonoBehaviour
         if (achievement != null && !achievement.isUnlocked)
         {
             achievement.Unlock();
-            // Sauvegarder l'état des achievements ici
+            SaveAchievements();
+        }
+    }
+
+
+
+    private void SaveAchievements()
+    {
+        string fullPath = System.IO.Path.Combine(Application.streamingAssetsPath, fileName);
+
+        string json = JsonUtility.ToJson(new AchievementList(achievements), true);
+        Debug.Log(json);
+
+
+
+        File.WriteAllText(fullPath, json);
+    }
+
+    void LoadAchievements()
+    {
+        string fullPath = System.IO.Path.Combine(Application.streamingAssetsPath, fileName);
+
+        if (File.Exists(fullPath))
+        {
+            string json = File.ReadAllText(fullPath);
+            AchievementList loadedAchievements = JsonUtility.FromJson<AchievementList>(json);
+            achievements = loadedAchievements.achievements;
+        }
+        else
+        {
+            Debug.LogError("Le fichier JSON n'existe pas.");
+            File.Create(fullPath);
+        }
+    }
+
+
+
+
+
+
+
+
+    [System.Serializable]
+    public class AchievementList
+    {
+        public List<Achievement> achievements;
+        public AchievementList(List<Achievement> list)
+        {
+            achievements = list;
+
+            foreach (Achievement ach in achievements)
+            {
+                Debug.Log(ach.id);
+            }
         }
     }
 }

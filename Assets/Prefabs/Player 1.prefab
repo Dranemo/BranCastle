@@ -220,7 +220,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 5885
+    m_Bits: 1789
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -5432,7 +5432,6 @@ MonoBehaviour:
   canDash: 1
   isDashing: 0
   capeDMG: 0.6
-  capeCooldown: 0.52
   capeDuration: 0.6
   capeRange: 1.15
   capePushForce: 0.7
