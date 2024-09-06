@@ -250,7 +250,7 @@ public class Enemy : MonoBehaviour
     }
 
 
-
+    
 
 
 
@@ -689,6 +689,12 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void GameOver()
+    {
+        GetComponent<AudioSource>().mute = true;
+        damageByPlayer = 0;
+        TakeDamage(maxHealth, false);
+    }
     void IsDead()
     {
         if (gameObject.tag == "Untagged" && animator.GetBool("isDead")  && !animator.GetCurrentAnimatorStateInfo(0).IsName("BloodAnim") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Death") && !animator.GetCurrentAnimatorStateInfo(0).IsName("Hit"))

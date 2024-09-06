@@ -113,6 +113,12 @@ public class Gargoyle : Unit
     }
     protected override void Update()
     {
+        if(player == null)
+        {
+            return;
+        }
+
+
         base.Update();
         Die();
         if (unitCircleScript != null && unitCircleScript.isPlayerInside)

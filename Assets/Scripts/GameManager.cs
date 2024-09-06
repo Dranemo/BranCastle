@@ -177,10 +177,14 @@ public class GameManager : MonoBehaviour
     public void BloodCost(float amount)
     {
         blood -= amount;
-        if(player != null)
+
+        if(blood <= 0 && player != null)
+        {
+            AchievementManager.instance.UnlockAchievement(AchievementManager.AchievementID.LoseUnit);
             GameOver();
+        }
     }
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, bool sun = false)
     {
         //Debug.Log("TookDamage");
         //Debug.Break();
@@ -201,7 +205,12 @@ public class GameManager : MonoBehaviour
             blood -= damage;
             //////////Debug.Log("Nouveau niveau de sang: " + blood);
             StartCoroutine(InvincibilityCoroutine());
+
+            if (blood <= 0 && sun)
+            {
+                AchievementManager.instance.UnlockAchievement(AchievementManager.AchievementID.Sun);
             
+            }
             GameOver();
         }
         else
@@ -496,10 +505,12 @@ public class GameManager : MonoBehaviour
         else if (wave >= 9)
         {
             ////Debug.Log("Wave is 9 or more, stopping music");
-            audioSourceMusic.Stop();
+            
 
             if (kingKilled)
             {
+
+                audioSourceMusic.Stop();
                 ////Debug.Log("King is dead, setting isGameOver to true");
                 isGameOver = true;
                 enemyCooldown = 100000;
@@ -519,9 +530,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (child != King)
                     {
-                        //////Debug.Log("Muting and damaging enemy: " + child.name);
-                        child.GetComponent<AudioSource>().mute = true;
-                        child.GetComponent<Enemy>().TakeDamage(1000, false);
+                        child.GetComponent<Enemy>().GameOver();
                     }
                 }
 
@@ -581,7 +590,7 @@ public class GameManager : MonoBehaviour
 
     public void RestartGame()
     {
-        ScenesManager.Instance.LoadScene("Level-1"); 
+        ScenesManager.Instance.LoadScene("Tuto"); 
         Destroy(gameObject);
         Instance = null;
     }
