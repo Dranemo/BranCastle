@@ -505,10 +505,12 @@ public class GameManager : MonoBehaviour
         else if (wave >= 9)
         {
             ////Debug.Log("Wave is 9 or more, stopping music");
-            audioSourceMusic.Stop();
+            
 
             if (kingKilled)
             {
+
+                audioSourceMusic.Stop();
                 ////Debug.Log("King is dead, setting isGameOver to true");
                 isGameOver = true;
                 enemyCooldown = 100000;
