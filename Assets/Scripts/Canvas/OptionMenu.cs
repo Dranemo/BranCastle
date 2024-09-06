@@ -17,6 +17,8 @@ public class OptionMenu : MonoBehaviour
 
 
         buttons[0].onClick.AddListener(Back);
+
+        audioManager = GameObject.Find("SceneManager").GetComponent<AudioManager>();
     }
     private void Start()
     {

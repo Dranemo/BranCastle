@@ -55,6 +55,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] private float invincibilityDuration = 0.5f;
     private bool kingSpawned = false;
     public bool kingKilled = false;
+    GameObject canvaInGame;
 
     // -------------------------------------------------------------- Unity Func -------------------------------------------------------------- 
     private void Awake()
@@ -102,8 +103,8 @@ public class GameManager : MonoBehaviour
 
 
         // Canva
-        GameObject canva = Instantiate(CanvaPrefab);
-        canva.GetComponent<Canvas>().worldCamera = player.transform.Find("Main Camera").GetComponent<Camera>();
+        canvaInGame = Instantiate(CanvaPrefab);
+        canvaInGame.GetComponent<Canvas>().worldCamera = player.transform.Find("Main Camera").GetComponent<Camera>();
 
         wavePathIndex = Random.Range(0, spawningPaths.Count);
 
@@ -483,6 +484,8 @@ public class GameManager : MonoBehaviour
             if (playerMovement != null && !coroutineStartedDeath)
             {
                 StopAllCoroutines();
+                canvaInGame.GetComponent<CanvaInGame>().StopCoroutineCanva();
+
 
                 ////Debug.Log("Starting death animation coroutine");
                 coroutineStartedDeath = true;
@@ -495,7 +498,7 @@ public class GameManager : MonoBehaviour
             ////Debug.Log("Wave is 9 or more, stopping music");
             audioSourceMusic.Stop();
 
-            if (King != null && King.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Death"))
+            if (kingKilled)
             {
                 ////Debug.Log("King is dead, setting isGameOver to true");
                 isGameOver = true;

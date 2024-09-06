@@ -434,6 +434,10 @@ public class Enemy : MonoBehaviour
     protected void Die()
     {
         ////Debug.Log(name + " is dead");
+        if(GetComponent<King>() != null)
+        {
+            GameManager.Instance.kingKilled = true;
+        }
 
         spawnBlood = true;
         //////////Debug.Log("Damage by player: " + damageByPlayer);

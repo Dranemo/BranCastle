@@ -103,4 +103,13 @@ public class CanvaInGame : MonoBehaviour
             yield return new WaitForSeconds(0.01f);
         }
     }
+
+    public void StopCoroutineCanva()
+    {
+
+       if (currentCoroutine != null)
+        {
+            StopCoroutine(currentCoroutine);
+        }
+    }
 }
