@@ -15,7 +15,7 @@ public class King : Physical
 
         base.Update();
 
-        if (coolDownAttSpeTimer <= 0)
+        if (coolDownAttSpeTimer <= 0 && !GameManager.Instance.kingKilled)
         {
             SpecialAttack();
             coolDownAttSpeTimer = coolDownAttSpe;

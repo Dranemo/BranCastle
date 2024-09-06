@@ -525,6 +525,12 @@ public class GameManager : MonoBehaviour
                     }
                 }
 
+                GameObject[] blood = GameObject.FindGameObjectsWithTag("Blood");
+                foreach (GameObject b in blood)
+                {
+                    Destroy(b);
+                }
+
                 GameObject[] units = GameObject.FindGameObjectsWithTag("Unit");
                 for (int i = 0; i < units.Length; i++)
                 {
