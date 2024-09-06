@@ -27,7 +27,7 @@ public class ScreenShake : MonoBehaviour
         float time = 0;
         Vector3 originalPos = transform.localPosition;
 
-        while (time < duration)
+        while (time < duration && gameObject != null)
         {
             time += Time.deltaTime;
             float strength = curve.Evaluate(time / duration);

@@ -15,7 +15,7 @@ public class PlayerAttack : MonoBehaviour
         animator = GetComponent<Animator>();
         if (animator == null)
         {
-            ////////Debug.LogError("Animator n'est pas assigné !");
+            //////////Debug.LogError("Animator n'est pas assigné !");
         }
         player = GetComponent<PlayerMovement>();
     }
@@ -32,7 +32,7 @@ public class PlayerAttack : MonoBehaviour
     {
         if (hitPrefab == null)
         {
-            ////////Debug.LogError("hitPrefab n'est pas assigné !");
+            //////////Debug.LogError("hitPrefab n'est pas assigné !");
             return;
         }
 
@@ -67,7 +67,7 @@ public class PlayerAttack : MonoBehaviour
         }
         else
         {
-            ////////Debug.LogError("hitPrefab n'a pas d'Animator !");
+            //////////Debug.LogError("hitPrefab n'a pas d'Animator !");
         }
 
         StartCoroutine(DestroyAfterTime(currentHitInstance, hitLifetime));

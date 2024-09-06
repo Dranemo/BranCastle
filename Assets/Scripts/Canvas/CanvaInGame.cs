@@ -84,7 +84,7 @@ public class CanvaInGame : MonoBehaviour
 
     IEnumerator TintUp()
     {
-        //Debug.Log("TintUp");
+        ////Debug.Log("TintUp");
         isTintingUp = true;
         while (bloodOnCanva.color.a < tintMax)
         {
@@ -95,7 +95,7 @@ public class CanvaInGame : MonoBehaviour
 
     IEnumerator TintDown()
     {
-        //Debug.Log("TintDown");
+        ////Debug.Log("TintDown");
         isTintingDown = true;
         while (bloodOnCanva.color.a > 0)
         {

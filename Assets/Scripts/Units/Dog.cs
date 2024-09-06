@@ -69,13 +69,13 @@ public class Dog : Unit
             }
             else
             {
-                ////////Debug.LogWarning("HandleDeath: deathSound ou audioSource est null.");
+                //////////Debug.LogWarning("HandleDeath: deathSound ou audioSource est null.");
             }
             yield return new WaitForSeconds(animator.GetCurrentAnimatorStateInfo(0).length);
         }
         else
         {
-            ////////Debug.LogError("HandleDeath: Animator est null.");
+            //////////Debug.LogError("HandleDeath: Animator est null.");
         }
         Destroy(gameObject);
     }
