@@ -411,25 +411,25 @@ public class GameManager : MonoBehaviour
     // -------------------------------------------------------------- Game Func --------------------------------------------------------------
     private void GameOver()
     {
-        //Debug.Log("GameOver() called");
+        Debug.Log("GameOver() called");
 
         if (blood <= 0 && audioSourceGameOver != null)
         {
-            //Debug.Log("Blood is zero or less, playing game over audio");
+            Debug.Log("Blood is zero or less, playing game over audio");
             audioSourceGameOver.Play();
             audioSourceMusic.Stop();
         }
 
         if (blood <= 0)
         {
-            //Debug.Log("Blood is zero or less, setting isGameOver to true");
+            Debug.Log("Blood is zero or less, setting isGameOver to true");
             isGameOver = true;
             PlayerMovement playerMovement = player.GetComponent<PlayerMovement>();
-            //Debug.Log("PlayerMovement component: " + playerMovement);
+            Debug.Log("PlayerMovement component: " + playerMovement);
 
             if (playerMovement != null && !coroutineStartedDeath)
             {
-                //Debug.Log("Starting death animation coroutine");
+                Debug.Log("Starting death animation coroutine");
                 coroutineStartedDeath = true;
                 Destroy(player);
                 ScenesManager.Instance.LoadScene("GameOver");
@@ -437,23 +437,23 @@ public class GameManager : MonoBehaviour
         }
         else if (wave >= 9)
         {
-            //Debug.Log("Wave is 9 or more, stopping music");
+            Debug.Log("Wave is 9 or more, stopping music");
             audioSourceMusic.Stop();
 
             if (King != null && King.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Death"))
             {
-                //Debug.Log("King is dead, setting isGameOver to true");
+                Debug.Log("King is dead, setting isGameOver to true");
                 isGameOver = true;
                 enemyCooldown = 100000;
                 enemyWaveCooldown = 100000;
 
                 // Disable player
-                ////Debug.Log("Disabling player components");
+                Debug.Log("Disabling player components");
                 player.GetComponent<PlayerMovement>().enabled = false;
                 player.GetComponent<PlayerAttack>().enabled = false;
 
                 // Disable camera
-                ////Debug.Log("Disabling camera follow");
+                Debug.Log("Disabling camera follow");
                 player.transform.Find("Main Camera").GetComponent<CameraFollow>().enabled = false;
                 player.transform.Find("Main Camera").position = new Vector3(King.transform.position.x, King.transform.position.y, -10);
 
@@ -461,7 +461,7 @@ public class GameManager : MonoBehaviour
                 {
                     if (child != King)
                     {
-                        ////Debug.Log("Muting and damaging enemy: " + child.name);
+                        Debug.Log("Muting and damaging enemy: " + child.name);
                         child.GetComponent<AudioSource>().mute = true;
                         child.GetComponent<Enemy>().TakeDamage(1000, false);
                     }
@@ -470,12 +470,12 @@ public class GameManager : MonoBehaviour
                 GameObject[] units = GameObject.FindGameObjectsWithTag("Unit");
                 for (int i = 0; i < units.Length; i++)
                 {
-                    //Debug.Log("Muting and damaging unit: " + units[i].name);
+                    Debug.Log("Muting and damaging unit: " + units[i].name);
                     units[i].GetComponent<AudioSource>().mute = true;
                     units[i].GetComponent<Unit>().TakeDamage(1000);
                 }
 
-                //Debug.Log("Starting WaitForKingDeath coroutine");
+                Debug.Log("Starting WaitForKingDeath coroutine");
                 StartCoroutine(WaitForKingDeath());
 
                 //ScenesManager.Instance.LoadScene("GameOver");

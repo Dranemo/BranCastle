@@ -175,8 +175,6 @@ public class Enemy : MonoBehaviour
 
     protected void Update()
     {
-        if (player != null)
-        {
         if (animator != null)
             animator.SetBool("Idle", Vector3.Distance(transform.position, positionFrameBefore) == 0);
 
@@ -248,8 +246,6 @@ public class Enemy : MonoBehaviour
             }
 
             attackCooldown -= Time.deltaTime;
-        }
-
         }
     }
 
