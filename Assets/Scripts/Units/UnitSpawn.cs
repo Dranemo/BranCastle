@@ -80,7 +80,7 @@ public class UnitSpawn : MonoBehaviour
 
         if (Input.GetButtonDown("UnitSpawn"))
         {
-            if (gameManager.blood >= unitCosts[selectedIndex])
+            if (!player.transform.Find("TriggerUnitSpawn").GetComponent<TriggerUnitSpawn>().isTriggered)
             {
                 Vector3 spawnPosition = player.transform.position + transform.forward * spawnDistance;
                 GameObject unit = Instantiate(unitPrefabs[selectedIndex], spawnPosition, Quaternion.identity);

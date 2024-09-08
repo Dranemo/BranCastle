@@ -8,6 +8,7 @@ public class CanvaTutoriel : MonoBehaviour
 {
     [SerializeField] Button[] buttons;
     [SerializeField] GameObject[] pages;
+    [SerializeField] GameObject Background;
     int page = 0;
 
 
@@ -23,6 +24,11 @@ public class CanvaTutoriel : MonoBehaviour
         }
         pages[0].SetActive(true);
         buttons[0].gameObject.SetActive(false);
+
+        if(GameObject.Find("CanvasBackground") == null)
+        {
+            Instantiate(Background, new Vector3(0, 0, 0), Quaternion.identity);
+        }
     }
 
     void Next()
@@ -67,7 +73,7 @@ public class CanvaTutoriel : MonoBehaviour
 
     void Skip()
     {
-        Destroy(GameObject.Find("CanvasBackground"));
         ScenesManager.Instance.LoadScene("Level-1");
+        Destroy(GameObject.Find("CanvasBackground"));
     }
 }
