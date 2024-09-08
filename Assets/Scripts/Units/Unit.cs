@@ -16,6 +16,8 @@ public class Unit : MonoBehaviour
 
     protected virtual void Start()
     {
+        GetComponent<Rigidbody2D>().isKinematic = true;
+
         spriteRenderer = GetComponent<SpriteRenderer>();
         if (spriteRenderer == null)
         {
