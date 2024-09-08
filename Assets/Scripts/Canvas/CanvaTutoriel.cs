@@ -25,7 +25,7 @@ public class CanvaTutoriel : MonoBehaviour
         pages[0].SetActive(true);
         buttons[0].gameObject.SetActive(false);
 
-        if(GameObject.Find("CanvasBackground") == null)
+        if(GameObject.FindGameObjectWithTag("MenuBG") == null)
         {
             Instantiate(Background, new Vector3(0, 0, 0), Quaternion.identity);
         }
@@ -74,6 +74,6 @@ public class CanvaTutoriel : MonoBehaviour
     void Skip()
     {
         ScenesManager.Instance.LoadScene("Level-1");
-        Destroy(GameObject.Find("CanvasBackground"));
+        Destroy(GameObject.FindGameObjectWithTag("MenuBG"));
     }
 }

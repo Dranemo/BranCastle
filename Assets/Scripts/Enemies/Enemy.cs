@@ -40,7 +40,7 @@ public class Enemy : MonoBehaviour
     [SerializeField] public  float health = 50;
     protected float damageByPlayer = 0;
     [SerializeField] public float maxHealth = 50;
-    [SerializeField] protected float bloodCount = 10;
+    [SerializeField] public float bloodCount = 10;
     [SerializeField] protected float detectionRadius = 5f;
     [SerializeField] protected float attackRadius = 1.5f;
     [SerializeField] protected float attackSpeed = 1;
