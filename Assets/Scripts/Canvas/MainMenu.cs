@@ -8,9 +8,16 @@ public class MainMenu : MonoBehaviour
     [SerializeField] Canvas canvaAchievement;
     [SerializeField] Canvas canvaLanguage;
 
+    [SerializeField] GameObject Background;
+
     void Awake()
     {
-        DontDestroyOnLoad(GameObject.Find("CanvasBackground"));
+        if(GameObject.FindGameObjectWithTag("MenuBG") == null)
+        {
+            GameObject go = Instantiate(Background, new Vector3(0, 0, 0), Quaternion.identity);
+            DontDestroyOnLoad(go);
+        }
+
        
         //buttons = transform.Find("Buttons").GetComponentsInChildren<Button>();
 

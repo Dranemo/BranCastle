@@ -14,6 +14,7 @@ public class CanvaGameOver : MonoBehaviour
 
     void Start()
     {
+        DontDestroyOnLoad(GameObject.Find("CanvasBackground"));
         sceneManager = GameObject.Find("SceneManager");
 
         Button btn = buttonLevelOne.GetComponent<Button>();

@@ -530,7 +530,11 @@ public class GameManager : MonoBehaviour
                 {
                     if (child != King)
                     {
-                        child.GetComponent<Enemy>().GameOver();
+                        if(child.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Death") && child.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("BloodAnim"))
+                            Destroy(child.gameObject);
+
+                        else
+                            child.GetComponent<Enemy>().GameOver();
                     }
                 }
 

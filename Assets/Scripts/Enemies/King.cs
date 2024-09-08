@@ -30,6 +30,7 @@ public class King : Physical
         {
             GameObject jesterO = GameObject.Instantiate(jester, transform.position, Quaternion.identity);
             jesterO.transform.parent = transform;
+            jesterO.GetComponent<Enemy>().bloodCount = 0;
         }
     }
 

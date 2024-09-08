@@ -269,7 +269,7 @@ public class PlayerMovement : MonoBehaviour
         foreach (GameObject enemy in enemies)
         {
             float distanceToCursor = Vector2.Distance(cursorPosition, enemy.transform.position);
-            if (distanceToCursor < closestDistance)
+            if (distanceToCursor < closestDistance && enemy.GetComponent<King>() == null)
             {
                 closestDistance = distanceToCursor;
                 closestEnemy = enemy;

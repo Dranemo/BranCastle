@@ -32,7 +32,12 @@ public class Paladin : Physical
             GetComponent<Animator>().Play("AttackSpecial1");
         if (closestUnit != null)
         {
-        closestUnit.GetComponent<Unit>().TakeDamage(damage * 5); 
+            if(closestUnit.GetComponent<Unit>() != null)
+            {
+                closestUnit.GetComponent<Unit>().TakeDamage(damage * 5);
+            }
+            else if(closestUnit.GetComponent<Enemy>() != null)
+                closestUnit.GetComponent<Enemy>().TakeDamage(damage * 5, false); 
         }
     }
 
