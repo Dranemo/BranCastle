@@ -1,24 +1,24 @@
 {
     "achievements": [
-        {
-            "id": "firstFinish",
-            "description": "Ouvrez le portail !",
-            "isUnlocked": true
-        },
-        {
-            "id": "firstLose",
-            "description": "Perdez lamentablement !",
-            "isUnlocked": true
-        },
-        {
-            "id": "LoseUnit",
-            "description": "Mourir à cause de sa propre unité...",
-            "isUnlocked": true
-        },
+      {
+        "id": "firstFinish",
+        "description": "Ouvrez le portail !",
+        "isUnlocked": false
+      },
+      {
+        "id": "firstLose",
+        "description": "Perdez lamentablement !",
+        "isUnlocked": false
+      },
+      {
+        "id": "LoseUnit",
+        "description": "Mourir à cause de sa propre unité...",
+        "isUnlocked": false
+      },
         {
             "id": "WinBlood",
             "description": "Gagner avec du style (et du sang) !",
-            "isUnlocked": true
+            "isUnlocked": false
         },
         {
             "id": "Sun",
