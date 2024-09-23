@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
 
+
 public class AchievementManager : MonoBehaviour
 {
     public static AchievementManager instance;
@@ -14,6 +15,7 @@ public class AchievementManager : MonoBehaviour
     {
         SetInstance();
         LoadAchievements();
+
     }
 
 
@@ -64,6 +66,12 @@ public class AchievementManager : MonoBehaviour
 
     private void SaveAchievements()
     {
+        // Convertir les dictionnaires en listes de paires clé-valeur avant la sérialisation
+        foreach (var achievement in achievements)
+        {
+            achievement.namesList = LanguageManager.ConvertDictionaryToList(achievement.names);
+        }
+
         string fullPath = System.IO.Path.Combine(Application.streamingAssetsPath, fileName);
 
         string json = JsonUtility.ToJson(new AchievementList(achievements), true);
@@ -83,6 +91,12 @@ public class AchievementManager : MonoBehaviour
             string json = File.ReadAllText(fullPath);
             AchievementList loadedAchievements = JsonUtility.FromJson<AchievementList>(json);
             achievements = loadedAchievements.achievements;
+
+            // Convertir les listes de paires clé-valeur en dictionnaires après la désérialisation
+            foreach (var achievement in achievements)
+            {
+                achievement.names = LanguageManager.ConvertListToDictionary(achievement.namesList);
+            }
         }
         else
         {

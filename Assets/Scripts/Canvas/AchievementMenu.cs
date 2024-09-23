@@ -37,7 +37,8 @@ public class AchievementMenu : MonoBehaviour
             GameObject go = new GameObject();
             go.name = listAch[i].id;
 
-            go.AddComponent<TextMeshProUGUI>().text = listAch[i].description;
+            
+            go.AddComponent<TextMeshProUGUI>().text = listAch[i].names[LanguageManager.currentLanguage];
             go.GetComponent<TextMeshProUGUI>().fontSize = 20;
             go.GetComponent<TextMeshProUGUI>().font = font;
             go.GetComponent <TextMeshProUGUI>().alignment = TextAlignmentOptions.Center;

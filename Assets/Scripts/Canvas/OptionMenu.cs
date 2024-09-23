@@ -4,7 +4,10 @@ using UnityEngine.UI;
 public class OptionMenu : MonoBehaviour
 {
     [SerializeField] Canvas mainMenu;
+    
     [SerializeField] Button[] buttons;
+    [SerializeField] GameObject languageDropDown;
+
     public AudioManager audioManager;
     public Slider musicVolumeSlider;
     public Slider SFXVolumeSlider;
@@ -19,6 +22,7 @@ public class OptionMenu : MonoBehaviour
         buttons[0].onClick.AddListener(Back);
 
         audioManager = GameObject.Find("SceneManager").GetComponent<AudioManager>();
+
     }
     private void Start()
     {
@@ -28,6 +32,11 @@ public class OptionMenu : MonoBehaviour
 
         audioManager.mixer.GetFloat("SFX", out currentVolume);
         SFXVolumeSlider.value = currentVolume;
+
+
+        // Ajouter un listener pour gérer les changements de sélection
+        languageDropDown.GetComponent<Dropdown>().value = (int)LanguageManager.currentLanguage;
+        languageDropDown.GetComponent<Dropdown>().onValueChanged.AddListener(ChangeLanguage);
     }
     public void OnMusicVolumeChange(float volume)
     {
@@ -50,5 +59,10 @@ public class OptionMenu : MonoBehaviour
     {
         mainMenu.gameObject.SetActive(true);
         gameObject.SetActive(false);
+    }
+
+    void ChangeLanguage(int index)
+    {
+        LanguageManager.currentLanguage = (LanguageManager.language)index;
     }
 }

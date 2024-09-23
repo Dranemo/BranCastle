@@ -1,14 +1,23 @@
+using System.Collections.Generic;
+using UnityEngine;
+
 [System.Serializable]
 public class Achievement
 {
     public string id;
-    public string description;
     public bool isUnlocked;
+    public List<LanguageStringPair> namesList;
 
-    public Achievement(string id, string description)
+    [System.NonSerialized]
+    public Dictionary<LanguageManager.language, string> names;
+
+    public Achievement(string id)
     {
         this.id = id;
-        this.description = description;
+        Debug.Log("names : " + names);
+
+        namesList = LanguageManager.ConvertDictionaryToList(names);
+        
         this.isUnlocked = false;
     }
 
