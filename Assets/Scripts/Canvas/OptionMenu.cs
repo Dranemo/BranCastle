@@ -67,6 +67,7 @@ public class OptionMenu : MonoBehaviour
     void ChangeLanguage(int index)
     {
         LanguageManager.currentLanguage = (LanguageManager.language)index;
+        Activate();
     }
 
     public void Activate()
