@@ -241,6 +241,7 @@ public class PlayerMovement : MonoBehaviour
             isOverviewActivated = true;
             canvasFader.StartFadeIn();
             mapOverview.ActivateOverview();
+            mapOverview.minimapState = false;
         }
         // Désactivation de la vue d'ensemble
         else if (Input.GetButtonDown("Coffin") && isOverviewActivated)
@@ -250,6 +251,7 @@ public class PlayerMovement : MonoBehaviour
             canMove = true;
             isOverviewActivated = false;
             mapOverview.DeactivateOverview();
+            mapOverview.minimapState = true;
         }
         if(pause.isPaused==false)
         {
