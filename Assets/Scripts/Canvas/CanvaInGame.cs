@@ -16,7 +16,7 @@ public class CanvaInGame : MonoBehaviour
     [SerializeField] private GameObject bloodOnCanvaGO;
     private Image bloodOnCanva;
 
-
+    [SerializeField] GameObject[] texts;
 
     private Coroutine currentCoroutine;
     bool isTintingUp = false;
@@ -27,6 +27,17 @@ public class CanvaInGame : MonoBehaviour
 
     float time;
     float wave;
+
+
+    private void Awake()
+    {
+        texts[0].GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("blood");
+        texts[1].GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("ritualDamage");
+    }
+
+
+
+
     private void Start()
     {
         dog = GameObject.Find("Panel_dog");
@@ -58,7 +69,7 @@ public class CanvaInGame : MonoBehaviour
 
         timeText.text = string.Format("{0:00}:{1:00}", minutes, seconds);
 
-        waveText.text = "Vague : " + wave;
+        waveText.text = LanguageManager.GetText("wave") + " : " + wave;
 
 
 

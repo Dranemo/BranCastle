@@ -15,8 +15,28 @@ public class CanvaTutoriel : MonoBehaviour
     void Start()
     {
         buttons[0].onClick.AddListener(Previous);
+        buttons[0].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("previous");
         buttons[1].onClick.AddListener(Next);
+        buttons[1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("next");
         buttons[2].onClick.AddListener(Skip);
+        buttons[2].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("skip");
+
+
+        pages[0].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("tutoP1Text");
+        pages[0].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("tutoP1Main");
+        pages[1].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("tutoP2Text");
+        pages[1].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("tutoP2Main");
+        pages[2].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("tutoP3Text");
+        pages[2].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("tutoP3Main");
+        pages[3].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("tutoP4Text");
+        pages[3].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("tutoP4Main");
+        pages[4].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("tutoP5Text");
+        pages[4].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("tutoP5Main");
+        pages[5].transform.GetChild(0).GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("tutoP6Text");
+        pages[5].transform.GetChild(1).GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("tutoP6Main");
+
+
+
 
         foreach (GameObject text in pages)
         {

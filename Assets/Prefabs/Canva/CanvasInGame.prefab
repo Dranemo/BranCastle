@@ -134,6 +134,9 @@ MonoBehaviour:
   imp: {fileID: 0}
   gargoyle: {fileID: 0}
   bloodOnCanvaGO: {fileID: 5235151784360206680}
+  texts:
+  - {fileID: 4110653475686437261}
+  - {fileID: 4907642161804908314}
 --- !u!114 &8764997825690103690
 MonoBehaviour:
   m_ObjectHideFlags: 0

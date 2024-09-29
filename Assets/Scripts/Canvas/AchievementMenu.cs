@@ -11,6 +11,9 @@ public class AchievementMenu : MonoBehaviour
     [SerializeField] GameObject folderAch;
     [SerializeField] TMP_FontAsset font;
 
+
+    [SerializeField] GameObject[] texts;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -37,7 +40,8 @@ public class AchievementMenu : MonoBehaviour
             GameObject go = new GameObject();
             go.name = listAch[i].id;
 
-            go.AddComponent<TextMeshProUGUI>().text = listAch[i].description;
+            
+            go.AddComponent<TextMeshProUGUI>().text = listAch[i].names[LanguageManager.currentLanguage];
             go.GetComponent<TextMeshProUGUI>().fontSize = 20;
             go.GetComponent<TextMeshProUGUI>().font = font;
             go.GetComponent <TextMeshProUGUI>().alignment = TextAlignmentOptions.Center;
@@ -74,8 +78,12 @@ public class AchievementMenu : MonoBehaviour
 
             back.transform.SetParent(folderAch.transform);
             go.transform.SetParent(back.transform);
+
+
         }
 
+        texts[0].GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("achievement");
+        texts[1].GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("back");
 
         mainMenu.gameObject.SetActive(false);
     }
@@ -83,7 +91,12 @@ public class AchievementMenu : MonoBehaviour
 
     void Back()
     {
-        mainMenu.gameObject.SetActive(true);
+        foreach (Transform child in folderAch.transform)
+        {
+            Destroy(child.gameObject);
+        }
+
+        mainMenu.gameObject.GetComponent<MainMenu>().Activate();
         gameObject.SetActive(false);
     }
 }

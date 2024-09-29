@@ -1,39 +1,102 @@
 {
     "achievements": [
-      {
-        "id": "firstFinish",
-        "description": "Ouvrez le portail !",
-        "isUnlocked": false
-      },
-      {
-        "id": "firstLose",
-        "description": "Perdez lamentablement !",
-        "isUnlocked": false
-      },
-      {
-        "id": "LoseUnit",
-        "description": "Mourir à cause de sa propre unité...",
-        "isUnlocked": false
-      },
+        {
+            "id": "firstFinish",
+            "isUnlocked": false,
+            "namesList": [
+                {
+                    "key": 0,
+                    "value": "Ouvrez le portail !"
+                },
+                {
+                    "key": 1,
+                    "value": "Open the portal !"
+                }
+            ]
+        },
+        {
+            "id": "firstLose",
+            "isUnlocked": false,
+            "namesList": [
+                {
+                    "key": 0,
+                    "value": "Perdez lamentablement !"
+                },
+                {
+                    "key": 1,
+                    "value": "Lose miserably !"
+                }
+            ]
+        },
+        {
+            "id": "LoseUnit",
+            "isUnlocked": false,
+            "namesList": [
+                {
+                    "key": 0,
+                    "value": "Mourir à cause de sa propre unité..."
+                },
+                {
+                    "key": 1,
+                    "value": "Die because of your own unit..."
+                }
+            ]
+        },
         {
             "id": "WinBlood",
-            "description": "Gagner avec du style (et du sang) !",
-            "isUnlocked": false
+            "isUnlocked": false,
+            "namesList": [
+                {
+                    "key": 0,
+                    "value": "Gagner avec du style (et du sang) !"
+                },
+                {
+                    "key": 1,
+                    "value": "Win with style (and blood) !"
+                }
+            ]
         },
         {
             "id": "Sun",
-            "description": "Coup de Soleil.",
-            "isUnlocked": false
+            "isUnlocked": false,
+            "namesList": [
+                {
+                    "key": 0,
+                    "value": "Coup de Soleil."
+                },
+                {
+                    "key": 1,
+                    "value": "Sunburn."
+                }
+            ]
         },
         {
             "id": "LoseNine",
-            "description": "Si proche...",
-            "isUnlocked": false
+            "isUnlocked": false,
+            "namesList": [
+                {
+                    "key": 0,
+                    "value": "Si proche..."
+                },
+                {
+                    "key": 1,
+                    "value": "So close..."
+                }
+            ]
         },
         {
             "id": "Secret",
-            "description": "It's-a-me !",
-            "isUnlocked": false
+            "isUnlocked": false,
+            "namesList": [
+                {
+                    "key": 0,
+                    "value": "It's-a-me !"
+                },
+                {
+                    "key": 1,
+                    "value": "It's-a-me !"
+                }
+            ]
         }
     ]
 }

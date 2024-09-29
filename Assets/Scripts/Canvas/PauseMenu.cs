@@ -8,6 +8,8 @@ public class PauseMenu : MonoBehaviour
     public GameManager gameManager;
     private PlayerMovement player;
     private Canvas canvasInGame;
+
+
     void Start()
     {
         pauseMenuUI.SetActive(false);

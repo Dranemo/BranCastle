@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isFacingLeft;
     private GameObject closestEnemy;
     public Image coffin_input;
+    bool AButtonDisabled = true;
 
     [Header("Sound")]
 
@@ -219,13 +220,17 @@ public class PlayerMovement : MonoBehaviour
 
         if (nearestCoffin != null && nearestCoffin.CanInteract())
         {
+            AButtonDisabled = false;
             coffin_input.enabled = true;
 
         }
         else
         {
-            coffin_input.enabled = false;
-
+            if (AButtonDisabled == false)
+            {
+                coffin_input.enabled = false;
+                AButtonDisabled = true;
+            }
         }
         if (Input.GetButtonDown("Coffin") && nearestCoffin != null && nearestCoffin.CanInteract() && !isOverviewActivated)
         {
@@ -236,6 +241,7 @@ public class PlayerMovement : MonoBehaviour
             isOverviewActivated = true;
             canvasFader.StartFadeIn();
             mapOverview.ActivateOverview();
+            mapOverview.minimapState = false;
         }
         // Désactivation de la vue d'ensemble
         else if (Input.GetButtonDown("Coffin") && isOverviewActivated)
@@ -245,6 +251,7 @@ public class PlayerMovement : MonoBehaviour
             canMove = true;
             isOverviewActivated = false;
             mapOverview.DeactivateOverview();
+            mapOverview.minimapState = true;
         }
         if(pause.isPaused==false)
         {
