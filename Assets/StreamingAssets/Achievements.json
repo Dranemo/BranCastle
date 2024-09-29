@@ -16,7 +16,7 @@
         },
         {
             "id": "firstLose",
-            "isUnlocked": true,
+            "isUnlocked": false,
             "namesList": [
                 {
                     "key": 0,
@@ -30,7 +30,7 @@
         },
         {
             "id": "LoseUnit",
-            "isUnlocked": true,
+            "isUnlocked": false,
             "namesList": [
                 {
                     "key": 0,
