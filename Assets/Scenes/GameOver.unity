@@ -248,6 +248,10 @@ MonoBehaviour:
   VictoryText: {fileID: 1306753892}
   scoreText: {fileID: 334984437}
   sceneManager: {fileID: 0}
+  texts:
+  - {fileID: 947294809}
+  - {fileID: 464923539}
+  - {fileID: 2006228277}
 --- !u!225 &44057279
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -555,7 +559,7 @@ GameObject:
   - component: {fileID: 464923542}
   - component: {fileID: 464923541}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text (Play)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1454,7 +1458,7 @@ GameObject:
   - component: {fileID: 2006228280}
   - component: {fileID: 2006228279}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: Text (Menu)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

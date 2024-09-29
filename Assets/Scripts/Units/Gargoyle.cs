@@ -19,6 +19,10 @@ public class Gargoyle : Unit
     [SerializeField] private AudioClip deathSound;
     private SpriteRenderer sprite;
     private PlayerMovement player;
+
+    bool AButtonDisabled = true;
+
+
     // Propriétés booléennes pour vérifier l'état
     private bool IsWall
     {
@@ -123,7 +127,9 @@ public class Gargoyle : Unit
         Die();
         if (unitCircleScript != null && unitCircleScript.isPlayerInside)
         {
+            AButtonDisabled = false;
             player.coffin_input.enabled = true;
+
             if (Input.GetButtonDown("Coffin"))
             {
                 if (IsIdle)
@@ -142,8 +148,16 @@ public class Gargoyle : Unit
         }
         else
         {
-            player.coffin_input.enabled = false;
+            if (AButtonDisabled == false)
+            {
+                player.coffin_input.enabled = false;
+                AButtonDisabled = true;
+            }
         }
+
+
+
+
         if (IsWall)
         {
             unitCircleScript.triggerActive = false;

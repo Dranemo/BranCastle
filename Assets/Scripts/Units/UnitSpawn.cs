@@ -31,14 +31,14 @@ public class UnitSpawn : MonoBehaviour
                 TextMeshProUGUI textComponent = child2.GetComponent<TextMeshProUGUI>();
                 if (textComponent != null)
                 {
-                    textComponent.text = "Cost: " + unitCosts[i].ToString();
+                    textComponent.text = LanguageManager.GetText("cost") + " : " + unitCosts[i].ToString();
                 }
                 else
                 {
                     Text textComponentLegacy = child2.GetComponent<Text>();
                     if (textComponentLegacy != null)
                     {
-                        textComponentLegacy.text = "Cost: " + unitCosts[i].ToString();
+                        textComponentLegacy.text = LanguageManager.GetText("cost") + " : " + unitCosts[i].ToString();
                     }
                 }
             }

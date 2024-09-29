@@ -11,9 +11,15 @@ public class CanvaGameOver : MonoBehaviour
     [SerializeField] GameObject scoreText;
     [SerializeField] GameObject sceneManager;
 
+    [SerializeField] GameObject[] texts;
+
 
     void Start()
     {
+        texts[0].GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("score");
+        texts[1].GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("replay");
+        texts[2].GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("menu");
+
         DontDestroyOnLoad(GameObject.Find("CanvasBackground"));
         sceneManager = GameObject.Find("SceneManager");
 
@@ -31,8 +37,8 @@ public class CanvaGameOver : MonoBehaviour
         {
             AchievementManager.instance.UnlockAchievement(AchievementManager.AchievementID.firstFinish);
 
-            text = "Le portail est ouvert !";
-            victoryText = "Victoire !";
+            text = LanguageManager.GetText("portalOpen");
+            victoryText = LanguageManager.GetText("victory");
 
             if(gameManager.blood >= 700)
             {
@@ -43,8 +49,18 @@ public class CanvaGameOver : MonoBehaviour
         {
             AchievementManager.instance.UnlockAchievement(AchievementManager.AchievementID.firstLose);
 
-            text = "Vous avez atteint la " + gameManager.wave + "ème vague !";
-            victoryText = "Game Over !";
+            text = LanguageManager.GetText("waveDisplay");
+            foreach (var c in text)
+            {
+                if (c == 'X')
+                {
+                    text = text.Replace("X", gameManager.wave.ToString());
+                    break;
+                }
+            }
+
+
+            victoryText = LanguageManager.GetText("gameOver");
 
             if(gameManager.wave >= 9)
             {

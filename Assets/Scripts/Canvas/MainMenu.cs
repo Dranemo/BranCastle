@@ -1,8 +1,13 @@
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class MainMenu : MonoBehaviour
 {
+    [SerializeField] GameObject[] texts;
+
+
+
     [SerializeField] Button[] buttons;
     [SerializeField] Canvas canvaOption;
     [SerializeField] Canvas canvaAchievement;
@@ -31,6 +36,13 @@ public class MainMenu : MonoBehaviour
         {
             Destroy(GameManager.Instance.gameObject);
         }
+
+    }
+
+    private void Start()
+    {
+        
+        Activate();
     }
 
     // Update is called once per frame
@@ -44,8 +56,17 @@ public class MainMenu : MonoBehaviour
         ScenesManager.Instance.LoadScene("Tuto");
     }
 
+    public void Activate()
+    {
+        texts[0].GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("play");
+        texts[1].GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("options");
+        texts[2].GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("achievement");
+        texts[3].GetComponent<TextMeshProUGUI>().text = LanguageManager.GetText("quit");
+        gameObject.SetActive(true);
+    }
+
     void Options() {
-        canvaOption.gameObject.SetActive(true);
+        canvaOption.GetComponent<OptionMenu>().Activate();
         gameObject.SetActive(false);
         //////////Debug.Log("Options");
     }

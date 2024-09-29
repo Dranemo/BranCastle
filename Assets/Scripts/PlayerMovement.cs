@@ -33,6 +33,7 @@ public class PlayerMovement : MonoBehaviour
     private bool isFacingLeft;
     private GameObject closestEnemy;
     public Image coffin_input;
+    bool AButtonDisabled = true;
 
     [Header("Sound")]
 
@@ -219,13 +220,17 @@ public class PlayerMovement : MonoBehaviour
 
         if (nearestCoffin != null && nearestCoffin.CanInteract())
         {
+            AButtonDisabled = false;
             coffin_input.enabled = true;
 
         }
         else
         {
-            coffin_input.enabled = false;
-
+            if (AButtonDisabled == false)
+            {
+                coffin_input.enabled = false;
+                AButtonDisabled = true;
+            }
         }
         if (Input.GetButtonDown("Coffin") && nearestCoffin != null && nearestCoffin.CanInteract() && !isOverviewActivated)
         {
