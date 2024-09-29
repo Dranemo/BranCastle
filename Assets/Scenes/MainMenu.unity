@@ -704,7 +704,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: "V 1.0.5 | 2024\nGUELLAFF Melvin | CAILLOT Yana\xEBl"
+  m_text: "V 1.0.6.1 | 2024\nGUELLAFF Melvin | CAILLOT Yana\xEBl"
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: ad05efbb032b52949b5b14154331cd28, type: 2}
   m_sharedMaterial: {fileID: -3214049722050843561, guid: ad05efbb032b52949b5b14154331cd28, type: 2}
